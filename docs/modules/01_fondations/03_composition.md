@@ -19,12 +19,12 @@ React n'utilise pas l'héritage pour la spécialisation des composants. La compo
 
 ### Analogie avec tes patterns connus
 
-| Pattern OO | Équivalent React |
-|------------|------------------|
-| Héritage | Composition avec children/props |
-| Template Method | Props de rendu / children |
-| Decorator | HOC ou hooks (plus tard) |
-| Strategy | Props de fonction |
+| Pattern OO      | Équivalent React                |
+| --------------- | ------------------------------- |
+| Héritage        | Composition avec children/props |
+| Template Method | Props de rendu / children       |
+| Decorator       | HOC ou hooks (plus tard)        |
+| Strategy        | Props de fonction               |
 
 ---
 
@@ -98,7 +98,9 @@ function Dialog({ title, children, onClose, footer }: DialogProps) {
       <div className="dialog" onClick={(e) => e.stopPropagation()}>
         <header className="dialog-header">
           <h2>{title}</h2>
-          <button onClick={onClose} aria-label="Close">×</button>
+          <button onClick={onClose} aria-label="Close">
+            ×
+          </button>
         </header>
         <div className="dialog-content">{children}</div>
         {footer && <footer className="dialog-footer">{footer}</footer>}
@@ -126,7 +128,9 @@ function AlertDialog({ message, onConfirm, onClose }: AlertDialogProps) {
       footer={
         <>
           <button onClick={onClose}>Cancel</button>
-          <button onClick={onConfirm} className="btn-danger">Confirm</button>
+          <button onClick={onConfirm} className="btn-danger">
+            Confirm
+          </button>
         </>
       }
     >
@@ -213,7 +217,9 @@ function UserCardContainer({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchUser(userId).then(setUser).finally(() => setLoading(false))
+    fetchUser(userId)
+      .then(setUser)
+      .finally(() => setLoading(false))
   }, [userId])
 
   const handleEdit = () => {
@@ -274,11 +280,7 @@ function PageLayout({ header, sidebar, children, footer }: PageLayoutProps) {
 // Utilisation
 function DashboardPage() {
   return (
-    <PageLayout
-      header={<Navigation />}
-      sidebar={<DashboardMenu />}
-      footer={<Copyright />}
-    >
+    <PageLayout header={<Navigation />} sidebar={<DashboardMenu />} footer={<Copyright />}>
       <DashboardContent />
     </PageLayout>
   )
@@ -322,7 +324,9 @@ function Link({ href, external, children }: LinkProps) {
     <ConditionalWrapper
       condition={external}
       wrapper={(kids) => (
-        <a href={href} target="_blank" rel="noopener noreferrer">{kids}</a>
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {kids}
+        </a>
       )}
     >
       {external ? children : <a href={href}>{children}</a>}
@@ -351,11 +355,7 @@ function App({ user }: { user: User | null }) {
 
   // Wrap avec le provider seulement si l'utilisateur est connecté
   if (user) {
-    return (
-      <UserContext.Provider value={user}>
-        {content}
-      </UserContext.Provider>
-    )
+    return <UserContext.Provider value={user}>{content}</UserContext.Provider>
   }
 
   return content
@@ -444,7 +444,7 @@ function DataTable<T>({
 }
 
 // Utilisation : le parent contrôle tout le rendu
-<DataTable
+;<DataTable
   data={users}
   keyExtractor={(user) => user.id}
   columns={[
@@ -461,9 +461,7 @@ function DataTable<T>({
     {
       key: 'actions',
       header: 'Actions',
-      render: (user) => (
-        <button onClick={() => editUser(user.id)}>Edit</button>
-      ),
+      render: (user) => <button onClick={() => editUser(user.id)}>Edit</button>,
     },
   ]}
   emptyState={<EmptyUsersMessage />}
@@ -517,8 +515,12 @@ function Dashboard() {
 
 ```tsx
 // ❌ Trop de petits composants sans valeur ajoutée
-function Title({ text }) { return <h1>{text}</h1> }
-function Paragraph({ text }) { return <p>{text}</p> }
+function Title({ text }) {
+  return <h1>{text}</h1>
+}
+function Paragraph({ text }) {
+  return <p>{text}</p>
+}
 
 // ✅ Garder un équilibre - abstraire quand ça a du sens
 ```

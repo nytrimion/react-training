@@ -49,7 +49,7 @@ import { jsx as _jsx } from 'react/jsx-runtime'
 
 const element = _jsx('h1', {
   className: 'title',
-  children: 'Hello, world!'
+  children: 'Hello, world!',
 })
 ```
 
@@ -57,11 +57,7 @@ const element = _jsx('h1', {
 
 ```javascript
 // Ancien format - nécessitait `import React from 'react'`
-const element = React.createElement(
-  'h1',
-  { className: 'title' },
-  'Hello, world!'
-)
+const element = React.createElement('h1', { className: 'title' }, 'Hello, world!')
 ```
 
 > **Note** : Avec le nouveau JSX transform (React 17+), tu n'as plus besoin d'importer React dans chaque fichier qui utilise JSX. Le transpileur ajoute automatiquement l'import nécessaire.
@@ -127,12 +123,7 @@ JSX utilise les noms de propriétés DOM JavaScript, pas les attributs HTML :
 // readonly      →  readOnly
 
 <label htmlFor="email" className="form-label">
-  <input
-    type="email"
-    id="email"
-    tabIndex={0}
-    readOnly={false}
-  />
+  <input type="email" id="email" tabIndex={0} readOnly={false} />
 </label>
 ```
 
@@ -182,15 +173,7 @@ function UserProfile({ user }: { user: User }) {
 
 ```tsx
 function Greeting({ isLoggedIn }: { isLoggedIn: boolean }) {
-  return (
-    <div>
-      {isLoggedIn ? (
-        <h1>Welcome back!</h1>
-      ) : (
-        <h1>Please sign in</h1>
-      )}
-    </div>
-  )
+  return <div>{isLoggedIn ? <h1>Welcome back!</h1> : <h1>Please sign in</h1>}</div>
 }
 ```
 
@@ -198,13 +181,7 @@ function Greeting({ isLoggedIn }: { isLoggedIn: boolean }) {
 
 ```tsx
 function Notifications({ count }: { count: number }) {
-  return (
-    <div>
-      {count > 0 && (
-        <span className="badge">{count}</span>
-      )}
-    </div>
-  )
+  return <div>{count > 0 && <span className="badge">{count}</span>}</div>
 }
 ```
 
@@ -212,12 +189,20 @@ function Notifications({ count }: { count: number }) {
 
 ```tsx
 // ❌ Bug : affiche "0" si count === 0
-{count && <span>{count}</span>}
+{
+  count && <span>{count}</span>
+}
 
 // ✅ Correct : conversion explicite en boolean
-{count > 0 && <span>{count}</span>}
-{Boolean(count) && <span>{count}</span>}
-{!!count && <span>{count}</span>}
+{
+  count > 0 && <span>{count}</span>
+}
+{
+  Boolean(count) && <span>{count}</span>
+}
+{
+  !!count && <span>{count}</span>
+}
 ```
 
 ### Variable intermédiaire (pour logique complexe)
@@ -284,14 +269,16 @@ Les `key` permettent à React d'identifier quel élément a changé, été ajout
 
 ```tsx
 // ❌ Mauvais : utiliser l'index comme key
-{tasks.map((task, index) => (
-  <li key={index}>{task.title}</li>  // Problème si la liste est réordonnée
-))}
+{
+  tasks.map((task, index) => (
+    <li key={index}>{task.title}</li> // Problème si la liste est réordonnée
+  ))
+}
 
 // ✅ Bon : utiliser un identifiant stable et unique
-{tasks.map((task) => (
-  <li key={task.id}>{task.title}</li>
-))}
+{
+  tasks.map((task) => <li key={task.id}>{task.title}</li>)
+}
 ```
 
 > **Quand l'index est acceptable** : uniquement si la liste est statique (jamais réordonnée, filtrée, ou avec des ajouts/suppressions au milieu).
@@ -367,7 +354,11 @@ C'est le point clé à comprendre. JSX n'est qu'une syntaxe plus agréable pour 
 ### Stocker du JSX dans des variables
 
 ```tsx
-const header = <header><h1>My App</h1></header>
+const header = (
+  <header>
+    <h1>My App</h1>
+  </header>
+)
 const footer = <footer>© 2024</footer>
 
 function Layout() {
@@ -409,7 +400,13 @@ function Card({ title, children }: { title: React.ReactNode; children: React.Rea
 }
 
 // Utilisation
-<Card title={<><strong>Important</strong> Notice</>}>
+;<Card
+  title={
+    <>
+      <strong>Important</strong> Notice
+    </>
+  }
+>
   <p>Card content here</p>
 </Card>
 ```
@@ -418,15 +415,15 @@ function Card({ title, children }: { title: React.ReactNode; children: React.Rea
 
 ## Différences clés JSX vs Templates Vue
 
-| Aspect | Vue Templates | React JSX |
-|--------|---------------|-----------|
-| Syntaxe conditions | `v-if="condition"` | `{condition && <X/>}` |
-| Syntaxe boucles | `v-for="item in items"` | `{items.map(item => ...)}` |
-| Binding data | `{{ value }}` | `{value}` |
-| Événements | `@click="handler"` | `onClick={handler}` |
-| Two-way binding | `v-model="value"` | `value={x} onChange={...}` |
-| Compilation | Build time | Build time (identique) |
-| Typage | Limité (Volar aide) | Natif TypeScript |
+| Aspect             | Vue Templates           | React JSX                  |
+| ------------------ | ----------------------- | -------------------------- |
+| Syntaxe conditions | `v-if="condition"`      | `{condition && <X/>}`      |
+| Syntaxe boucles    | `v-for="item in items"` | `{items.map(item => ...)}` |
+| Binding data       | `{{ value }}`           | `{value}`                  |
+| Événements         | `@click="handler"`      | `onClick={handler}`        |
+| Two-way binding    | `v-model="value"`       | `value={x} onChange={...}` |
+| Compilation        | Build time              | Build time (identique)     |
+| Typage             | Limité (Volar aide)     | Natif TypeScript           |
 
 ---
 

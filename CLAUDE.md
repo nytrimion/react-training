@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Contexte de Formation
 
 ### Profil Apprenant
+
 - Développeur senior avec 23 ans d'expérience (PHP, Go, Java, C)
 - Expertise solide : DDD, Clean Architecture, SOLID, CQRS, Event-driven
 - Niveau React : débutant (expérience Vue.js, React Native, Dart/Flutter)
@@ -14,6 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Environnement : Windows
 
 ### Objectifs
+
 - Maîtrise approfondie de React et son écosystème
 - Compréhension des patterns modernes (hooks, server components)
 - Next.js App Router et rendu côté serveur
@@ -24,12 +26,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Méthode Pédagogique
 
 ### Approche : Théorie → Pratique Guidée
+
 1. **Expliquer le concept** avant tout code
 2. **L'apprenant code lui-même** - Claude ne code jamais à sa place
 3. **Claude challenge et corrige** - questions socratiques, revue de code
 4. **Itérations courtes** - un concept à la fois
 
 ### Règles pour Claude
+
 - **NE JAMAIS écrire le code à la place de l'apprenant**
 - Poser des questions pour vérifier la compréhension
 - Donner des indices progressifs, pas la solution directe
@@ -38,6 +42,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Corriger avec explications détaillées
 
 ### Langue
+
 - Explications et discussions : **français**
 - Code et commentaires : **anglais**
 - Noms de variables/fonctions : anglais (camelCase JS)
@@ -47,23 +52,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Conventions React/TypeScript
 
 ### Style et Formatage
+
 - ESLint + Prettier strictement configurés
 - Ligne max : 100 caractères
 - Imports triés et groupés
 
 ### Typage
+
 - TypeScript **strict mode** obligatoire
 - Typage explicite des props avec `interface` ou `type`
 - Éviter `any` - préférer `unknown` si nécessaire
 - Generics pour les composants réutilisables
 
 ### Structure Composants
+
 - Functional components uniquement (pas de classes)
 - Hooks pour la logique stateful
 - Props destructurées dans la signature
 - Export nommé préféré (sauf page/layout Next.js)
 
 ### Conventions de Nommage
+
 - Composants : `PascalCase` (fichier et nom)
 - Hooks custom : `useCamelCase`
 - Utilitaires : `camelCase`
@@ -71,6 +80,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Constantes : `SCREAMING_SNAKE_CASE`
 
 ### Stack Technique (installée)
+
 - **React 19.2.3** avec React Compiler (`babel-plugin-react-compiler`)
 - **Next.js 16.1.1** (App Router)
 - **TypeScript 5** (strict mode activé)
@@ -79,11 +89,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **pnpm** : gestionnaire de packages
 
 ### Outils à installer (voir `docs/01_setup.md`)
+
 - **Prettier** : formatting automatique
 - **Jest** : framework de tests
 - **Testing Library** : tests orientés utilisateur
 
 ### Path Alias
+
 - `@/*` → `./src/*` (configuré dans tsconfig.json)
 
 ---
@@ -112,6 +124,7 @@ react-training/
 ```
 
 ### Workflow Type
+
 1. Lire la documentation du module dans `docs/modules/`
 2. Implémenter dans `src/`
 3. Exécuter les tests avec Jest
@@ -139,6 +152,7 @@ pnpm lint
 ```
 
 ### Commandes à configurer (après installation des outils)
+
 ```bash
 # Vérifier le typage (à ajouter)
 pnpm type-check
@@ -158,6 +172,7 @@ pnpm format
 Voir `README.md` et `docs/00_overview.md` pour la vue d'ensemble et le suivi de progression.
 
 ### Modules (à définir)
+
 1. **Fondations React** - JSX, composants, props, children, TypeScript
 2. **State & Events** - useState, événements, formulaires contrôlés
 3. **Hooks avancés** - useEffect, useCallback, useMemo, custom hooks
@@ -165,7 +180,9 @@ Voir `README.md` et `docs/00_overview.md` pour la vue d'ensemble et le suivi de 
 5. **Next.js** - App Router, layouts, Server Components, data fetching
 
 ### Mise à jour automatique
+
 Quand un objectif de module est **validé par l'apprenant** (exercice complété et compris) :
+
 1. Mettre à jour le statut ⬜ → ✅ dans `docs/00_overview.md` et `README.md`
 2. Mettre à jour la barre de progression globale
 3. Informer l'apprenant de sa progression

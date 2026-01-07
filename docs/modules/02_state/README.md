@@ -20,26 +20,26 @@
 
 ## Structure du module
 
-| Section | Contenu | Fichier |
-|---------|---------|---------|
-| 1. useState | Fondamentaux, lazy init, functional updates, batching | `01_useState.md` |
-| 2. Événements | SyntheticEvent, types TS, event delegation | `02_events.md` |
-| 3. Formulaires | Controlled vs uncontrolled, validation | `03_forms.md` |
-| 4. State architecture | Lifting state up, colocation, derived state | `04_state_architecture.md` |
-| 5. useReducer | Reducer pattern, actions typées, CQRS-like | `05_useReducer.md` |
-| 6. Testing | Tester les interactions, userEvent avancé | `06_testing.md` |
-| Exercices | Exercices pratiques progressifs | `exercises.md` |
+| Section               | Contenu                                               | Fichier                    |
+| --------------------- | ----------------------------------------------------- | -------------------------- |
+| 1. useState           | Fondamentaux, lazy init, functional updates, batching | `01_useState.md`           |
+| 2. Événements         | SyntheticEvent, types TS, event delegation            | `02_events.md`             |
+| 3. Formulaires        | Controlled vs uncontrolled, validation                | `03_forms.md`              |
+| 4. State architecture | Lifting state up, colocation, derived state           | `04_state_architecture.md` |
+| 5. useReducer         | Reducer pattern, actions typées, CQRS-like            | `05_useReducer.md`         |
+| 6. Testing            | Tester les interactions, userEvent avancé             | `06_testing.md`            |
+| Exercices             | Exercices pratiques progressifs                       | `exercises.md`             |
 
 ---
 
 ## Analogies Vue.js → React
 
-| Concept | Vue.js | React |
-|---------|--------|-------|
-| State local | `ref()` / `reactive()` | `useState()` |
-| State complexe | Pinia store | `useReducer()` |
-| v-model | Two-way binding automatique | Controlled component (value + onChange) |
-| Événements | `@click`, `@input` | `onClick`, `onChange` |
+| Concept         | Vue.js                           | React                                       |
+| --------------- | -------------------------------- | ------------------------------------------- |
+| State local     | `ref()` / `reactive()`           | `useState()`                                |
+| State complexe  | Pinia store                      | `useReducer()`                              |
+| v-model         | Two-way binding automatique      | Controlled component (value + onChange)     |
+| Événements      | `@click`, `@input`               | `onClick`, `onChange`                       |
 | Event modifiers | `@click.stop`, `@submit.prevent` | `e.stopPropagation()`, `e.preventDefault()` |
 
 ---
@@ -47,24 +47,28 @@
 ## Points clés à aborder
 
 ### useState
+
 - Immutabilité obligatoire (pas de mutation directe)
 - Batching automatique (React 18+)
 - Lazy initialization pour les calculs coûteux
 - Functional updates pour éviter les stale closures
 
 ### Événements
+
 - `SyntheticEvent` vs événements natifs
 - Typage TypeScript des handlers
 - Event pooling (legacy, supprimé en React 17+)
 - Bubbling et delegation
 
 ### Formulaires
+
 - Controlled : React est la "source of truth"
 - Uncontrolled : le DOM garde la valeur (avec `ref`)
 - Quand utiliser l'un ou l'autre
 - Validation synchrone et asynchrone
 
 ### useReducer
+
 - Pattern Redux-like sans Redux
 - Actions typées avec discriminated unions
 - Quand préférer useReducer à useState

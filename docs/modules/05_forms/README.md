@@ -19,28 +19,28 @@
 
 ## Structure du module
 
-| Section | Contenu | Fichier |
-|---------|---------|---------|
-| 1. React Hook Form | useForm, register, handleSubmit, errors | `01_rhf_basics.md` |
-| 2. RHF avancé | Controller, useFieldArray, watch, performance | `02_rhf_advanced.md` |
-| 3. Zod | Schemas, parsing, inférence TypeScript | `03_zod.md` |
-| 4. RHF + Zod | zodResolver, validation intégrée | `04_rhf_zod.md` |
+| Section               | Contenu                                          | Fichier                  |
+| --------------------- | ------------------------------------------------ | ------------------------ |
+| 1. React Hook Form    | useForm, register, handleSubmit, errors          | `01_rhf_basics.md`       |
+| 2. RHF avancé         | Controller, useFieldArray, watch, performance    | `02_rhf_advanced.md`     |
+| 3. Zod                | Schemas, parsing, inférence TypeScript           | `03_zod.md`              |
+| 4. RHF + Zod          | zodResolver, validation intégrée                 | `04_rhf_zod.md`          |
 | 5. Patterns complexes | Wizard forms, dynamic fields, conditional fields | `05_complex_patterns.md` |
-| 6. Accessibilité | aria-*, focus management, error announcements | `06_accessibility.md` |
-| 7. Testing | Testing forms, validation, submission | `07_testing.md` |
-| Exercices | Exercices pratiques progressifs | `exercises.md` |
+| 6. Accessibilité      | aria-\*, focus management, error announcements   | `06_accessibility.md`    |
+| 7. Testing            | Testing forms, validation, submission            | `07_testing.md`          |
+| Exercices             | Exercices pratiques progressifs                  | `exercises.md`           |
 
 ---
 
 ## Pourquoi React Hook Form ?
 
-| Aspect | Controlled (natif) | React Hook Form |
-|--------|-------------------|-----------------|
-| Re-renders | À chaque keystroke | Minimal (uncontrolled) |
-| Validation | Manuelle | Intégrée (+ resolvers) |
-| Performance | Peut être problématique | Optimisée par défaut |
-| Boilerplate | Beaucoup | Peu |
-| TypeScript | Manuel | Inférence automatique avec Zod |
+| Aspect      | Controlled (natif)      | React Hook Form                |
+| ----------- | ----------------------- | ------------------------------ |
+| Re-renders  | À chaque keystroke      | Minimal (uncontrolled)         |
+| Validation  | Manuelle                | Intégrée (+ resolvers)         |
+| Performance | Peut être problématique | Optimisée par défaut           |
+| Boilerplate | Beaucoup                | Peu                            |
+| TypeScript  | Manuel                  | Inférence automatique avec Zod |
 
 ---
 
@@ -68,6 +68,7 @@ type User = z.infer<typeof userSchema>
 ## Points clés à aborder
 
 ### React Hook Form - Bases
+
 - `register` : connecter un input
 - `handleSubmit` : gérer la soumission
 - `formState.errors` : afficher les erreurs
@@ -75,6 +76,7 @@ type User = z.infer<typeof userSchema>
 - Mode de validation (onChange, onBlur, onSubmit)
 
 ### React Hook Form - Avancé
+
 - `Controller` : pour les composants UI libraries
 - `useFieldArray` : champs dynamiques
 - `useFormContext` : formulaires imbriqués
@@ -82,6 +84,7 @@ type User = z.infer<typeof userSchema>
 - Reset et default values
 
 ### Zod
+
 - Types primitifs et objets
 - Transformations (`.transform()`)
 - Refinements (`.refine()`)
@@ -89,6 +92,7 @@ type User = z.infer<typeof userSchema>
 - Error messages customisés
 
 ### Accessibilité (a11y)
+
 - Labels et `htmlFor`
 - `aria-invalid`, `aria-describedby`
 - Messages d'erreur accessibles
