@@ -115,17 +115,13 @@ export { UserCard }
 interface ButtonProps {
   label: string
   onClick: () => void
-  disabled?: boolean  // Optionnel
-  variant?: 'primary' | 'secondary' | 'danger'  // Union type
+  disabled?: boolean // Optionnel
+  variant?: 'primary' | 'secondary' | 'danger' // Union type
 }
 
 function Button({ label, onClick, disabled = false, variant = 'primary' }: ButtonProps) {
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={`btn btn-${variant}`}
-    >
+    <button onClick={onClick} disabled={disabled} className={`btn btn-${variant}`}>
       {label}
     </button>
   )
@@ -195,7 +191,7 @@ Card.defaultProps = {
 
 ```tsx
 interface ContainerProps {
-  children: React.ReactNode  // Le type le plus permissif
+  children: React.ReactNode // Le type le plus permissif
 }
 
 function Container({ children }: ContainerProps) {
@@ -203,7 +199,7 @@ function Container({ children }: ContainerProps) {
 }
 
 // Utilisation
-<Container>
+;<Container>
   <h1>Title</h1>
   <p>Content</p>
 </Container>
@@ -231,7 +227,7 @@ children: (data: T) => React.ReactNode
 ```tsx
 interface PanelProps {
   title: string
-  children?: React.ReactNode  // Optionnel
+  children?: React.ReactNode // Optionnel
 }
 
 function Panel({ title, children }: PanelProps) {
@@ -298,10 +294,7 @@ function Card({ header, children, footer }: CardProps) {
 }
 
 // Utilisation
-<Card
-  header={<h1>My Card</h1>}
-  footer={<button>Submit</button>}
->
+;<Card header={<h1>My Card</h1>} footer={<button>Submit</button>}>
   <p>Card content here</p>
 </Card>
 ```
@@ -314,7 +307,7 @@ function Card({ header, children, footer }: CardProps) {
 
 ```tsx
 interface ButtonProps {
-  onClick: () => void  // Pas d'arguments
+  onClick: () => void // Pas d'arguments
   onClickWithEvent: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 ```
@@ -328,12 +321,7 @@ interface SearchInputProps {
 }
 
 function SearchInput({ onSearch, onResultSelect }: SearchInputProps) {
-  return (
-    <input
-      type="search"
-      onChange={(e) => onSearch(e.target.value)}
-    />
-  )
+  return <input type="search" onChange={(e) => onSearch(e.target.value)} />
 }
 ```
 
@@ -341,7 +329,7 @@ function SearchInput({ onSearch, onResultSelect }: SearchInputProps) {
 
 ```tsx
 // Préfixe "on" pour les props de callback
-onClick, onChange, onSubmit, onSelect, onClose
+;(onClick, onChange, onSubmit, onSelect, onClose)
 
 // Le handler dans le composant parent souvent préfixé "handle"
 function Parent() {
@@ -369,16 +357,14 @@ function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
   return (
     <ul>
       {items.map((item) => (
-        <li key={keyExtractor(item)}>
-          {renderItem(item)}
-        </li>
+        <li key={keyExtractor(item)}>{renderItem(item)}</li>
       ))}
     </ul>
   )
 }
 
 // Utilisation - TypeScript infère le type T
-<List
+;<List
   items={users}
   renderItem={(user) => <span>{user.name}</span>}
   keyExtractor={(user) => user.id}
@@ -396,13 +382,7 @@ interface SelectProps<T> {
   getValue: (option: T) => string
 }
 
-function Select<T>({
-  options,
-  value,
-  onChange,
-  getLabel,
-  getValue,
-}: SelectProps<T>) {
+function Select<T>({ options, value, onChange, getLabel, getValue }: SelectProps<T>) {
   return (
     <select
       value={value ? getValue(value) : ''}
@@ -441,18 +421,14 @@ interface ButtonProps extends ComponentProps<'button'> {
 
 function Button({ variant = 'primary', isLoading, children, ...rest }: ButtonProps) {
   return (
-    <button
-      className={`btn btn-${variant}`}
-      disabled={isLoading || rest.disabled}
-      {...rest}
-    >
+    <button className={`btn btn-${variant}`} disabled={isLoading || rest.disabled} {...rest}>
       {isLoading ? 'Loading...' : children}
     </button>
   )
 }
 
 // Utilisation : toutes les props de button sont disponibles
-<Button variant="primary" type="submit" onClick={handleClick}>
+;<Button variant="primary" type="submit" onClick={handleClick}>
   Submit
 </Button>
 ```

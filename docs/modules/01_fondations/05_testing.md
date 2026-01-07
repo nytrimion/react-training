@@ -18,6 +18,7 @@ React Testing Library est basée sur un principe simple :
 > "The more your tests resemble the way your software is used, the more confidence they can give you."
 
 Contrairement à Enzyme (ancien outil), Testing Library :
+
 - Teste le **comportement**, pas l'implémentation
 - Interagit comme un **utilisateur** (clics, saisie, lecture)
 - N'accède pas aux internals des composants
@@ -90,24 +91,24 @@ pnpm test:watch
 
 ### Priorité des queries (du plus au moins recommandé)
 
-| Query | Usage | Exemple |
-|-------|-------|---------|
-| `getByRole` | Accessibilité, le plus recommandé | `getByRole('button', { name: 'Submit' })` |
-| `getByLabelText` | Formulaires | `getByLabelText('Email')` |
-| `getByPlaceholderText` | Inputs avec placeholder | `getByPlaceholderText('Search...')` |
-| `getByText` | Contenu textuel | `getByText('Hello, World!')` |
-| `getByDisplayValue` | Valeur actuelle d'un input | `getByDisplayValue('john@example.com')` |
-| `getByAltText` | Images | `getByAltText('Profile picture')` |
-| `getByTitle` | Attribut title | `getByTitle('Close')` |
-| `getByTestId` | Dernier recours | `getByTestId('custom-element')` |
+| Query                  | Usage                             | Exemple                                   |
+| ---------------------- | --------------------------------- | ----------------------------------------- |
+| `getByRole`            | Accessibilité, le plus recommandé | `getByRole('button', { name: 'Submit' })` |
+| `getByLabelText`       | Formulaires                       | `getByLabelText('Email')`                 |
+| `getByPlaceholderText` | Inputs avec placeholder           | `getByPlaceholderText('Search...')`       |
+| `getByText`            | Contenu textuel                   | `getByText('Hello, World!')`              |
+| `getByDisplayValue`    | Valeur actuelle d'un input        | `getByDisplayValue('john@example.com')`   |
+| `getByAltText`         | Images                            | `getByAltText('Profile picture')`         |
+| `getByTitle`           | Attribut title                    | `getByTitle('Close')`                     |
+| `getByTestId`          | Dernier recours                   | `getByTestId('custom-element')`           |
 
 ### Variantes des queries
 
-| Préfixe | Comportement si non trouvé | Async |
-|---------|---------------------------|-------|
-| `getBy` | Throw error | Non |
-| `queryBy` | Retourne null | Non |
-| `findBy` | Throw error après timeout | Oui |
+| Préfixe   | Comportement si non trouvé | Async |
+| --------- | -------------------------- | ----- |
+| `getBy`   | Throw error                | Non   |
+| `queryBy` | Retourne null              | Non   |
+| `findBy`  | Throw error après timeout  | Oui   |
 
 ```tsx
 // getBy - pour les éléments qui DOIVENT être présents
@@ -169,7 +170,7 @@ fireEvent.click(button)
 
 // ✅ userEvent - simulation réaliste
 import userEvent from '@testing-library/user-event'
-await user.click(button)  // Simule hover, focus, mousedown, mouseup, click
+await user.click(button) // Simule hover, focus, mousedown, mouseup, click
 ```
 
 `userEvent` simule le comportement réel d'un utilisateur, incluant le focus, les événements de souris, etc.
@@ -190,10 +191,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    onSubmit(
-      formData.get('email') as string,
-      formData.get('password') as string
-    )
+    onSubmit(formData.get('email') as string, formData.get('password') as string)
   }
 
   return (
@@ -266,10 +264,18 @@ export function StatusMessage({ status, message }: StatusMessageProps) {
   }
 
   if (status === 'error') {
-    return <div role="alert" className="error">{message || 'An error occurred'}</div>
+    return (
+      <div role="alert" className="error">
+        {message || 'An error occurred'}
+      </div>
+    )
   }
 
-  return <div role="status" className="success">{message || 'Success!'}</div>
+  return (
+    <div role="status" className="success">
+      {message || 'Success!'}
+    </div>
+  )
 }
 ```
 
@@ -321,11 +327,7 @@ export function TodoList({ todos, onToggle }: TodoListProps) {
       {todos.map((todo) => (
         <li key={todo.id}>
           <label>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => onToggle(todo.id)}
-            />
+            <input type="checkbox" checked={todo.completed} onChange={() => onToggle(todo.id)} />
             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
               {todo.text}
             </span>
@@ -366,8 +368,8 @@ describe('TodoList', () => {
     render(<TodoList todos={mockTodos} onToggle={jest.fn()} />)
 
     const checkboxes = screen.getAllByRole('checkbox')
-    expect(checkboxes[0]).not.toBeChecked()  // Learn React
-    expect(checkboxes[1]).toBeChecked()      // Write tests
+    expect(checkboxes[0]).not.toBeChecked() // Learn React
+    expect(checkboxes[1]).toBeChecked() // Write tests
   })
 
   it('calls onToggle when checkbox is clicked', async () => {
@@ -444,7 +446,7 @@ expect(await screen.findByText('Loaded')).toBeInTheDocument()
 it('debug example', () => {
   render(<MyComponent />)
 
-  screen.debug()  // Affiche le DOM dans la console
+  screen.debug() // Affiche le DOM dans la console
 
   // Debug un élément spécifique
   screen.debug(screen.getByRole('button'))
@@ -458,7 +460,7 @@ import { logRoles } from '@testing-library/react'
 
 it('shows available roles', () => {
   const { container } = render(<MyComponent />)
-  logRoles(container)  // Liste tous les rôles ARIA disponibles
+  logRoles(container) // Liste tous les rôles ARIA disponibles
 })
 ```
 

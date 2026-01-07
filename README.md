@@ -98,14 +98,14 @@ react-training/
 
 **Durée totale estimée** : 50-70h
 
-| Module | Thèmes | Durée | Statut |
-|--------|--------|-------|--------|
-| [**1. Fondations**](docs/modules/01_fondations/README.md) | JSX, composants, props, TypeScript, cycle de rendu | 6-9h | ⬜ |
-| [**2. State & Events**](docs/modules/02_state/README.md) | useState, événements, formulaires, useReducer | 7-10h | ⬜ |
-| [**3. Hooks & React 19**](docs/modules/03_hooks/README.md) | useEffect, refs, mémoisation, Suspense, React Compiler | 10-13h | ⬜ |
-| [**4. Patterns & Architecture**](docs/modules/04_patterns/README.md) | Context, Compound Components, Zustand, Clean Arch | 9-12h | ⬜ |
-| [**5. Forms & Validation**](docs/modules/05_forms/README.md) | React Hook Form, Zod, accessibilité | 7-10h | ⬜ |
-| [**6. Next.js App Router**](docs/modules/06_nextjs/README.md) | RSC, data fetching, Server Actions, déploiement | 12-18h | ⬜ |
+| Module                                                               | Thèmes                                                 | Durée  | Statut |
+| -------------------------------------------------------------------- | ------------------------------------------------------ | ------ | ------ |
+| [**1. Fondations**](docs/modules/01_fondations/README.md)            | JSX, composants, props, TypeScript, cycle de rendu     | 6-9h   | ⬜     |
+| [**2. State & Events**](docs/modules/02_state/README.md)             | useState, événements, formulaires, useReducer          | 7-10h  | ⬜     |
+| [**3. Hooks & React 19**](docs/modules/03_hooks/README.md)           | useEffect, refs, mémoisation, Suspense, React Compiler | 10-13h | ⬜     |
+| [**4. Patterns & Architecture**](docs/modules/04_patterns/README.md) | Context, Compound Components, Zustand, Clean Arch      | 9-12h  | ⬜     |
+| [**5. Forms & Validation**](docs/modules/05_forms/README.md)         | React Hook Form, Zod, accessibilité                    | 7-10h  | ⬜     |
+| [**6. Next.js App Router**](docs/modules/06_nextjs/README.md)        | RSC, data fetching, Server Actions, déploiement        | 12-18h | ⬜     |
 
 ---
 
@@ -147,15 +147,15 @@ pnpm type-check
 
 ## Stack technique
 
-| Outil | Version | Rôle |
-|-------|---------|------|
-| React | 19.2.3 | Bibliothèque UI |
-| Next.js | 16.1.1 | Framework full-stack (App Router) |
-| TypeScript | 5.x | Typage statique (strict mode) |
-| Tailwind CSS | 4.x | Styling utilitaire |
-| ESLint | 9.x | Linting (flat config) |
-| React Compiler | 1.0.0 | Optimisation automatique |
-| pnpm | - | Gestionnaire de packages |
+| Outil          | Version | Rôle                              |
+| -------------- | ------- | --------------------------------- |
+| React          | 19.2.3  | Bibliothèque UI                   |
+| Next.js        | 16.1.1  | Framework full-stack (App Router) |
+| TypeScript     | 5.x     | Typage statique (strict mode)     |
+| Tailwind CSS   | 4.x     | Styling utilitaire                |
+| ESLint         | 9.x     | Linting (flat config)             |
+| React Compiler | 1.0.0   | Optimisation automatique          |
+| pnpm           | -       | Gestionnaire de packages          |
 
 ---
 

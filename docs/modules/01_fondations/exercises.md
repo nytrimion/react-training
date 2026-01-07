@@ -3,6 +3,7 @@
 ## Organisation
 
 Les exercices suivent une progression :
+
 1. **Découverte** : Premiers pas, manipulation basique
 2. **Application** : Mise en pratique des concepts
 3. **Consolidation** : Exercice complet avec tests
@@ -14,6 +15,7 @@ Les exercices suivent une progression :
 ## Exercice 1 : JSX et expressions (Découverte)
 
 ### Objectif
+
 Créer un composant `ProductCard` qui affiche les informations d'un produit.
 
 ### Consigne
@@ -35,12 +37,14 @@ Crée le fichier `src/exercises/module_01/ProductCard.tsx` avec :
    - Applique une classe CSS différente selon le stock
 
 ### Points à valider
+
 - [ ] JSX correct avec expressions `{}`
 - [ ] Rendu conditionnel (ternaire ou &&)
 - [ ] Attributs JSX corrects (`className`, pas `class`)
 - [ ] Props typées avec interface
 
 ### Indice
+
 ```tsx
 // Pour formater le prix
 const formattedPrice = `€ ${price.toFixed(2)}`
@@ -51,6 +55,7 @@ const formattedPrice = `€ ${price.toFixed(2)}`
 ## Exercice 2 : Composants et composition (Application)
 
 ### Objectif
+
 Créer un système de composants `Card` composables.
 
 ### Consigne
@@ -86,6 +91,7 @@ Crée les composants dans `src/exercises/module_01/Card/` :
 ```
 
 ### Points à valider
+
 - [ ] Chaque composant est correctement typé
 - [ ] `children` typé comme `React.ReactNode`
 - [ ] Valeurs par défaut pour les props optionnelles
@@ -96,6 +102,7 @@ Crée les composants dans `src/exercises/module_01/Card/` :
 ## Exercice 3 : Liste avec keys (Application)
 
 ### Objectif
+
 Créer un composant `UserList` qui affiche une liste d'utilisateurs.
 
 ### Consigne
@@ -118,6 +125,7 @@ Créer un composant `UserList` qui affiche une liste d'utilisateurs.
 3. Crée `UserRow.tsx` pour extraire la logique d'affichage d'un utilisateur
 
 ### Points à valider
+
 - [ ] Keys stables et uniques (pas d'index)
 - [ ] Rendu conditionnel pour la liste vide
 - [ ] Styles conditionnels selon le rôle et le statut
@@ -128,6 +136,7 @@ Créer un composant `UserList` qui affiche une liste d'utilisateurs.
 ## Exercice 4 : Props avancées (Application)
 
 ### Objectif
+
 Créer un composant `Button` flexible et bien typé.
 
 ### Consigne
@@ -151,6 +160,7 @@ Crée `src/exercises/module_01/Button.tsx` avec :
 3. Utilise `ComponentProps<'button'>` pour hériter des props natives
 
 ### Points à valider
+
 - [ ] Typage avec discriminated union ou extension de props natives
 - [ ] Spread des props restantes
 - [ ] État loading géré correctement
@@ -161,6 +171,7 @@ Crée `src/exercises/module_01/Button.tsx` avec :
 ## Exercice 5 : Composant générique (Consolidation)
 
 ### Objectif
+
 Créer un composant `DataList<T>` générique et réutilisable.
 
 ### Consigne
@@ -179,6 +190,7 @@ interface DataListProps<T> {
 ```
 
 Le composant doit :
+
 1. Être générique (fonctionne avec n'importe quel type de données)
 2. Afficher le header si fourni
 3. Afficher le message vide si pas d'items
@@ -206,6 +218,7 @@ Le composant doit :
 ```
 
 ### Points à valider
+
 - [ ] Générique TypeScript correct
 - [ ] Tous les cas gérés (vide, header, footer)
 - [ ] Keys correctes
@@ -216,6 +229,7 @@ Le composant doit :
 ## Exercice 6 : Test complet (Consolidation)
 
 ### Objectif
+
 Écrire des tests pour le composant `UserList` de l'exercice 3.
 
 ### Consigne
@@ -240,6 +254,7 @@ Crée `src/exercises/module_01/UserList.test.tsx` avec les tests suivants :
    - Vérifie que chaque utilisateur est dans un `<li>`
 
 ### Points à valider
+
 - [ ] Utilisation de `render` et `screen`
 - [ ] Queries appropriées (getByRole, getByText)
 - [ ] Tests indépendants (chacun fait son propre render)
@@ -274,6 +289,7 @@ describe('UserList', () => {
 ## Challenge : ProfileCard complet
 
 ### Objectif
+
 Combiner tous les concepts du module dans un composant complet.
 
 ### Consigne
@@ -281,6 +297,7 @@ Combiner tous les concepts du module dans un composant complet.
 Crée un composant `ProfileCard` qui :
 
 1. **Interface complète**
+
    ```tsx
    interface ProfileCardProps {
      user: {
@@ -314,6 +331,7 @@ Crée un composant `ProfileCard` qui :
    - Au moins 5 tests couvrant les différents cas
 
 ### Critères de réussite
+
 - [ ] TypeScript strict sans erreur
 - [ ] Tous les cas de rendu conditionnel fonctionnent
 - [ ] Composition avec les composants Card

@@ -19,14 +19,14 @@
 
 ## Structure du module
 
-| Section | Contenu | Durée |
-|---------|---------|-------|
-| [1. JSX en profondeur](./01_jsx.md) | Transpilation, expressions, fragments, JSX vs templates | ~1h |
-| [2. Composants typés](./02_components.md) | Props, children, generics, patterns de typage | ~1.5h |
-| [3. Composition](./03_composition.md) | Children, slots, composition vs héritage | ~1h |
-| [4. Cycle de rendu](./04_rendering.md) | Virtual DOM, réconciliation, keys, re-renders | ~1.5h |
-| [5. Testing](./05_testing.md) | Testing Library, premiers tests, bonnes pratiques | ~1h |
-| [Exercices](./exercises.md) | Exercices pratiques progressifs | ~2-3h |
+| Section                                   | Contenu                                                 | Durée |
+| ----------------------------------------- | ------------------------------------------------------- | ----- |
+| [1. JSX en profondeur](./01_jsx.md)       | Transpilation, expressions, fragments, JSX vs templates | ~1h   |
+| [2. Composants typés](./02_components.md) | Props, children, generics, patterns de typage           | ~1.5h |
+| [3. Composition](./03_composition.md)     | Children, slots, composition vs héritage                | ~1h   |
+| [4. Cycle de rendu](./04_rendering.md)    | Virtual DOM, réconciliation, keys, re-renders           | ~1.5h |
+| [5. Testing](./05_testing.md)             | Testing Library, premiers tests, bonnes pratiques       | ~1h   |
+| [Exercices](./exercises.md)               | Exercices pratiques progressifs                         | ~2-3h |
 
 ---
 
@@ -34,16 +34,16 @@
 
 Pour faciliter ta transition, voici les équivalences clés :
 
-| Concept | Vue.js | React |
-|---------|--------|-------|
-| Template | `<template>` avec directives | JSX (JavaScript + XML) |
-| Composant | SFC `.vue` | Fonction qui retourne JSX |
-| Props | `defineProps<T>()` | `function Comp(props: T)` |
-| Slots | `<slot>` / `<slot name="x">` | `children` / props explicites |
-| Rendu conditionnel | `v-if`, `v-show` | `{condition && <X/>}`, ternaire |
-| Boucles | `v-for` | `.map()` dans le JSX |
-| Binding attributs | `:class`, `:style` | `className`, `style={{}}` |
-| Événements | `@click` | `onClick` |
+| Concept            | Vue.js                       | React                           |
+| ------------------ | ---------------------------- | ------------------------------- |
+| Template           | `<template>` avec directives | JSX (JavaScript + XML)          |
+| Composant          | SFC `.vue`                   | Fonction qui retourne JSX       |
+| Props              | `defineProps<T>()`           | `function Comp(props: T)`       |
+| Slots              | `<slot>` / `<slot name="x">` | `children` / props explicites   |
+| Rendu conditionnel | `v-if`, `v-show`             | `{condition && <X/>}`, ternaire |
+| Boucles            | `v-for`                      | `.map()` dans le JSX            |
+| Binding attributs  | `:class`, `:style`           | `className`, `style={{}}`       |
+| Événements         | `@click`                     | `onClick`                       |
 
 ---
 

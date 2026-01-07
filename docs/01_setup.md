@@ -25,12 +25,12 @@ pnpm --version
 
 ### Pourquoi pnpm ?
 
-| Aspect | npm | pnpm |
-|--------|-----|------|
-| Installation deps | ~30s | ~5s |
-| Espace disque | Dupliqué par projet | Store partagé |
-| node_modules | Plat (hoisting) | Strict (isolé) |
-| Lock file | package-lock.json | pnpm-lock.yaml |
+| Aspect            | npm                 | pnpm           |
+| ----------------- | ------------------- | -------------- |
+| Installation deps | ~30s                | ~5s            |
+| Espace disque     | Dupliqué par projet | Store partagé  |
+| node_modules      | Plat (hoisting)     | Strict (isolé) |
+| Lock file         | package-lock.json   | pnpm-lock.yaml |
 
 ---
 
@@ -134,29 +134,24 @@ Le projet utilise ESLint 9 avec le nouveau format **flat config** (`eslint.confi
 Pour ajouter des règles personnalisées, modifier `eslint.config.mjs` :
 
 ```javascript
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "error",
-      "prefer-const": "error",
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      'prefer-const': 'error',
     },
   },
-  globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+])
 
-export default eslintConfig;
+export default eslintConfig
 ```
 
 ---
@@ -196,31 +191,26 @@ pnpm-lock.yaml
 Modifier `eslint.config.mjs` pour ajouter `eslint-config-prettier` (désactive les règles de formatage qui conflictent) :
 
 ```javascript
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
-import prettier from "eslint-config-prettier";
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
+import prettier from 'eslint-config-prettier'
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  prettier,  // Doit être en dernier
+  prettier, // Doit être en dernier
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "error",
-      "prefer-const": "error",
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      'prefer-const': 'error',
     },
   },
-  globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+])
 
-export default eslintConfig;
+export default eslintConfig
 ```
 
 ### Scripts package.json
@@ -261,12 +251,12 @@ Ajouter dans `package.json` :
 
 ### Raccourcis utiles
 
-| Action | Raccourci |
-|--------|-----------|
-| Reformatter | `Ctrl+Alt+L` |
-| Fix ESLint | `Alt+Shift+Enter` |
-| Aller à la définition | `Ctrl+B` |
-| Renommer | `Shift+F6` |
+| Action                | Raccourci         |
+| --------------------- | ----------------- |
+| Reformatter           | `Ctrl+Alt+L`      |
+| Fix ESLint            | `Alt+Shift+Enter` |
+| Aller à la définition | `Ctrl+B`          |
+| Renommer              | `Shift+F6`        |
 
 ---
 

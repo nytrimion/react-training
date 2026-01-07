@@ -27,6 +27,7 @@ UI = f(state)
 - **state** : Les données actuelles
 
 À chaque changement de state, React :
+
 1. Appelle ta fonction composant avec le nouveau state
 2. Compare le résultat avec le rendu précédent
 3. Applique uniquement les différences au DOM
@@ -131,7 +132,7 @@ function TodoList({ todos }: { todos: Todo[] }) {
   return (
     <ul>
       {todos.map((todo) => (
-        <li>{todo.text}</li>  // ⚠️ Pas de key
+        <li>{todo.text}</li> // ⚠️ Pas de key
       ))}
     </ul>
   )
@@ -146,6 +147,7 @@ Après: [A, B, C]
 ```
 
 Sans key, React compare position par position :
+
 - Position 0 : `B` → `A` (mise à jour du texte)
 - Position 1 : `C` → `B` (mise à jour du texte)
 - Position 2 : rien → `C` (création)
@@ -155,12 +157,13 @@ Résultat : 3 opérations au lieu d'une seule insertion !
 ### La solution avec keys
 
 ```tsx
-{todos.map((todo) => (
-  <li key={todo.id}>{todo.text}</li>
-))}
+{
+  todos.map((todo) => <li key={todo.id}>{todo.text}</li>)
+}
 ```
 
 Avec les keys, React identifie chaque élément :
+
 - `key="A"` : nouveau → création
 - `key="B"` : existe, même position → rien
 - `key="C"` : existe, même position → rien
@@ -205,7 +208,7 @@ function Counter() {
 
 ```tsx
 function Display({ value }: { value: number }) {
-  console.log('Display rendered')  // Appelé quand value change
+  console.log('Display rendered') // Appelé quand value change
   return <span>{value}</span>
 }
 ```
@@ -221,13 +224,13 @@ function Parent() {
   return (
     <div>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-      <Child />  {/* Re-render même si Child ne dépend pas de count ! */}
+      <Child /> {/* Re-render même si Child ne dépend pas de count ! */}
     </div>
   )
 }
 
 function Child() {
-  console.log('Child rendered')  // Appelé à chaque clic sur le bouton
+  console.log('Child rendered') // Appelé à chaque clic sur le bouton
   return <div>I am a child</div>
 }
 ```
@@ -244,12 +247,12 @@ C'est une distinction cruciale :
 function Example() {
   const [count, setCount] = useState(0)
 
-  console.log('Component rendered')  // Appelé à chaque re-render
+  console.log('Component rendered') // Appelé à chaque re-render
 
   return (
     <div>
-      <span>Static content</span>  {/* DOM jamais mis à jour */}
-      <span>{count}</span>         {/* DOM mis à jour seulement ici */}
+      <span>Static content</span> {/* DOM jamais mis à jour */}
+      <span>{count}</span> {/* DOM mis à jour seulement ici */}
     </div>
   )
 }
@@ -271,15 +274,15 @@ React groupe automatiquement plusieurs mises à jour de state.
 ```tsx
 // Batching automatique UNIQUEMENT dans les event handlers React
 function handleClick() {
-  setCount(c => c + 1)
-  setFlag(f => !f)
+  setCount((c) => c + 1)
+  setFlag((f) => !f)
   // Un seul re-render
 }
 
 // Pas de batching dans les callbacks async
 setTimeout(() => {
-  setCount(c => c + 1)  // Re-render
-  setFlag(f => !f)      // Encore un re-render
+  setCount((c) => c + 1) // Re-render
+  setFlag((f) => !f) // Encore un re-render
 }, 1000)
 ```
 
@@ -288,14 +291,14 @@ setTimeout(() => {
 ```tsx
 // Batching automatique PARTOUT
 setTimeout(() => {
-  setCount(c => c + 1)
-  setFlag(f => !f)
+  setCount((c) => c + 1)
+  setFlag((f) => !f)
   // Un seul re-render !
 }, 1000)
 
 fetch('/api').then(() => {
-  setCount(c => c + 1)
-  setFlag(f => !f)
+  setCount((c) => c + 1)
+  setFlag((f) => !f)
   // Un seul re-render !
 })
 ```
@@ -307,12 +310,12 @@ import { flushSync } from 'react-dom'
 
 function handleClick() {
   flushSync(() => {
-    setCount(c => c + 1)
+    setCount((c) => c + 1)
   })
   // DOM mis à jour ici
 
   flushSync(() => {
-    setFlag(f => !f)
+    setFlag((f) => !f)
   })
   // DOM mis à jour ici aussi
 }
@@ -380,7 +383,7 @@ createRoot(document.getElementById('root')!).render(
 
 ```tsx
 function Counter() {
-  console.log('Render')  // Affiché 2 fois en dev !
+  console.log('Render') // Affiché 2 fois en dev !
 
   // Si tu vois des comportements bizarres avec StrictMode,
   // c'est probablement un side effect dans le rendu
@@ -429,13 +432,13 @@ function MyComponent() {
 
 ## Comparaison avec Vue.js
 
-| Aspect | Vue.js | React |
-|--------|--------|-------|
-| Détection des changements | Automatique (Proxy) | Explicite (setState) |
-| Granularité | Composant + dépendances | Composant entier |
-| Re-render du parent | N'affecte pas les enfants (par défaut) | Re-render tous les enfants |
-| Optimisation | Automatique | Manuelle (memo, useMemo) |
-| Virtual DOM | Oui | Oui |
+| Aspect                    | Vue.js                                 | React                      |
+| ------------------------- | -------------------------------------- | -------------------------- |
+| Détection des changements | Automatique (Proxy)                    | Explicite (setState)       |
+| Granularité               | Composant + dépendances                | Composant entier           |
+| Re-render du parent       | N'affecte pas les enfants (par défaut) | Re-render tous les enfants |
+| Optimisation              | Automatique                            | Manuelle (memo, useMemo)   |
+| Virtual DOM               | Oui                                    | Oui                        |
 
 En Vue, le système de réactivité fine-grained fait que seuls les composants qui dépendent d'une donnée modifiée re-render.
 
