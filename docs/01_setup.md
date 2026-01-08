@@ -6,8 +6,6 @@ Ce guide te permettra de configurer un environnement React/Next.js moderne avec 
 
 ## 1. Installation de pnpm ✅
 
-> **Déjà fait pour ce projet.**
-
 pnpm est un gestionnaire de packages rapide et économe en espace disque.
 
 ### Windows (PowerShell)
@@ -36,8 +34,6 @@ pnpm --version
 
 ## 2. Création du Projet Next.js ✅
 
-> **Déjà fait pour ce projet.**
-
 ```powershell
 # Créer un nouveau projet Next.js avec toutes les options recommandées
 pnpm create next-app@latest react-training
@@ -56,7 +52,7 @@ cd react-training
 
 ---
 
-## 3. Installation des Tests (Jest + Testing Library)
+## 3. Installation des Tests (Jest + Testing Library) ✅
 
 ### Dépendances de développement
 
@@ -110,7 +106,7 @@ Ajouter dans `package.json` :
 
 ---
 
-## 4. Configuration TypeScript Strict
+## 4. Configuration TypeScript Strict ✅
 
 Le mode `strict` est déjà activé. Pour renforcer davantage, ajouter dans `tsconfig.json` :
 
@@ -127,7 +123,7 @@ Le mode `strict` est déjà activé. Pour renforcer davantage, ajouter dans `tsc
 
 ---
 
-## 5. Configuration ESLint
+## 5. Configuration ESLint ✅
 
 Le projet utilise ESLint 9 avec le nouveau format **flat config** (`eslint.config.mjs`).
 
@@ -156,7 +152,7 @@ export default eslintConfig
 
 ---
 
-## 6. Configuration Prettier
+## 6. Configuration Prettier ✅
 
 ### Installer Prettier
 

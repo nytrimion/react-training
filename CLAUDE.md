@@ -79,7 +79,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Types/Interfaces : `PascalCase`
 - Constantes : `SCREAMING_SNAKE_CASE`
 
-### Stack Technique (installée)
+### Stack Technique
 
 - **React 19.2.3** avec React Compiler (`babel-plugin-react-compiler`)
 - **Next.js 16.1.1** (App Router)
@@ -87,9 +87,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Tailwind CSS 4** (via `@tailwindcss/postcss`)
 - **ESLint 9** avec `eslint-config-next`
 - **pnpm** : gestionnaire de packages
-
-### Outils à installer (voir `docs/01_setup.md`)
-
 - **Prettier** : formatting automatique
 - **Jest** : framework de tests
 - **Testing Library** : tests orientés utilisateur
@@ -149,19 +146,15 @@ pnpm start
 
 # Linter
 pnpm lint
-```
 
-### Commandes à configurer (après installation des outils)
-
-```bash
-# Vérifier le typage (à ajouter)
+# Vérifier le typage
 pnpm type-check
 
-# Lancer les tests (à ajouter - nécessite Jest)
+# Lancer les tests
 pnpm test
 pnpm test:watch
 
-# Formater le code (à ajouter - nécessite Prettier)
+# Formater le code
 pnpm format
 ```
 
