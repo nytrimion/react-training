@@ -123,13 +123,7 @@ pnpm start
 
 # Linter le code
 pnpm lint
-```
 
-### Commandes supplémentaires (après setup complet)
-
-Voir [docs/01_setup.md](docs/01_setup.md) pour installer Jest et Prettier.
-
-```bash
 # Lancer les tests
 pnpm test
 
