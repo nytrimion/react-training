@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Card, CardHeader, CardBody, CardFooter } from '../index'
+import { Card, CardHeader, CardBody, CardFooter } from './index'
 
 describe('Card', () => {
   it('should render children', () => {
