@@ -16,11 +16,11 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 
 | Objectif                                                             | Statut |
 | -------------------------------------------------------------------- | ------ |
-| Comprendre JSX en profondeur (transpilation, fragments, expressions) | ⬜     |
-| Créer des composants fonctionnels typés (props, children, generics)  | ⬜     |
-| Maîtriser la composition et les patterns de base                     | ⬜     |
+| Comprendre JSX en profondeur (transpilation, fragments, expressions) | ✅     |
+| Créer des composants fonctionnels typés (props, children, generics)  | ✅     |
+| Maîtriser la composition et les patterns de base                     | ✅     |
 | Comprendre le cycle de rendu et la réconciliation                    | ⬜     |
-| Écrire ses premiers tests de composants                              | ⬜     |
+| Écrire ses premiers tests de composants                              | ✅     |
 
 → [Accéder au module](./modules/01_fondations/README.md)
 
@@ -117,14 +117,14 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 ## Progression Globale
 
 ```
-Module 1 : Fondations      [⬜⬜⬜⬜⬜] 0%
+Module 1 : Fondations      [✅✅✅⬜✅] 80%
 Module 2 : State           [⬜⬜⬜⬜⬜⬜] 0%
 Module 3 : Hooks & R19     [⬜⬜⬜⬜⬜⬜⬜] 0%
 Module 4 : Patterns        [⬜⬜⬜⬜⬜⬜⬜] 0%
 Module 5 : Forms           [⬜⬜⬜⬜⬜] 0%
 Module 6 : Next.js         [⬜⬜⬜⬜⬜⬜⬜⬜] 0%
 ───────────────────────────────────────────
-Total                      [⬜⬜⬜⬜⬜] 0%
+Total                      [🔄⬜⬜⬜⬜] ~13%
 ```
 
 ---

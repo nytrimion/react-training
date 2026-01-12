@@ -64,7 +64,7 @@ user-profile.tsx
 
 // Convention 3 : dossier + index
 UserProfile/
-├── index.tsx
+├── index.ts
 ├── UserProfile.tsx
 └── UserProfile.test.tsx
 ```

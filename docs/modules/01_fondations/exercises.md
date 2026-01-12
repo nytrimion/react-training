@@ -8,7 +8,7 @@ Les exercices suivent une progression :
 2. **Application** : Mise en pratique des concepts
 3. **Consolidation** : Exercice complet avec tests
 
-**Où coder** : `src/exercises/module_01/`
+**Où coder** : `src/components/`
 
 ---
 
@@ -20,7 +20,7 @@ Créer un composant `ProductCard` qui affiche les informations d'un produit.
 
 ### Consigne
 
-Crée le fichier `src/exercises/module_01/ProductCard.tsx` avec :
+Crée le fichier `src/components/ProductCard.tsx` avec :
 
 1. Une interface `Product` avec les propriétés :
    - `id: string`
@@ -60,7 +60,7 @@ Créer un système de composants `Card` composables.
 
 ### Consigne
 
-Crée les composants dans `src/exercises/module_01/Card/` :
+Crée les composants dans `src/components/Card/` :
 
 1. `Card.tsx` : Container principal
    - Accepte `children` et une prop optionnelle `variant: 'default' | 'outlined' | 'elevated'`
@@ -141,7 +141,7 @@ Créer un composant `Button` flexible et bien typé.
 
 ### Consigne
 
-Crée `src/exercises/module_01/Button.tsx` avec :
+Crée `src/components/Button.tsx` avec :
 
 1. Props de base :
    - `children: React.ReactNode`
@@ -176,7 +176,7 @@ Créer un composant `DataList<T>` générique et réutilisable.
 
 ### Consigne
 
-Crée `src/exercises/module_01/DataList.tsx` :
+Crée `src/components/DataList.tsx` :
 
 ```tsx
 interface DataListProps<T> {
@@ -234,7 +234,7 @@ Le composant doit :
 
 ### Consigne
 
-Crée `src/exercises/module_01/UserList.test.tsx` avec les tests suivants :
+Crée `src/components/UserList.test.tsx` avec les tests suivants :
 
 1. **Test de rendu vide**
    - Vérifie que le message "No users" s'affiche quand la liste est vide
