@@ -1,5 +1,3 @@
-import React from 'react'
-
 type CardHeaderProps = {
   title: string
   subtitle?: string

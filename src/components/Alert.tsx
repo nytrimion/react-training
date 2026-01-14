@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 type CommonAlertProps = {
   variant: 'info' | 'warning' | 'success'

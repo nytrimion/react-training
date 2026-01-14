@@ -180,10 +180,10 @@ function ConfirmDialog({
 
 Un pattern classique qui sépare la logique de l'affichage. Ce pattern s'apparente à **MVC/MVP** :
 
-| Container/Presentational | MVC/MVP |
-|--------------------------|---------|
+| Container/Presentational | MVC/MVP              |
+| ------------------------ | -------------------- |
 | Container (fetch, state) | Controller/Presenter |
-| Presentational (rendu)   | View |
+| Presentational (rendu)   | View                 |
 
 > **Note sur Clean Architecture** : Ce pattern n'est pas équivalent à la Clean Architecture. Il opère uniquement au niveau UI. En Clean Architecture stricte, les composants React appartiennent à la couche **Infrastructure** — ce sont des adapters de présentation, au même titre qu'un client HTTP ou un adapter de stockage. Les couches Domain et Application restent indépendantes du framework UI (React, Vue, ou autre).
 
