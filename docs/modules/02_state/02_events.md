@@ -184,13 +184,37 @@ interface ButtonProps extends ComponentProps<'button'> {
 
 ## Event delegation (délégation d'événements)
 
-React attache automatiquement les handlers au niveau de la racine (root), pas sur chaque élément. C'est transparent pour le développeur.
+React attache automatiquement **tous** les handlers au niveau de la racine (root), pas sur chaque élément. Cette délégation est transparente et automatique — tu n'as rien à faire.
 
-### Le pattern dans une liste
+### React délègue déjà pour toi
+
+Quand tu écris `<button onClick={fn}>`, React n'ajoute pas un listener sur ce bouton. Il utilise un unique listener global qui route les événements vers les bons handlers. C'est une optimisation interne.
+
+### Pattern recommandé (React 19+)
 
 ```tsx
+// ✅ Recommandé : handler inline avec arrow function
+// Le React Compiler mémoize automatiquement ces fonctions
 function TodoList({ items }: { items: Todo[] }) {
-  // ✅ Un seul handler pour tous les items
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id} onClick={() => toggleTodo(item.id)}>
+          {item.text}
+        </li>
+      ))}
+    </ul>
+  )
+}
+```
+
+### Pattern legacy : délégation manuelle
+
+Avant React 18+ et le React Compiler, on utilisait parfois une délégation manuelle pour éviter de créer des fonctions à chaque render. Ce pattern reste utile à connaître pour maintenir du code legacy :
+
+```tsx
+// 🟡 Legacy : délégation manuelle via data attributes
+function TodoList({ items }: { items: Todo[] }) {
   const handleClick = (e: React.MouseEvent<HTMLUListElement>) => {
     const target = e.target as HTMLElement
     const itemId = target.closest('li')?.dataset.id
@@ -209,22 +233,15 @@ function TodoList({ items }: { items: Todo[] }) {
     </ul>
   )
 }
-
-// Alternative : handler par item (plus simple, légèrement moins performant)
-function TodoList({ items }: { items: Todo[] }) {
-  return (
-    <ul>
-      {items.map(item => (
-        <li key={item.id} onClick={() => toggleTodo(item.id)}>
-          {item.text}
-        </li>
-      ))}
-    </ul>
-  )
-}
 ```
 
-> **Note** : Pour la plupart des cas, un handler par item est parfaitement acceptable. L'optimisation par délégation manuelle est rarement nécessaire.
+**Inconvénients du pattern legacy** :
+- Perte de type safety (`dataset.id` est `string | undefined`)
+- Complexité accrue (`closest()`, cast `as HTMLElement`, null checks)
+- Edge cases (clic sur un élément enfant comme une icône)
+- Gain minime puisque React délègue déjà en interne
+
+> **Note** : Pour les très grandes listes (> 1000 éléments), la vraie solution est la **virtualisation** (react-window, react-virtuoso), pas la délégation manuelle.
 
 ---
 
@@ -256,15 +273,17 @@ En React, `onChange` se déclenche à **chaque frappe** (comme `input` natif).
 ### Passer des données au handler
 
 ```tsx
-// ❌ Mauvais : créer une nouvelle fonction à chaque render
+// ✅ Recommandé (React 19+ avec Compiler) : inline arrow function
+// Le React Compiler mémoize automatiquement ces fonctions
 {items.map(item => (
   <button onClick={() => handleDelete(item.id)}>Delete</button>
 ))}
+```
 
-// ✅ OK pour des listes raisonnables (< 1000 éléments)
-// Le React Compiler optimise cela automatiquement
+Pour référence, voici l'ancien pattern avec data attributes (utile pour du code legacy sans React Compiler) :
 
-// ✅ Alternative : data attributes
+```tsx
+// 🟡 Legacy : data attributes
 function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
   const id = e.currentTarget.dataset.id
   if (id) deleteItem(id)
