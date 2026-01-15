@@ -20,15 +20,15 @@
 
 ## Structure du module
 
-| Section               | Contenu                                               | Fichier                    |
-| --------------------- | ----------------------------------------------------- | -------------------------- |
-| 1. useState           | Fondamentaux, lazy init, functional updates, batching | `01_useState.md`           |
-| 2. Événements         | SyntheticEvent, types TS, event delegation            | `02_events.md`             |
-| 3. Formulaires        | Controlled vs uncontrolled, validation                | `03_forms.md`              |
-| 4. State architecture | Lifting state up, colocation, derived state           | `04_state_architecture.md` |
-| 5. useReducer         | Reducer pattern, actions typées, CQRS-like            | `05_useReducer.md`         |
-| 6. Testing            | Tester les interactions, userEvent avancé             | `06_testing.md`            |
-| Exercices             | Exercices pratiques progressifs                       | `exercises.md`             |
+| Section                                                    | Contenu                                               | Durée  |
+| ---------------------------------------------------------- | ----------------------------------------------------- | ------ |
+| [1. useState](./01_useState.md)                            | Fondamentaux, lazy init, functional updates, batching | ~1.5h  |
+| [2. Événements](./02_events.md)                            | SyntheticEvent, types TS, event delegation            | ~1h    |
+| [3. Formulaires](./03_forms.md)                            | Controlled vs uncontrolled, validation                | ~1.5h  |
+| [4. State architecture](./04_state_architecture.md)        | Lifting state up, colocation, derived state           | ~1h    |
+| [5. useReducer](./05_useReducer.md)                        | Reducer pattern, actions typées, CQRS-like            | ~1.5h  |
+| [6. Testing](./06_testing.md)                              | Tester les interactions, userEvent avancé             | ~1h    |
+| [Exercices](./exercises.md)                                | Exercices pratiques progressifs                       | ~3-4h  |
 
 ---
 
@@ -87,6 +87,6 @@ Avant de passer au module suivant :
 
 ---
 
-> **Note** : Le contenu détaillé de ce module sera rédigé quand tu seras prêt à l'aborder.
+→ [Commencer avec useState](./01_useState.md)
 
 → Retour à la [vue d'ensemble](../../00_overview.md)
