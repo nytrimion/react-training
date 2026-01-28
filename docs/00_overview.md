@@ -35,8 +35,8 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 | Maîtriser useState et ses patterns (lazy init, batching) | ✅     |
 | Gérer les événements React (SyntheticEvent, TypeScript)  | ✅     |
 | Implémenter des formulaires contrôlés vs non-contrôlés   | ✅     |
-| Comprendre le lifting state up et state colocation       | ⬜     |
-| Utiliser useReducer avec des patterns CQRS-like          | ⬜     |
+| Comprendre le lifting state up et state colocation       | ✅     |
+| Utiliser useReducer avec des patterns CQRS-like          | ✅     |
 | Tester les interactions utilisateur                      | ✅     |
 
 → [Accéder au module](./modules/02_state/README.md)
@@ -118,13 +118,13 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 
 ```
 Module 1 : Fondations      [✅✅✅✅✅] 100%
-Module 2 : State           [✅✅✅✅⬜⬜] 67%
+Module 2 : State           [✅✅✅✅✅✅] 100%
 Module 3 : Hooks & R19     [⬜⬜⬜⬜⬜⬜⬜] 0%
 Module 4 : Patterns        [⬜⬜⬜⬜⬜⬜⬜] 0%
 Module 5 : Forms           [⬜⬜⬜⬜⬜] 0%
 Module 6 : Next.js         [⬜⬜⬜⬜⬜⬜⬜⬜] 0%
 ───────────────────────────────────────────
-Total                      [✅✅⬜⬜⬜⬜] ~28%
+Total                      [✅✅⬜⬜⬜⬜] ~29%
 ```
 
 ---

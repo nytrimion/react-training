@@ -101,7 +101,7 @@ react-training/
 | Module                                                               | Thèmes                                                 | Durée  | Statut |
 | -------------------------------------------------------------------- | ------------------------------------------------------ | ------ | ------ |
 | [**1. Fondations**](docs/modules/01_fondations/README.md)            | JSX, composants, props, TypeScript, cycle de rendu     | 6-9h   | ✅     |
-| [**2. State & Events**](docs/modules/02_state/README.md)             | useState, événements, formulaires, useReducer          | 7-10h  | 🔄     |
+| [**2. State & Events**](docs/modules/02_state/README.md)             | useState, événements, formulaires, useReducer          | 7-10h  | ✅     |
 | [**3. Hooks & React 19**](docs/modules/03_hooks/README.md)           | useEffect, refs, mémoisation, Suspense, React Compiler | 10-13h | ⬜     |
 | [**4. Patterns & Architecture**](docs/modules/04_patterns/README.md) | Context, Compound Components, Zustand, Clean Arch      | 9-12h  | ⬜     |
 | [**5. Forms & Validation**](docs/modules/05_forms/README.md)         | React Hook Form, Zod, accessibilité                    | 7-10h  | ⬜     |
