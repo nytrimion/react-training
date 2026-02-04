@@ -13,7 +13,7 @@ function createTodo(overrides?: Partial<Todo>): Todo {
 function createState(overrides?: Partial<TodoListState>): TodoListState {
   return {
     todos: [],
-    filterSelect: 'all',
+    filter: 'all',
     ...overrides,
   }
 }
@@ -77,10 +77,10 @@ describe('todoReducer', () => {
 
   it.each<TodoListFilter>(['all', 'active', 'completed'])(`should set filter to "%s"`, (filter) => {
     const state = createState()
-    const newState = todoReducer(state, { type: 'SET_FILTER', filterSelect: filter })
+    const newState = todoReducer(state, { type: 'SET_FILTER', filter: filter })
 
     expect(newState).not.toBe(state)
-    expect(newState.filterSelect).toBe(filter)
+    expect(newState.filter).toBe(filter)
   })
 
   it('should remove all completed todos', () => {

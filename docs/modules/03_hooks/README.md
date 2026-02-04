@@ -21,16 +21,16 @@
 
 ## Structure du module
 
-| Section              | Contenu                                           | Fichier             |
-| -------------------- | ------------------------------------------------- | ------------------- |
-| 1. useEffect         | Lifecycle, cleanup, dépendances, pièges courants  | `01_useEffect.md`   |
-| 2. useRef            | Références DOM, valeurs mutables, forwarding refs | `02_useRef.md`      |
-| 3. Mémoisation       | useMemo, useCallback, quand optimiser             | `03_memoization.md` |
-| 4. React 19          | use(), Actions, useTransition, useOptimistic      | `04_react19.md`     |
-| 5. Suspense & Errors | Suspense, Error Boundaries, fallbacks             | `05_suspense.md`    |
-| 6. React Compiler    | Fonctionnement, ce qu'il optimise, configuration  | `06_compiler.md`    |
-| 7. Testing async     | Mocking, act(), waitFor, async patterns           | `07_testing.md`     |
-| Exercices            | Exercices pratiques progressifs                   | `exercises.md`      |
+| Section                                        | Contenu                                           | Durée  |
+| ---------------------------------------------- | ------------------------------------------------- | ------ |
+| [1. useEffect](./01_useEffect.md)              | Lifecycle, cleanup, dépendances, pièges courants  | ~1.5h  |
+| [2. useRef](./02_useRef.md)                    | Références DOM, valeurs mutables, forwarding refs | ~1h    |
+| [3. Mémoisation](./03_memoization.md)          | useMemo, useCallback, quand optimiser             | ~1.5h  |
+| [4. React 19](./04_react19.md)                 | use(), Actions, useTransition, useOptimistic      | ~1.5h  |
+| [5. Suspense & Errors](./05_suspense.md)       | Suspense, Error Boundaries, fallbacks             | ~1h    |
+| [6. React Compiler](./06_compiler.md)          | Fonctionnement, ce qu'il optimise, configuration  | ~1h    |
+| [7. Testing async](./07_testing.md)            | Mocking, act(), waitFor, async patterns           | ~1.5h  |
+| [Exercices](./exercises.md)                    | Exercices pratiques progressifs                   | ~4-5h  |
 
 ---
 
@@ -43,7 +43,7 @@
 | Lifecycle unmount | `onUnmounted()`            | `useEffect(() => { return cleanup }, [])` |
 | Refs DOM          | `ref()` + template ref     | `useRef()`                                |
 | Computed          | `computed()`               | `useMemo()`                               |
-| Method caching    | Automatique                | `useCallback()`                           |
+| Method caching    | Automatique                | `useCallback()` (ou React Compiler)       |
 
 ---
 
@@ -100,6 +100,6 @@ Avant de passer au module suivant :
 
 ---
 
-> **Note** : Le contenu détaillé de ce module sera rédigé quand tu seras prêt à l'aborder.
+→ [Commencer avec useEffect](./01_useEffect.md)
 
 → Retour à la [vue d'ensemble](../../00_overview.md)
