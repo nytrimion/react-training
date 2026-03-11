@@ -7,6 +7,7 @@ La mémoisation en React permet d'éviter des recalculs ou des récréations de 
 > **Citation célèbre** : "Premature optimization is the root of all evil" – Donald Knuth
 
 Ce chapitre couvre :
+
 - `useMemo` : mémoriser une valeur calculée
 - `useCallback` : mémoriser une fonction
 - Quand les utiliser (et surtout quand NE PAS les utiliser)
@@ -29,13 +30,15 @@ La valeur n'est recalculée que si `a` ou `b` changent.
 function ProductList({ products, filter }: Props) {
   // Recalculé seulement si products ou filter changent
   const filteredProducts = useMemo(
-    () => products.filter(p => p.category === filter),
+    () => products.filter((p) => p.category === filter),
     [products, filter]
   )
 
   return (
     <ul>
-      {filteredProducts.map(p => <ProductItem key={p.id} product={p} />)}
+      {filteredProducts.map((p) => (
+        <ProductItem key={p.id} product={p} />
+      ))}
     </ul>
   )
 }
@@ -46,16 +49,14 @@ function ProductList({ products, filter }: Props) {
 ```vue
 <script setup>
 // Vue.js : computed()
-const filteredProducts = computed(() =>
-  products.value.filter(p => p.category === filter.value)
-)
+const filteredProducts = computed(() => products.value.filter((p) => p.category === filter.value))
 </script>
 ```
 
 ```tsx
 // React : useMemo()
 const filteredProducts = useMemo(
-  () => products.filter(p => p.category === filter),
+  () => products.filter((p) => p.category === filter),
   [products, filter]
 )
 ```
@@ -69,12 +70,9 @@ const filteredProducts = useMemo(
 ### Syntaxe
 
 ```tsx
-const memoizedCallback = useCallback(
-  () => {
-    doSomething(a, b)
-  },
-  [a, b]
-)
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b)
+}, [a, b])
 ```
 
 La fonction n'est recréée que si `a` ou `b` changent.
@@ -100,10 +98,7 @@ const handleClick = useMemo(() => () => console.log(id), [id])
 ```tsx
 function DataGrid({ rows }: { rows: Row[] }) {
   // Tri de milliers de lignes = coûteux
-  const sortedRows = useMemo(
-    () => [...rows].sort((a, b) => a.value - b.value),
-    [rows]
-  )
+  const sortedRows = useMemo(() => [...rows].sort((a, b) => a.value - b.value), [rows])
 }
 ```
 
@@ -116,12 +111,12 @@ function Parent() {
   // Sans useMemo, config serait un nouvel objet à chaque render
   const config = useMemo(
     () => ({ theme: 'dark', locale: 'fr' }),
-    []  // Jamais recréé
+    [] // Jamais recréé
   )
 
   useEffect(() => {
     initializeWithConfig(config)
-  }, [config])  // Ne se déclenche qu'une fois
+  }, [config]) // Ne se déclenche qu'une fois
 }
 ```
 
@@ -169,7 +164,7 @@ const message = `Hello ${name}`
 ```tsx
 // ❌ "Mémoisation défensive" inutile
 function Component({ items }: { items: Item[] }) {
-  const length = useMemo(() => items.length, [items])  // Ridicule
+  const length = useMemo(() => items.length, [items]) // Ridicule
 }
 ```
 
@@ -197,7 +192,7 @@ function Parent() {
 
   return (
     <>
-      <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
       <MemoizedChild onClick={handleClick} />
     </>
   )
@@ -215,7 +210,7 @@ function SearchComponent({ query }: { query: string }) {
 
   useEffect(() => {
     fetchResults().then(setResults)
-  }, [fetchResults])  // Ne se déclenche que si query change
+  }, [fetchResults]) // Ne se déclenche que si query change
 }
 ```
 
@@ -242,7 +237,7 @@ function Button() {
 // ❌ Child re-render quand même car il n'est pas memo()
 function Parent() {
   const handleClick = useCallback(() => {}, [])
-  return <Child onClick={handleClick} />  // Child pas mémoïsé
+  return <Child onClick={handleClick} /> // Child pas mémoïsé
 }
 ```
 
@@ -261,6 +256,7 @@ const value = useMemo(() => computeValue(a, b), [a, b])
 ```
 
 Avec `useMemo`, React doit :
+
 1. Stocker la valeur précédente
 2. Stocker les dépendances précédentes
 3. Comparer les dépendances à chaque render
@@ -291,7 +287,7 @@ import { memo } from 'react'
 const ExpensiveList = memo(function ExpensiveList({ items }: { items: Item[] }) {
   return (
     <ul>
-      {items.map(item => (
+      {items.map((item) => (
         <ExpensiveItem key={item.id} item={item} />
       ))}
     </ul>
@@ -322,10 +318,7 @@ Avec **React Compiler** (activé dans ce projet), beaucoup de mémoisation devie
 ```tsx
 // Sans React Compiler
 function TodoList({ todos, filter }) {
-  const visibleTodos = useMemo(
-    () => filterTodos(todos, filter),
-    [todos, filter]
-  )
+  const visibleTodos = useMemo(() => filterTodos(todos, filter), [todos, filter])
 
   const handleClick = useCallback(() => {
     console.log('clicked')
@@ -397,7 +390,7 @@ function Component({ name }: { name: string }) {
 // ❌ Bug : handleClick utilise une valeur stale de count
 const handleClick = useCallback(() => {
   console.log(count)
-}, [])  // count manque !
+}, []) // count manque !
 
 // ✅ Correct
 const handleClick = useCallback(() => {
@@ -423,15 +416,15 @@ function Child({ onClick }) {
 
 ## Comparaison Vue.js
 
-| Concept | Vue.js | React |
-|---------|--------|-------|
-| Valeur calculée | `computed()` | `useMemo()` |
-| Dépendances | Automatiques | Explicites |
-| Fonction stable | Automatique* | `useCallback()` |
-| Composant mémoïsé | Pas nécessaire** | `memo()` |
+| Concept           | Vue.js             | React           |
+| ----------------- | ------------------ | --------------- |
+| Valeur calculée   | `computed()`       | `useMemo()`     |
+| Dépendances       | Automatiques       | Explicites      |
+| Fonction stable   | Automatique\*      | `useCallback()` |
+| Composant mémoïsé | Pas nécessaire\*\* | `memo()`        |
 
 \* En Vue, les fonctions dans `<script setup>` sont stables par défaut.
-\** Vue a un système de réactivité fine-grained qui évite les re-renders inutiles.
+\*\* Vue a un système de réactivité fine-grained qui évite les re-renders inutiles.
 
 ---
 

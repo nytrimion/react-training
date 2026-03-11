@@ -5,6 +5,7 @@
 `useRef` est un hook qui permet de stocker une valeur **mutable** qui persiste entre les renders, **sans déclencher de re-render** quand elle change.
 
 Il a deux usages principaux :
+
 1. **Références DOM** : accéder directement aux éléments HTML
 2. **Valeurs mutables** : stocker des valeurs qui ne doivent pas déclencher de render
 
@@ -80,7 +81,7 @@ L'élément n'existe pas encore au moment où le composant s'exécute la premiè
 </template>
 
 <script setup>
-const inputRef = ref<HTMLInputElement | null>(null)
+const inputRef = (ref < HTMLInputElement) | (null > null)
 </script>
 ```
 
@@ -106,10 +107,10 @@ function Component() {
 
 ```tsx
 function Counter() {
-  let renderCount = 0  // ❌ Réinitialisé à chaque render
+  let renderCount = 0 // ❌ Réinitialisé à chaque render
   renderCount++
 
-  return <div>Renders: {renderCount}</div>  // Toujours 1
+  return <div>Renders: {renderCount}</div> // Toujours 1
 }
 ```
 
@@ -118,7 +119,7 @@ function Counter() {
 ```tsx
 function Counter() {
   const renderCount = useRef(0)
-  renderCount.current++  // Persiste entre les renders
+  renderCount.current++ // Persiste entre les renders
 
   return <div>Renders: {renderCount.current}</div>
 }
@@ -126,11 +127,11 @@ function Counter() {
 
 ### Différence avec useState
 
-| | `useState` | `useRef` |
-|---|---|---|
-| Déclenche un re-render | ✅ Oui | ❌ Non |
-| Valeur disponible immédiatement | ❌ Après le render | ✅ Immédiatement |
-| Idéal pour | UI, données affichées | Valeurs internes, références |
+|                                 | `useState`            | `useRef`                     |
+| ------------------------------- | --------------------- | ---------------------------- |
+| Déclenche un re-render          | ✅ Oui                | ❌ Non                       |
+| Valeur disponible immédiatement | ❌ Après le render    | ✅ Immédiatement             |
+| Idéal pour                      | UI, données affichées | Valeurs internes, références |
 
 ### Cas d'usage typiques
 
@@ -144,7 +145,7 @@ function usePrevious<T>(value: T): T | undefined {
     ref.current = value
   })
 
-  return ref.current  // Retourne la valeur AVANT la mise à jour
+  return ref.current // Retourne la valeur AVANT la mise à jour
 }
 
 // Usage
@@ -179,7 +180,7 @@ function Timer() {
   }
 
   useEffect(() => {
-    return () => stop()  // Cleanup au démontage
+    return () => stop() // Cleanup au démontage
   }, [])
 
   return (
@@ -200,7 +201,7 @@ function Component({ data }: { data: Data }) {
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
-      return  // Skip le premier render
+      return // Skip le premier render
     }
 
     // Exécuté seulement après le premier render
@@ -243,11 +244,9 @@ function MyInput({ ref }: { ref: Ref<HTMLInputElement> }) {
 ```tsx
 import { forwardRef } from 'react'
 
-const MyInput = forwardRef<HTMLInputElement, InputProps>(
-  function MyInput(props, ref) {
-    return <input {...props} ref={ref} />
-  }
-)
+const MyInput = forwardRef<HTMLInputElement, InputProps>(function MyInput(props, ref) {
+  return <input {...props} ref={ref} />
+})
 
 // Usage
 function Form() {
@@ -265,17 +264,12 @@ interface MyInputProps {
   className?: string
 }
 
-const MyInput = forwardRef<HTMLInputElement, MyInputProps>(
-  function MyInput({ placeholder, className }, ref) {
-    return (
-      <input
-        ref={ref}
-        placeholder={placeholder}
-        className={className}
-      />
-    )
-  }
-)
+const MyInput = forwardRef<HTMLInputElement, MyInputProps>(function MyInput(
+  { placeholder, className },
+  ref
+) {
+  return <input ref={ref} placeholder={placeholder} className={className} />
+})
 ```
 
 ---
@@ -297,27 +291,28 @@ interface VideoPlayerProps {
   src: string
 }
 
-const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(
-  function VideoPlayer({ src }, ref) {
-    const videoRef = useRef<HTMLVideoElement>(null)
+const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(function VideoPlayer(
+  { src },
+  ref
+) {
+  const videoRef = useRef<HTMLVideoElement>(null)
 
-    useImperativeHandle(ref, () => ({
-      play() {
-        videoRef.current?.play()
-      },
-      pause() {
-        videoRef.current?.pause()
-      },
-      seekTo(time: number) {
-        if (videoRef.current) {
-          videoRef.current.currentTime = time
-        }
+  useImperativeHandle(ref, () => ({
+    play() {
+      videoRef.current?.play()
+    },
+    pause() {
+      videoRef.current?.pause()
+    },
+    seekTo(time: number) {
+      if (videoRef.current) {
+        videoRef.current.currentTime = time
       }
-    }))
+    },
+  }))
 
-    return <video ref={videoRef} src={src} />
-  }
-)
+  return <video ref={videoRef} src={src} />
+})
 
 // Usage
 function App() {
@@ -396,7 +391,9 @@ function MessageList({ messages }: { messages: Message[] }) {
 
   return (
     <div>
-      {messages.map(msg => <Message key={msg.id} {...msg} />)}
+      {messages.map((msg) => (
+        <Message key={msg.id} {...msg} />
+      ))}
       <div ref={bottomRef} />
     </div>
   )
@@ -417,11 +414,11 @@ function SearchComponent() {
   const handleSubmit = useCallback(() => {
     // queryRef.current a toujours la valeur actuelle
     console.log('Searching for:', queryRef.current)
-  }, [])  // Pas besoin de query dans les deps
+  }, []) // Pas besoin de query dans les deps
 
   return (
     <>
-      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
       <button onClick={handleSubmit}>Search</button>
     </>
   )
@@ -456,9 +453,9 @@ Si tu as besoin que l'UI reflète la valeur, utilise `useState`.
 // ❌ Peut causer des comportements imprévisibles
 function Component() {
   const ref = useRef(0)
-  ref.current++  // Modifié pendant le render
+  ref.current++ // Modifié pendant le render
 
-  return <div>{ref.current}</div>  // Lu pendant le render
+  return <div>{ref.current}</div> // Lu pendant le render
 }
 ```
 
@@ -468,12 +465,12 @@ Modifie `ref.current` dans les effects ou event handlers, pas pendant le render.
 
 ## Comparaison Vue.js
 
-| Vue.js | React |
-|--------|-------|
+| Vue.js                                | React                            |
+| ------------------------------------- | -------------------------------- |
 | `ref<HTMLInputElement \| null>(null)` | `useRef<HTMLInputElement>(null)` |
-| Template ref (`:ref="inputRef"`) | Prop `ref={inputRef}` |
-| Accès : `inputRef.value` | Accès : `inputRef.current` |
-| Réactif automatiquement | Ne déclenche jamais de re-render |
+| Template ref (`:ref="inputRef"`)      | Prop `ref={inputRef}`            |
+| Accès : `inputRef.value`              | Accès : `inputRef.current`       |
+| Réactif automatiquement               | Ne déclenche jamais de re-render |
 
 ---
 

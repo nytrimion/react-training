@@ -36,7 +36,7 @@ Ces deux patterns permettent de gérer proprement l'asynchrone et les erreurs sa
 import { Suspense } from 'react'
 
 function UserProfile({ userId }: { userId: string }) {
-  const user = use(fetchUser(userId))  // Suspend jusqu'à résolution
+  const user = use(fetchUser(userId)) // Suspend jusqu'à résolution
   return <div>{user.name}</div>
 }
 
@@ -166,9 +166,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html>
       <body>
         <Navigation />
-        <Suspense fallback={<PageSkeleton />}>
-          {children}
-        </Suspense>
+        <Suspense fallback={<PageSkeleton />}>{children}</Suspense>
       </body>
     </html>
   )
@@ -185,7 +183,7 @@ Les erreurs JavaScript dans les composants React peuvent casser toute l'applicat
 
 ```tsx
 function BuggyComponent() {
-  throw new Error('Oops!')  // 💥 Crash de l'app entière
+  throw new Error('Oops!') // 💥 Crash de l'app entière
 }
 ```
 
@@ -266,7 +264,10 @@ pnpm add react-error-boundary
 ```tsx
 import { ErrorBoundary } from 'react-error-boundary'
 
-function ErrorFallback({ error, resetErrorBoundary }: {
+function ErrorFallback({
+  error,
+  resetErrorBoundary,
+}: {
   error: Error
   resetErrorBoundary: () => void
 }) {
@@ -296,7 +297,7 @@ function App() {
   onReset={() => {
     // Reset l'état de l'application
   }}
-  resetKeys={[userId]}  // Reset automatique si userId change
+  resetKeys={[userId]} // Reset automatique si userId change
 >
   <UserProfile userId={userId} />
 </ErrorBoundary>
@@ -314,7 +315,7 @@ function ComponentThatMayFail() {
     try {
       await riskyOperation()
     } catch (error) {
-      showBoundary(error)  // Déclenche l'Error Boundary parent
+      showBoundary(error) // Déclenche l'Error Boundary parent
     }
   }
 
@@ -357,7 +358,7 @@ function DataWithRetry({ query }: { query: string }) {
           <button onClick={resetErrorBoundary}>Retry</button>
         </div>
       )}
-      resetKeys={[query]}  // Reset si query change
+      resetKeys={[query]} // Reset si query change
     >
       <Suspense fallback={<Loading />}>
         <DataDisplay query={query} />
@@ -384,17 +385,17 @@ function BadExample() {
 
   useEffect(() => {
     fetch('/api/data')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setData)
   }, [])
 
-  if (!data) return <Loading />  // Gestion manuelle
+  if (!data) return <Loading /> // Gestion manuelle
   return <div>{data.name}</div>
 }
 
 // ✅ Suspend correctement
 function GoodExample() {
-  const data = use(fetchData())  // Ou avec une bibliothèque compatible
+  const data = use(fetchData()) // Ou avec une bibliothèque compatible
   return <div>{data.name}</div>
 }
 ```
@@ -464,12 +465,12 @@ export default function Error({
 
 ## Analogie Vue.js
 
-| Concept | Vue.js | React |
-|---------|--------|-------|
-| Suspense | `<Suspense>` | `<Suspense>` |
-| Fallback loading | `#fallback` slot | `fallback` prop |
-| Error handling | `onErrorCaptured` | Error Boundary |
-| Async component | `defineAsyncComponent` | `lazy()` + Suspense |
+| Concept          | Vue.js                 | React               |
+| ---------------- | ---------------------- | ------------------- |
+| Suspense         | `<Suspense>`           | `<Suspense>`        |
+| Fallback loading | `#fallback` slot       | `fallback` prop     |
+| Error handling   | `onErrorCaptured`      | Error Boundary      |
+| Async component  | `defineAsyncComponent` | `lazy()` + Suspense |
 
 ### Exemple Vue.js équivalent
 
@@ -515,14 +516,10 @@ const HeavyChart = lazy(() => import('./HeavyChart'))
 // Précharger au hover
 function ChartButton() {
   const handleMouseEnter = () => {
-    import('./HeavyChart')  // Commence à charger
+    import('./HeavyChart') // Commence à charger
   }
 
-  return (
-    <button onMouseEnter={handleMouseEnter}>
-      Show Chart
-    </button>
-  )
+  return <button onMouseEnter={handleMouseEnter}>Show Chart</button>
 }
 ```
 

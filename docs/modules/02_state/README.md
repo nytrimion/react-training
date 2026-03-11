@@ -20,15 +20,15 @@
 
 ## Structure du module
 
-| Section                                                    | Contenu                                               | Durée  |
-| ---------------------------------------------------------- | ----------------------------------------------------- | ------ |
-| [1. useState](./01_useState.md)                            | Fondamentaux, lazy init, functional updates, batching | ~1.5h  |
-| [2. Événements](./02_events.md)                            | SyntheticEvent, types TS, event delegation            | ~1h    |
-| [3. Formulaires](./03_forms.md)                            | Controlled vs uncontrolled, validation                | ~1.5h  |
-| [4. State architecture](./04_state_architecture.md)        | Lifting state up, colocation, derived state           | ~1h    |
-| [5. useReducer](./05_useReducer.md)                        | Reducer pattern, actions typées, CQRS-like            | ~1.5h  |
-| [6. Testing](./06_testing.md)                              | Tester les interactions, userEvent avancé             | ~1h    |
-| [Exercices](./exercises.md)                                | Exercices pratiques progressifs                       | ~3-4h  |
+| Section                                             | Contenu                                               | Durée |
+| --------------------------------------------------- | ----------------------------------------------------- | ----- |
+| [1. useState](./01_useState.md)                     | Fondamentaux, lazy init, functional updates, batching | ~1.5h |
+| [2. Événements](./02_events.md)                     | SyntheticEvent, types TS, event delegation            | ~1h   |
+| [3. Formulaires](./03_forms.md)                     | Controlled vs uncontrolled, validation                | ~1.5h |
+| [4. State architecture](./04_state_architecture.md) | Lifting state up, colocation, derived state           | ~1h   |
+| [5. useReducer](./05_useReducer.md)                 | Reducer pattern, actions typées, CQRS-like            | ~1.5h |
+| [6. Testing](./06_testing.md)                       | Tester les interactions, userEvent avancé             | ~1h   |
+| [Exercices](./exercises.md)                         | Exercices pratiques progressifs                       | ~3-4h |
 
 ---
 

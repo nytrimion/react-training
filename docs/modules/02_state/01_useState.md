@@ -22,11 +22,7 @@ const [state, setState] = useState<T>(initialValue)
 function Counter() {
   const [count, setCount] = useState(0)
 
-  return (
-    <button onClick={() => setCount(count + 1)}>
-      Clicked {count} times
-    </button>
-  )
+  return <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
 }
 ```
 
@@ -82,7 +78,7 @@ setUser(user)
 setUser({ ...user, age: 31 })
 
 // Ou avec une fonction
-setUser(prev => ({ ...prev, age: prev.age + 1 }))
+setUser((prev) => ({ ...prev, age: prev.age + 1 }))
 ```
 
 ### Arrays : les opérations courantes
@@ -91,20 +87,18 @@ setUser(prev => ({ ...prev, age: prev.age + 1 }))
 const [items, setItems] = useState<string[]>([])
 
 // Ajouter un élément
-setItems([...items, newItem])           // à la fin
-setItems([newItem, ...items])           // au début
+setItems([...items, newItem]) // à la fin
+setItems([newItem, ...items]) // au début
 
 // Supprimer un élément
-setItems(items.filter(item => item !== toRemove))
+setItems(items.filter((item) => item !== toRemove))
 setItems(items.filter((_, index) => index !== indexToRemove))
 
 // Modifier un élément
-setItems(items.map(item =>
-  item.id === targetId ? { ...item, updated: true } : item
-))
+setItems(items.map((item) => (item.id === targetId ? { ...item, updated: true } : item)))
 
 // Trier (ATTENTION : sort() mute !)
-setItems([...items].sort())             // copier avant de trier
+setItems([...items].sort()) // copier avant de trier
 ```
 
 ---
@@ -157,9 +151,9 @@ function Counter() {
 
   const handleClick = () => {
     // Ces 3 appels utilisent la MÊME valeur de count (0)
-    setCount(count + 1)  // 0 + 1 = 1
-    setCount(count + 1)  // 0 + 1 = 1
-    setCount(count + 1)  // 0 + 1 = 1
+    setCount(count + 1) // 0 + 1 = 1
+    setCount(count + 1) // 0 + 1 = 1
+    setCount(count + 1) // 0 + 1 = 1
     // Résultat final : 1 (pas 3 !)
   }
 }
@@ -170,9 +164,9 @@ function Counter() {
 ```tsx
 const handleClick = () => {
   // Chaque appel reçoit la valeur la plus récente
-  setCount(prev => prev + 1)  // 0 → 1
-  setCount(prev => prev + 1)  // 1 → 2
-  setCount(prev => prev + 1)  // 2 → 3
+  setCount((prev) => prev + 1) // 0 → 1
+  setCount((prev) => prev + 1) // 1 → 2
+  setCount((prev) => prev + 1) // 2 → 3
   // Résultat final : 3
 }
 ```
@@ -183,9 +177,9 @@ const handleClick = () => {
 
 ```tsx
 // ✅ Dépend de l'ancien état
-setCount(prev => prev + 1)
-setItems(prev => [...prev, newItem])
-setUser(prev => ({ ...prev, age: prev.age + 1 }))
+setCount((prev) => prev + 1)
+setItems((prev) => [...prev, newItem])
+setUser((prev) => ({ ...prev, age: prev.age + 1 }))
 
 // ✅ Valeur indépendante de l'ancien état
 setCount(0)
@@ -201,9 +195,9 @@ React 18 regroupe automatiquement plusieurs `setState` en un seul re-render :
 
 ```tsx
 function handleClick() {
-  setCount(c => c + 1)    // Ne déclenche pas de render
-  setFlag(f => !f)        // Ne déclenche pas de render
-  setName('Alice')        // Ne déclenche pas de render
+  setCount((c) => c + 1) // Ne déclenche pas de render
+  setFlag((f) => !f) // Ne déclenche pas de render
+  setName('Alice') // Ne déclenche pas de render
   // Un SEUL render à la fin
 }
 ```
@@ -237,12 +231,12 @@ import { flushSync } from 'react-dom'
 
 function handleClick() {
   flushSync(() => {
-    setCount(c => c + 1)
+    setCount((c) => c + 1)
   })
   // Le DOM est mis à jour ICI
 
   flushSync(() => {
-    setFlag(f => !f)
+    setFlag((f) => !f)
   })
   // Le DOM est mis à jour ICI
 }
@@ -254,13 +248,13 @@ function handleClick() {
 
 ## Analogie Vue.js
 
-| Vue.js | React | Notes |
-|--------|-------|-------|
-| `const count = ref(0)` | `const [count, setCount] = useState(0)` | |
-| `count.value++` | `setCount(c => c + 1)` | Pas de `.value` en React |
-| `count.value = 5` | `setCount(5)` | |
-| Réactivité automatique | Re-render explicite | Philosophie différente |
-| `watch()` | `useEffect()` (Module 3) | |
+| Vue.js                 | React                                   | Notes                    |
+| ---------------------- | --------------------------------------- | ------------------------ |
+| `const count = ref(0)` | `const [count, setCount] = useState(0)` |                          |
+| `count.value++`        | `setCount(c => c + 1)`                  | Pas de `.value` en React |
+| `count.value = 5`      | `setCount(5)`                           |                          |
+| Réactivité automatique | Re-render explicite                     | Philosophie différente   |
+| `watch()`              | `useEffect()` (Module 3)                |                          |
 
 ### Différence fondamentale
 
@@ -268,7 +262,7 @@ function handleClick() {
 <!-- Vue : mutation directe -->
 <script setup>
 const user = reactive({ name: 'Alice', age: 30 })
-user.age++  // Fonctionne, Vue détecte la mutation
+user.age++ // Fonctionne, Vue détecte la mutation
 </script>
 ```
 
@@ -276,7 +270,7 @@ user.age++  // Fonctionne, Vue détecte la mutation
 // React : immutabilité obligatoire
 const [user, setUser] = useState({ name: 'Alice', age: 30 })
 // user.age++  // ❌ Ne déclenche pas de re-render
-setUser(prev => ({ ...prev, age: prev.age + 1 }))  // ✅
+setUser((prev) => ({ ...prev, age: prev.age + 1 })) // ✅
 ```
 
 ---
@@ -293,12 +287,12 @@ const [count, setCount] = useState(0)
 // À chaque ajout, il faut maintenir les deux en sync
 const addItem = (item: Item) => {
   setItems([...items, item])
-  setCount(count + 1)  // Facile d'oublier !
+  setCount(count + 1) // Facile d'oublier !
 }
 
 // ✅ Bon : état dérivé calculé
 const [items, setItems] = useState<Item[]>([])
-const count = items.length  // Toujours synchronisé
+const count = items.length // Toujours synchronisé
 ```
 
 ### 2. État dans le mauvais composant
@@ -306,13 +300,13 @@ const count = items.length  // Toujours synchronisé
 ```tsx
 // ❌ Mauvais : état trop haut
 function App() {
-  const [inputValue, setInputValue] = useState('')  // Utilisé que dans SearchBar
+  const [inputValue, setInputValue] = useState('') // Utilisé que dans SearchBar
   return <SearchBar value={inputValue} onChange={setInputValue} />
 }
 
 // ✅ Bon : état colocalisé
 function App() {
-  return <SearchBar />  // L'état est DANS SearchBar
+  return <SearchBar /> // L'état est DANS SearchBar
 }
 
 function SearchBar() {
@@ -331,7 +325,7 @@ const handleIncrement = () => setCount(count + 1)
 // car count a toujours la même valeur dans la closure
 
 // ✅ Toujours fiable
-const handleIncrement = () => setCount(prev => prev + 1)
+const handleIncrement = () => setCount((prev) => prev + 1)
 ```
 
 ---

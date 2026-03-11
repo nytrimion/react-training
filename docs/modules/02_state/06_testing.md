@@ -11,6 +11,7 @@ Le Module 1 a couvert les bases de Testing Library. Ce module approfondit les te
 > "The more your tests resemble the way your software is used, the more confidence they can give you."
 
 On teste le **comportement**, pas l'implémentation :
+
 - ✅ "Quand je clique sur le bouton, le compteur affiche 1"
 - ❌ "Quand je clique, setState est appelé avec 1"
 
@@ -23,7 +24,7 @@ On teste le **comportement**, pas l'implémentation :
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react'
 
-fireEvent.click(button)        // Déclenche un click synchrone
+fireEvent.click(button) // Déclenche un click synchrone
 fireEvent.change(input, { target: { value: 'text' } })
 ```
 
@@ -35,19 +36,19 @@ import userEvent from '@testing-library/user-event'
 
 const user = userEvent.setup()
 
-await user.click(button)       // Simule un vrai click utilisateur
+await user.click(button) // Simule un vrai click utilisateur
 await user.type(input, 'text') // Simule une frappe caractère par caractère
 ```
 
 ### Différences clés
 
-| Aspect | fireEvent | userEvent |
-|--------|-----------|-----------|
-| Réalisme | Bas | Haut |
-| Événements déclenchés | Un seul | Tous (focus, keydown, keyup, etc.) |
-| Asynchrone | Non | Oui (await requis) |
-| Focus automatique | Non | Oui |
-| Recommandé | Non | Oui |
+| Aspect                | fireEvent | userEvent                          |
+| --------------------- | --------- | ---------------------------------- |
+| Réalisme              | Bas       | Haut                               |
+| Événements déclenchés | Un seul   | Tous (focus, keydown, keyup, etc.) |
+| Asynchrone            | Non       | Oui (await requis)                 |
+| Focus automatique     | Non       | Oui                                |
+| Recommandé            | Non       | Oui                                |
 
 ### Exemple concret
 
@@ -90,7 +91,7 @@ describe('Counter', () => {
 function setup(jsx: React.ReactElement) {
   return {
     user: userEvent.setup(),
-    ...render(jsx)
+    ...render(jsx),
   }
 }
 
@@ -136,13 +137,13 @@ await user.clear(input)
 await user.type(input, 'New value')
 
 // Sélectionner tout et remplacer
-await user.tripleClick(input)  // Sélectionne tout le texte
+await user.tripleClick(input) // Sélectionne tout le texte
 await user.type(input, 'Replaced')
 
 // Touches spéciales
-await user.type(input, 'text{Enter}')         // Enter
-await user.type(input, '{Backspace}{Backspace}')  // Supprimer 2 caractères
-await user.type(input, '{Shift>}abc{/Shift}')     // ABC (avec Shift)
+await user.type(input, 'text{Enter}') // Enter
+await user.type(input, '{Backspace}{Backspace}') // Supprimer 2 caractères
+await user.type(input, '{Shift>}abc{/Shift}') // ABC (avec Shift)
 ```
 
 ### Sélection
@@ -150,10 +151,10 @@ await user.type(input, '{Shift>}abc{/Shift}')     // ABC (avec Shift)
 ```tsx
 // Select
 await user.selectOptions(select, 'option-value')
-await user.selectOptions(select, ['value1', 'value2'])  // Multiple
+await user.selectOptions(select, ['value1', 'value2']) // Multiple
 
 // Checkbox / Radio
-await user.click(checkbox)  // Toggle
+await user.click(checkbox) // Toggle
 ```
 
 ### Clavier
@@ -164,8 +165,8 @@ await user.keyboard('{Enter}')
 await user.keyboard('{Escape}')
 
 // Combinaisons
-await user.keyboard('{Control>}a{/Control}')  // Ctrl+A
-await user.keyboard('{Shift>}{Tab}{/Shift}')  // Shift+Tab
+await user.keyboard('{Control>}a{/Control}') // Ctrl+A
+await user.keyboard('{Shift>}{Tab}{/Shift}') // Shift+Tab
 ```
 
 ### Focus et Tab
@@ -173,7 +174,7 @@ await user.keyboard('{Shift>}{Tab}{/Shift}')  // Shift+Tab
 ```tsx
 // Tab pour naviguer
 await user.tab()
-await user.tab({ shift: true })  // Shift+Tab
+await user.tab({ shift: true }) // Shift+Tab
 
 // Focus explicite (rare, préférer tab)
 input.focus()
@@ -186,7 +187,11 @@ input.focus()
 ### Exemple complet
 
 ```tsx
-function LoginForm({ onSubmit }: { onSubmit: (data: { email: string; password: string }) => void }) {
+function LoginForm({
+  onSubmit,
+}: {
+  onSubmit: (data: { email: string; password: string }) => void
+}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -199,19 +204,11 @@ function LoginForm({ onSubmit }: { onSubmit: (data: { email: string; password: s
     <form onSubmit={handleSubmit}>
       <label>
         Email
-        <input
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </label>
       <label>
         Password
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
       <button type="submit">Login</button>
     </form>
@@ -236,7 +233,7 @@ describe('LoginForm', () => {
     // Vérifier
     expect(handleSubmit).toHaveBeenCalledWith({
       email: 'test@example.com',
-      password: 'secret123'
+      password: 'secret123',
     })
   })
 
@@ -264,17 +261,19 @@ function TodoApp() {
 
   return (
     <div>
-      <form onSubmit={e => {
-        e.preventDefault()
-        const input = e.currentTarget.elements.namedItem('todo') as HTMLInputElement
-        dispatch({ type: 'ADD_TODO', payload: input.value })
-        input.value = ''
-      }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          const input = e.currentTarget.elements.namedItem('todo') as HTMLInputElement
+          dispatch({ type: 'ADD_TODO', payload: input.value })
+          input.value = ''
+        }}
+      >
         <input name="todo" placeholder="Add todo" />
         <button type="submit">Add</button>
       </form>
       <ul>
-        {state.todos.map(todo => (
+        {state.todos.map((todo) => (
           <li key={todo.id}>
             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
               {todo.text}
@@ -351,13 +350,13 @@ describe('todoReducer', () => {
     expect(newState.todos).toHaveLength(1)
     expect(newState.todos[0]).toMatchObject({
       text: 'Test',
-      completed: false
+      completed: false,
     })
   })
 
   it('should toggle a todo', () => {
     const stateWithTodo: State = {
-      todos: [{ id: '1', text: 'Test', completed: false }]
+      todos: [{ id: '1', text: 'Test', completed: false }],
     }
     const action: Action = { type: 'TOGGLE_TODO', payload: '1' }
 
@@ -372,7 +371,7 @@ describe('todoReducer', () => {
     const newState = todoReducer(initialState, action)
 
     expect(newState).not.toBe(initialState)
-    expect(initialState.todos).toHaveLength(0)  // Non muté
+    expect(initialState.todos).toHaveLength(0) // Non muté
   })
 })
 ```
@@ -473,7 +472,7 @@ describe.each([
     if (input) {
       await user.type(screen.getByRole('textbox'), input)
     }
-    await user.tab()  // Blur pour déclencher la validation
+    await user.tab() // Blur pour déclencher la validation
 
     expect(screen.getByText(error)).toBeInTheDocument()
   })

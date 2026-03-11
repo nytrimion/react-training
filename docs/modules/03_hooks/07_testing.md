@@ -20,7 +20,7 @@ function UserProfile({ userId }: { userId: string }) {
 
   useEffect(() => {
     fetch(`/api/users/${userId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setUser)
   }, [userId])
 
@@ -37,7 +37,7 @@ test('displays user name', () => {
   render(<UserProfile userId="1" />)
 
   // L'assertion s'exécute AVANT que le fetch soit terminé
-  expect(screen.getByText('Alice')).toBeInTheDocument()  // Échec !
+  expect(screen.getByText('Alice')).toBeInTheDocument() // Échec !
 })
 ```
 
@@ -63,23 +63,20 @@ test('displays user name', async () => {
 ### Options de waitFor
 
 ```tsx
-await waitFor(
-  () => expect(element).toBeVisible(),
-  {
-    timeout: 3000,     // Temps max (default: 1000ms)
-    interval: 100,     // Intervalle entre les tentatives (default: 50ms)
-    onTimeout: (error) => {
-      // Callback personnalisé en cas de timeout
-      console.log(error)
-      return error
-    }
-  }
-)
+await waitFor(() => expect(element).toBeVisible(), {
+  timeout: 3000, // Temps max (default: 1000ms)
+  interval: 100, // Intervalle entre les tentatives (default: 50ms)
+  onTimeout: (error) => {
+    // Callback personnalisé en cas de timeout
+    console.log(error)
+    return error
+  },
+})
 ```
 
 ---
 
-## findBy* : waitFor intégré
+## findBy\* : waitFor intégré
 
 Les queries `findBy*` combinent `getBy*` avec `waitFor` :
 
@@ -95,11 +92,11 @@ test('displays user name', async () => {
 
 ### Comparaison des queries
 
-| Query | Async ? | Retour si absent | Usage |
-|-------|---------|------------------|-------|
-| `getBy*` | Non | Erreur | Élément présent immédiatement |
-| `queryBy*` | Non | `null` | Vérifier l'absence |
-| `findBy*` | **Oui** | Erreur (après timeout) | Élément qui apparaît après un async |
+| Query      | Async ? | Retour si absent       | Usage                               |
+| ---------- | ------- | ---------------------- | ----------------------------------- |
+| `getBy*`   | Non     | Erreur                 | Élément présent immédiatement       |
+| `queryBy*` | Non     | `null`                 | Vérifier l'absence                  |
+| `findBy*`  | **Oui** | Erreur (après timeout) | Élément qui apparaît après un async |
 
 ```tsx
 // ✅ Bon pattern pour les composants async
@@ -139,16 +136,17 @@ beforeEach(() => {
 function mockFetch(data: unknown, options: { delay?: number; status?: number } = {}) {
   const { delay = 0, status = 200 } = options
 
-  return jest.fn().mockImplementation(() =>
-    new Promise((resolve) =>
-      setTimeout(() => {
-        resolve({
-          ok: status >= 200 && status < 300,
-          status,
-          json: () => Promise.resolve(data),
-        })
-      }, delay)
-    )
+  return jest.fn().mockImplementation(
+    () =>
+      new Promise((resolve) =>
+        setTimeout(() => {
+          resolve({
+            ok: status >= 200 && status < 300,
+            status,
+            json: () => Promise.resolve(data),
+          })
+        }, delay)
+      )
   )
 }
 
@@ -222,6 +220,7 @@ test('updates state', async () => {
 ### Quand act() est-il automatique ?
 
 Testing Library wrappe automatiquement `act()` dans :
+
 - `render()`
 - `userEvent.*` (toutes les actions)
 - `waitFor()`
@@ -336,7 +335,7 @@ function Debounced({ onSearch }: { onSearch: (q: string) => void }) {
     return () => clearTimeout(timer)
   }, [query, onSearch])
 
-  return <input value={query} onChange={e => setQuery(e.target.value)} />
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} />
 }
 
 test('debounces search', async () => {
@@ -381,8 +380,8 @@ import { renderHook, act } from '@testing-library/react'
 
 function useCounter(initialValue = 0) {
   const [count, setCount] = useState(initialValue)
-  const increment = () => setCount(c => c + 1)
-  const decrement = () => setCount(c => c - 1)
+  const increment = () => setCount((c) => c + 1)
+  const decrement = () => setCount((c) => c - 1)
   return { count, increment, decrement }
 }
 
@@ -428,8 +427,8 @@ function useFetch<T>(url: string) {
 
   useEffect(() => {
     fetch(url)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setData(data)
         setLoading(false)
       })
@@ -465,14 +464,11 @@ test('handles race condition correctly', async () => {
   // Premier fetch lent
   global.fetch = jest
     .fn()
-    .mockImplementationOnce(() =>
-      new Promise(resolve =>
-        setTimeout(() => resolve({ json: () => ({ name: 'Slow' }) }), 100)
-      )
+    .mockImplementationOnce(
+      () =>
+        new Promise((resolve) => setTimeout(() => resolve({ json: () => ({ name: 'Slow' }) }), 100))
     )
-    .mockImplementationOnce(() =>
-      Promise.resolve({ json: () => ({ name: 'Fast' }) })
-    )
+    .mockImplementationOnce(() => Promise.resolve({ json: () => ({ name: 'Fast' }) }))
 
   const { rerender } = render(<UserProfile userId="1" />)
 

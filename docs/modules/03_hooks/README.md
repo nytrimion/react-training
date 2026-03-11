@@ -21,16 +21,16 @@
 
 ## Structure du module
 
-| Section                                        | Contenu                                           | Durée  |
-| ---------------------------------------------- | ------------------------------------------------- | ------ |
-| [1. useEffect](./01_useEffect.md)              | Lifecycle, cleanup, dépendances, pièges courants  | ~1.5h  |
-| [2. useRef](./02_useRef.md)                    | Références DOM, valeurs mutables, forwarding refs | ~1h    |
-| [3. Mémoisation](./03_memoization.md)          | useMemo, useCallback, quand optimiser             | ~1.5h  |
-| [4. React 19](./04_react19.md)                 | use(), Actions, useTransition, useOptimistic      | ~1.5h  |
-| [5. Suspense & Errors](./05_suspense.md)       | Suspense, Error Boundaries, fallbacks             | ~1h    |
-| [6. React Compiler](./06_compiler.md)          | Fonctionnement, ce qu'il optimise, configuration  | ~1h    |
-| [7. Testing async](./07_testing.md)            | Mocking, act(), waitFor, async patterns           | ~1.5h  |
-| [Exercices](./exercises.md)                    | Exercices pratiques progressifs                   | ~4-5h  |
+| Section                                  | Contenu                                           | Durée |
+| ---------------------------------------- | ------------------------------------------------- | ----- |
+| [1. useEffect](./01_useEffect.md)        | Lifecycle, cleanup, dépendances, pièges courants  | ~1.5h |
+| [2. useRef](./02_useRef.md)              | Références DOM, valeurs mutables, forwarding refs | ~1h   |
+| [3. Mémoisation](./03_memoization.md)    | useMemo, useCallback, quand optimiser             | ~1.5h |
+| [4. React 19](./04_react19.md)           | use(), Actions, useTransition, useOptimistic      | ~1.5h |
+| [5. Suspense & Errors](./05_suspense.md) | Suspense, Error Boundaries, fallbacks             | ~1h   |
+| [6. React Compiler](./06_compiler.md)    | Fonctionnement, ce qu'il optimise, configuration  | ~1h   |
+| [7. Testing async](./07_testing.md)      | Mocking, act(), waitFor, async patterns           | ~1.5h |
+| [Exercices](./exercises.md)              | Exercices pratiques progressifs                   | ~4-5h |
 
 ---
 

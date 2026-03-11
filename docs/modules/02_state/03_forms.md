@@ -3,6 +3,7 @@
 ## Introduction
 
 Les formulaires en React peuvent être gérés de deux manières fondamentalement différentes :
+
 - **Controlled** (contrôlé) : React est la source de vérité
 - **Uncontrolled** (non-contrôlé) : Le DOM garde la valeur
 
@@ -23,8 +24,8 @@ function ControlledInput() {
   return (
     <input
       type="text"
-      value={value}                              // React contrôle la valeur
-      onChange={e => setValue(e.target.value)}   // Chaque frappe met à jour le state
+      value={value} // React contrôle la valeur
+      onChange={(e) => setValue(e.target.value)} // Chaque frappe met à jour le state
     />
   )
 }
@@ -55,16 +56,16 @@ interface LoginForm {
 function LoginForm() {
   const [form, setForm] = useState<LoginForm>({
     email: '',
-    password: ''
+    password: '',
   })
   const [errors, setErrors] = useState<Partial<LoginForm>>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setForm(prev => ({ ...prev, [name]: value }))
+    setForm((prev) => ({ ...prev, [name]: value }))
     // Effacer l'erreur quand l'utilisateur corrige
     if (errors[name as keyof LoginForm]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }))
+      setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
   }
 
@@ -156,11 +157,11 @@ const [selected, setSelected] = useState('')
 const [selected, setSelected] = useState<string[]>([])
 
 const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const values = Array.from(e.target.selectedOptions, option => option.value)
+  const values = Array.from(e.target.selectedOptions, (option) => option.value)
   setSelected(values)
 }
 
-<select multiple value={selected} onChange={handleChange}>
+;<select multiple value={selected} onChange={handleChange}>
   <option value="a">A</option>
   <option value="b">B</option>
   <option value="c">C</option>
@@ -185,24 +186,22 @@ const [selected, setSelected] = useState<string[]>([])
 
 const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { value, checked } = e.target
-  setSelected(prev =>
-    checked
-      ? [...prev, value]
-      : prev.filter(v => v !== value)
-  )
+  setSelected((prev) => (checked ? [...prev, value] : prev.filter((v) => v !== value)))
 }
 
-{['a', 'b', 'c'].map(option => (
-  <label key={option}>
-    <input
-      type="checkbox"
-      value={option}
-      checked={selected.includes(option)}
-      onChange={handleChange}
-    />
-    {option.toUpperCase()}
-  </label>
-))}
+{
+  ;['a', 'b', 'c'].map((option) => (
+    <label key={option}>
+      <input
+        type="checkbox"
+        value={option}
+        checked={selected.includes(option)}
+        onChange={handleChange}
+      />
+      {option.toUpperCase()}
+    </label>
+  ))
+}
 ```
 
 ### Radio
@@ -210,18 +209,20 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 ```tsx
 const [selected, setSelected] = useState('')
 
-{['a', 'b', 'c'].map(option => (
-  <label key={option}>
-    <input
-      type="radio"
-      name="myRadio"
-      value={option}
-      checked={selected === option}
-      onChange={e => setSelected(e.target.value)}
-    />
-    {option.toUpperCase()}
-  </label>
-))}
+{
+  ;['a', 'b', 'c'].map((option) => (
+    <label key={option}>
+      <input
+        type="radio"
+        name="myRadio"
+        value={option}
+        checked={selected === option}
+        onChange={(e) => setSelected(e.target.value)}
+      />
+      {option.toUpperCase()}
+    </label>
+  ))
+}
 ```
 
 ### Input number
@@ -267,13 +268,13 @@ function UncontrolledInput() {
 
 ### Différences clés
 
-| Aspect | Controlled | Uncontrolled |
-|--------|------------|--------------|
-| Source de vérité | React state | DOM |
-| Prop valeur | `value` | `defaultValue` |
-| Mise à jour | À chaque frappe | Seulement au submit |
-| Validation live | ✅ Facile | ❌ Complexe |
-| Performance | Re-renders fréquents | Pas de re-render |
+| Aspect           | Controlled           | Uncontrolled        |
+| ---------------- | -------------------- | ------------------- |
+| Source de vérité | React state          | DOM                 |
+| Prop valeur      | `value`              | `defaultValue`      |
+| Mise à jour      | À chaque frappe      | Seulement au submit |
+| Validation live  | ✅ Facile            | ❌ Complexe         |
+| Performance      | Re-renders fréquents | Pas de re-render    |
 
 ---
 
@@ -383,12 +384,12 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 ## Comparaison avec Vue.js
 
-| Concept | Vue.js | React |
-|---------|--------|-------|
-| Two-way binding | `v-model` | `value` + `onChange` |
-| Valeur initiale | `v-model="ref('')"` | `useState('')` |
-| Non-contrôlé | Pas idiomatique | `defaultValue` + `ref` |
-| Validation | Vee-Validate, Vuelidate | Manuel ou React Hook Form |
+| Concept         | Vue.js                  | React                     |
+| --------------- | ----------------------- | ------------------------- |
+| Two-way binding | `v-model`               | `value` + `onChange`      |
+| Valeur initiale | `v-model="ref('')"`     | `useState('')`            |
+| Non-contrôlé    | Pas idiomatique         | `defaultValue` + `ref`    |
+| Validation      | Vee-Validate, Vuelidate | Manuel ou React Hook Form |
 
 ### v-model vs controlled
 
@@ -422,13 +423,13 @@ function Form() {
   const [form, setForm] = useState<FormData>({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
   })
 
   // Un seul handler pour tous les inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setForm(prev => ({ ...prev, [name]: value }))
+    setForm((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
