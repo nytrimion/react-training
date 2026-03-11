@@ -52,6 +52,7 @@ useEffect(() => {
 ```
 
 **Analogie Vue.js** :
+
 ```vue
 <script setup>
 onMounted(() => console.log('Composant monté'))
@@ -69,11 +70,16 @@ useEffect(() => {
 ```
 
 **Analogie Vue.js** :
+
 ```vue
 <script setup>
-watch(user, (newUser) => {
-  console.log(`L'utilisateur a changé : ${newUser.name}`)
-}, { immediate: true })  // immediate = comme useEffect
+watch(
+  user,
+  (newUser) => {
+    console.log(`L'utilisateur a changé : ${newUser.name}`)
+  },
+  { immediate: true }
+) // immediate = comme useEffect
 </script>
 ```
 
@@ -82,6 +88,7 @@ watch(user, (newUser) => {
 ## Le cleanup : pourquoi c'est crucial
 
 Le cleanup est appelé :
+
 1. **Avant** chaque ré-exécution de l'effect
 2. **Au démontage** du composant
 
@@ -94,13 +101,14 @@ function ChatRoom({ roomId }: { roomId: string }) {
     connection.connect()
 
     return () => {
-      connection.disconnect()  // Cleanup !
+      connection.disconnect() // Cleanup !
     }
   }, [roomId])
 }
 ```
 
 **Séquence d'événements** :
+
 1. Mount avec `roomId = "general"` → connect to "general"
 2. `roomId` change à `"random"` → **disconnect from "general"**, puis connect to "random"
 3. Unmount → disconnect from "random"
@@ -113,10 +121,10 @@ function Timer() {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCount(c => c + 1)
+      setCount((c) => c + 1)
     }, 1000)
 
-    return () => clearInterval(intervalId)  // CRUCIAL !
+    return () => clearInterval(intervalId) // CRUCIAL !
   }, [])
 }
 ```
@@ -135,7 +143,7 @@ Sans cleanup, le timer continuerait même après le démontage → fuite mémoir
 useEffect(() => {
   // userId est utilisé → doit être dans les deps
   fetchUser(userId).then(setUser)
-}, [userId])  // ✅
+}, [userId]) // ✅
 ```
 
 ### ESLint exhaustive-deps
@@ -156,23 +164,23 @@ useEffect(() => {
 
 ### Que mettre dans les dépendances ?
 
-| Mettre | Ne pas mettre |
-|--------|---------------|
-| Props | Fonctions stables (setState, dispatch) |
-| State | Refs (useRef) |
-| Valeurs dérivées de props/state | Constantes hors du composant |
-| Fonctions définies dans le composant | |
+| Mettre                               | Ne pas mettre                          |
+| ------------------------------------ | -------------------------------------- |
+| Props                                | Fonctions stables (setState, dispatch) |
+| State                                | Refs (useRef)                          |
+| Valeurs dérivées de props/state      | Constantes hors du composant           |
+| Fonctions définies dans le composant |                                        |
 
 ```tsx
 function Component({ userId }: { userId: string }) {
   const [data, setData] = useState(null)
-  const API_URL = 'https://api.example.com'  // Constante → pas besoin
+  const API_URL = 'https://api.example.com' // Constante → pas besoin
 
   useEffect(() => {
     fetch(`${API_URL}/users/${userId}`)
-      .then(res => res.json())
-      .then(setData)  // setData est stable → pas besoin
-  }, [userId])  // Seul userId est nécessaire
+      .then((res) => res.json())
+      .then(setData) // setData est stable → pas besoin
+  }, [userId]) // Seul userId est nécessaire
 }
 ```
 
@@ -190,6 +198,7 @@ useEffect(() => {
 ```
 
 **Scénario problématique** :
+
 1. userId = 1 → fetch commence
 2. userId = 2 → nouveau fetch commence
 3. Réponse pour userId=2 arrive (rapide)
@@ -201,14 +210,14 @@ useEffect(() => {
 useEffect(() => {
   let ignore = false
 
-  fetchUser(userId).then(user => {
+  fetchUser(userId).then((user) => {
     if (!ignore) {
       setUser(user)
     }
   })
 
   return () => {
-    ignore = true  // Ignore les réponses après cleanup
+    ignore = true // Ignore les réponses après cleanup
   }
 }, [userId])
 ```
@@ -220,11 +229,11 @@ useEffect(() => {
   const controller = new AbortController()
 
   fetch(`/api/users/${userId}`, {
-    signal: controller.signal
+    signal: controller.signal,
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(setUser)
-    .catch(err => {
+    .catch((err) => {
       if (err.name !== 'AbortError') {
         setError(err)
       }
@@ -259,7 +268,7 @@ function useWindowSize() {
       setSize({ width: window.innerWidth, height: window.innerHeight })
     }
 
-    handleResize()  // Valeur initiale
+    handleResize() // Valeur initiale
     window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize)
@@ -312,13 +321,13 @@ function Profile({ userId }: { userId: string }) {
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    setUser(getUserById(userId))  // ❌ Effect pour calculer
+    setUser(getUserById(userId)) // ❌ Effect pour calculer
   }, [userId])
 }
 
 // ✅ Bon : calcul direct
 function Profile({ userId }: { userId: string }) {
-  const user = getUserById(userId)  // Calculé à chaque render
+  const user = getUserById(userId) // Calculé à chaque render
 }
 ```
 
@@ -352,10 +361,7 @@ function List({ items }: { items: Item[] }) {
 
 // ✅ Bon
 function List({ items }: { items: Item[] }) {
-  const sortedItems = useMemo(
-    () => [...items].sort(byName),
-    [items]
-  )
+  const sortedItems = useMemo(() => [...items].sort(byName), [items])
 }
 ```
 
@@ -383,14 +389,14 @@ const handleSubmit = () => {
 
 Utilise `useEffect` uniquement pour **synchroniser** avec des systèmes **externes** :
 
-| ✅ Utiliser useEffect | ❌ Ne PAS utiliser useEffect |
-|----------------------|------------------------------|
-| Fetch API | Calculs dérivés du state |
-| WebSocket | Transformer des props |
+| ✅ Utiliser useEffect              | ❌ Ne PAS utiliser useEffect    |
+| ---------------------------------- | ------------------------------- |
+| Fetch API                          | Calculs dérivés du state        |
+| WebSocket                          | Transformer des props           |
 | Event listeners (window, document) | Réagir à un changement de state |
-| Timer / interval | Initialiser du state |
-| DOM manipulation directe | Logique d'event handler |
-| Analytics tracking | |
+| Timer / interval                   | Initialiser du state            |
+| DOM manipulation directe           | Logique d'event handler         |
+| Analytics tracking                 |                                 |
 
 ### La règle
 
@@ -400,13 +406,13 @@ Utilise `useEffect` uniquement pour **synchroniser** avec des systèmes **extern
 
 ## Comparaison Vue.js
 
-| Vue.js | React | Notes |
-|--------|-------|-------|
-| `onMounted()` | `useEffect(() => {}, [])` | Montage uniquement |
-| `onUnmounted()` | Return dans `useEffect` | Nettoyage |
-| `watch(x, fn)` | `useEffect(fn, [x])` | Réaction aux changements |
-| `watchEffect()` | `useEffect(() => {})` | Sans deps explicites |
-| `watch(x, fn, { immediate: true })` | `useEffect(fn, [x])` | React est toujours "immediate" |
+| Vue.js                              | React                     | Notes                          |
+| ----------------------------------- | ------------------------- | ------------------------------ |
+| `onMounted()`                       | `useEffect(() => {}, [])` | Montage uniquement             |
+| `onUnmounted()`                     | Return dans `useEffect`   | Nettoyage                      |
+| `watch(x, fn)`                      | `useEffect(fn, [x])`      | Réaction aux changements       |
+| `watchEffect()`                     | `useEffect(() => {})`     | Sans deps explicites           |
+| `watch(x, fn, { immediate: true })` | `useEffect(fn, [x])`      | React est toujours "immediate" |
 
 ### Différence philosophique
 
@@ -426,7 +432,7 @@ Avant de passer à la suite, assure-toi de pouvoir répondre à :
 4. Ce code a-t-il un problème ?
    ```tsx
    useEffect(() => {
-     setFilteredItems(items.filter(i => i.active))
+     setFilteredItems(items.filter((i) => i.active))
    }, [items])
    ```
 5. Comment ferais-tu un cleanup pour un `setInterval` ?

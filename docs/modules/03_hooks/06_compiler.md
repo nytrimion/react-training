@@ -20,10 +20,8 @@ function Parent() {
 
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>
-        Count: {count}
-      </button>
-      <ExpensiveChild />  {/* Re-render à chaque click ! */}
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
+      <ExpensiveChild /> {/* Re-render à chaque click ! */}
     </div>
   )
 }
@@ -50,9 +48,7 @@ function Parent() {
 
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>
-        Count: {count}
-      </button>
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
       <ExpensiveChild onClick={handleClick} config={config} />
     </div>
   )
@@ -74,9 +70,7 @@ function Parent() {
 
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>
-        Count: {count}
-      </button>
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
       <ExpensiveChild onClick={handleClick} config={config} />
     </div>
   )
@@ -108,7 +102,7 @@ Le compilateur transforme :
 ```tsx
 // Code source
 function Component({ items }) {
-  const filtered = items.filter(i => i.active)
+  const filtered = items.filter((i) => i.active)
   const total = filtered.reduce((sum, i) => sum + i.value, 0)
 
   return <Display items={filtered} total={total} />
@@ -124,7 +118,7 @@ function Component({ items }) {
 
   let filtered
   if ($cache[0] !== items) {
-    filtered = items.filter(i => i.active)
+    filtered = items.filter((i) => i.active)
     $cache[0] = items
     $cache[1] = filtered
   } else {
@@ -150,12 +144,12 @@ function Component({ items }) {
 
 ### ✅ Optimisé automatiquement
 
-| Avant | Après |
-|-------|-------|
-| Valeurs calculées | Mémoïsées automatiquement |
-| Callbacks inline | Stabilisés |
-| Objets/arrays créés dans le render | Mémoïsés |
-| Composants | Mémoïsés (équivalent à `memo()`) |
+| Avant                              | Après                            |
+| ---------------------------------- | -------------------------------- |
+| Valeurs calculées                  | Mémoïsées automatiquement        |
+| Callbacks inline                   | Stabilisés                       |
+| Objets/arrays créés dans le render | Mémoïsés                         |
+| Composants                         | Mémoïsés (équivalent à `memo()`) |
 
 ### Exemples
 
@@ -177,14 +171,7 @@ function Component({ data, userId }) {
   // Array → mémoïsé
   const items = [1, 2, 3]
 
-  return (
-    <Child
-      data={processed}
-      onClick={handleClick}
-      style={style}
-      items={items}
-    />
-  )
+  return <Child data={processed} onClick={handleClick} style={style} items={items} />
 }
 ```
 
@@ -207,8 +194,12 @@ function Greeting({ name }) {
 // ❌ Impur - dépend de quelque chose d'extérieur
 let counter = 0
 function Greeting({ name }) {
-  counter++  // Side effect pendant le render !
-  return <h1>Hello, {name} (render #{counter})</h1>
+  counter++ // Side effect pendant le render !
+  return (
+    <h1>
+      Hello, {name} (render #{counter})
+    </h1>
+  )
 }
 ```
 
@@ -217,7 +208,7 @@ function Greeting({ name }) {
 ```tsx
 // ❌ Mutation de props
 function Component({ items }) {
-  items.push(newItem)  // NE JAMAIS FAIRE ÇA
+  items.push(newItem) // NE JAMAIS FAIRE ÇA
 }
 
 // ✅ Créer une nouvelle valeur
@@ -232,7 +223,7 @@ function Component({ items }) {
 // ❌ Hook conditionnel
 function Component({ condition }) {
   if (condition) {
-    const [state, setState] = useState(0)  // Erreur !
+    const [state, setState] = useState(0) // Erreur !
   }
 }
 
@@ -248,7 +239,7 @@ function Component({ condition }) {
 // ❌ Lecture de ref pendant le render
 function Component() {
   const ref = useRef(0)
-  return <div>{ref.current}</div>  // Problème !
+  return <div>{ref.current}</div> // Problème !
 }
 
 // ✅ Lecture dans un effect ou event handler
@@ -256,11 +247,11 @@ function Component() {
   const ref = useRef(0)
 
   useEffect(() => {
-    console.log(ref.current)  // OK
+    console.log(ref.current) // OK
   })
 
   const handleClick = () => {
-    console.log(ref.current)  // OK
+    console.log(ref.current) // OK
   }
 
   return <div onClick={handleClick}>Click me</div>
@@ -308,7 +299,7 @@ Le compilateur gère **la plupart** des cas, mais parfois tu veux un contrôle e
 const handleClick = useCallback(() => {
   // Utilise latestValue.current pour éviter les recréations
   console.log(latestValue.current)
-}, [])  // Aucune dépendance intentionnellement
+}, []) // Aucune dépendance intentionnellement
 ```
 
 ### 2. Mémoisation avec comparaison personnalisée
@@ -316,7 +307,7 @@ const handleClick = useCallback(() => {
 ```tsx
 const memoizedValue = useMemo(() => {
   return expensiveCalculation(input)
-}, [input?.id])  // Compare seulement l'ID, pas l'objet entier
+}, [input?.id]) // Compare seulement l'ID, pas l'objet entier
 ```
 
 ### 3. Code legacy qui ne suit pas les règles
@@ -336,23 +327,23 @@ function LegacyComponent() {
 
 ### Ce qui change
 
-| Avant (sans Compiler) | Après (avec Compiler) |
-|-----------------------|-----------------------|
-| `useMemo` partout | Écrire du code simple |
-| `useCallback` partout | Écrire du code simple |
-| `memo()` sur les composants | Pas nécessaire |
-| Réfléchir aux dépendances | Le compilateur gère |
+| Avant (sans Compiler)       | Après (avec Compiler) |
+| --------------------------- | --------------------- |
+| `useMemo` partout           | Écrire du code simple |
+| `useCallback` partout       | Écrire du code simple |
+| `memo()` sur les composants | Pas nécessaire        |
+| Réfléchir aux dépendances   | Le compilateur gère   |
 
 ### Ce qui ne change PAS
 
-| Concept | Toujours nécessaire ? |
-|---------|----------------------|
-| `useState` | ✅ Oui |
-| `useReducer` | ✅ Oui |
-| `useEffect` | ✅ Oui |
-| `useRef` | ✅ Oui |
-| Immutabilité | ✅ Plus que jamais ! |
-| Règles des hooks | ✅ Plus que jamais ! |
+| Concept          | Toujours nécessaire ? |
+| ---------------- | --------------------- |
+| `useState`       | ✅ Oui                |
+| `useReducer`     | ✅ Oui                |
+| `useEffect`      | ✅ Oui                |
+| `useRef`         | ✅ Oui                |
+| Immutabilité     | ✅ Plus que jamais !  |
+| Règles des hooks | ✅ Plus que jamais !  |
 
 ---
 
@@ -421,12 +412,12 @@ export default [
 
 ## Comparaison Vue.js
 
-| Aspect | Vue.js | React (avec Compiler) |
-|--------|--------|----------------------|
-| Réactivité | Fine-grained (Proxy) | Compilateur + mémoisation |
-| Computed | Automatique | Automatique (compilateur) |
-| Méthodes stables | Automatique | Automatique (compilateur) |
-| Détection mutations | ✅ Runtime | ❌ Doit être immutable |
+| Aspect              | Vue.js               | React (avec Compiler)     |
+| ------------------- | -------------------- | ------------------------- |
+| Réactivité          | Fine-grained (Proxy) | Compilateur + mémoisation |
+| Computed            | Automatique          | Automatique (compilateur) |
+| Méthodes stables    | Automatique          | Automatique (compilateur) |
+| Détection mutations | ✅ Runtime           | ❌ Doit être immutable    |
 
 Vue.js utilise des **Proxies** pour détecter les mutations au runtime.
 React Compiler utilise l'**analyse statique** au build time, donc il faut respecter l'immutabilité.

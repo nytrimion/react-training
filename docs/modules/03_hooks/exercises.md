@@ -11,6 +11,7 @@ Ces exercices sont progressifs. Chaque exercice introduit de nouveaux concepts t
 ### Spécifications
 
 Créer un hook `useLocalStorage<T>` qui :
+
 - Persiste une valeur dans localStorage
 - Initialise la valeur depuis localStorage si elle existe
 - Met à jour localStorage quand la valeur change
@@ -59,6 +60,7 @@ src/hooks/
 ### Spécifications
 
 Créer un hook `useFetch<T>` qui :
+
 - Fetch une URL et retourne les données
 - Gère les états loading, error, data
 - Annule le fetch si le composant est démonté (AbortController)
@@ -111,6 +113,7 @@ src/hooks/
 ### Spécifications
 
 Créer un composant `Modal` qui :
+
 - S'affiche en overlay au-dessus du contenu
 - Ferme au clic sur le backdrop ou touche Escape
 - Trap le focus à l'intérieur (Tab/Shift+Tab restent dans la modal)
@@ -165,6 +168,7 @@ src/components/Modal/
 ### Spécifications
 
 Créer un composant `InfiniteList` qui :
+
 - Charge la première page de données au montage
 - Charge la page suivante quand l'utilisateur scroll en bas
 - Affiche un loader pendant le chargement
@@ -217,6 +221,7 @@ src/components/InfiniteList/
 ### Spécifications
 
 Reprendre le TodoList du Module 2 et ajouter :
+
 - Simulation d'un serveur (delays, erreurs aléatoires)
 - Updates optimistes avec `useOptimistic`
 - Indicateur de pending avec `useTransition`
@@ -271,6 +276,7 @@ src/components/OptimisticTodoList/
 ### Spécifications
 
 Créer un composant `DataTable` qui :
+
 - Utilise `use()` pour consommer les données
 - Affiche un skeleton pendant le chargement (Suspense)
 - Supporte le tri par colonne
@@ -334,16 +340,19 @@ src/components/DataTable/
 Créer un éditeur de texte collaboratif (simulé) avec :
 
 **Fonctionnalités de base :**
+
 - Zone de texte éditable
 - Sauvegarde automatique (debounced)
 - Indicateur de statut (saved, saving, error)
 
 **Simulation multi-utilisateurs :**
+
 - Simuler des curseurs d'autres utilisateurs
 - Afficher les positions en temps réel
 - Simuler des modifications concurrentes
 
 **Gestion d'état avancée :**
+
 - `useReducer` pour l'état complexe
 - `useOptimistic` pour les sauvegardes
 - `useTransition` pour les updates non-urgentes
@@ -426,15 +435,15 @@ Pour chaque exercice, assure-toi de :
 
 ## Progression suggérée
 
-| Exercice | Difficulté | Concepts clés | Durée estimée |
-|----------|------------|---------------|---------------|
-| 1. useLocalStorage | ⭐⭐ | useEffect, lazy init, cleanup | 1h |
-| 2. useFetch | ⭐⭐⭐ | AbortController, race conditions | 1.5h |
-| 3. Modal | ⭐⭐⭐ | useRef, focus, portals | 2h |
-| 4. Infinite Scroll | ⭐⭐⭐ | IntersectionObserver, refs | 2h |
-| 5. Optimistic Todo | ⭐⭐⭐⭐ | useOptimistic, useTransition | 2h |
-| 6. DataTable | ⭐⭐⭐⭐ | use(), Suspense, Error Boundary | 2h |
-| Challenge | ⭐⭐⭐⭐⭐ | Tous les concepts | 3-4h |
+| Exercice           | Difficulté | Concepts clés                    | Durée estimée |
+| ------------------ | ---------- | -------------------------------- | ------------- |
+| 1. useLocalStorage | ⭐⭐       | useEffect, lazy init, cleanup    | 1h            |
+| 2. useFetch        | ⭐⭐⭐     | AbortController, race conditions | 1.5h          |
+| 3. Modal           | ⭐⭐⭐     | useRef, focus, portals           | 2h            |
+| 4. Infinite Scroll | ⭐⭐⭐     | IntersectionObserver, refs       | 2h            |
+| 5. Optimistic Todo | ⭐⭐⭐⭐   | useOptimistic, useTransition     | 2h            |
+| 6. DataTable       | ⭐⭐⭐⭐   | use(), Suspense, Error Boundary  | 2h            |
+| Challenge          | ⭐⭐⭐⭐⭐ | Tous les concepts                | 3-4h          |
 
 ---
 

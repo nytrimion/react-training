@@ -11,6 +11,7 @@ Ces exercices sont progressifs. Chaque exercice introduit de nouveaux concepts t
 ### Spécifications
 
 Créer un composant `Counter` avec :
+
 - Affichage du compteur actuel
 - Bouton "Increment" (+1)
 - Bouton "Decrement" (-1)
@@ -51,6 +52,7 @@ src/components/Counter/
 ### Spécifications
 
 Créer un composant `Toggle` avec :
+
 - Un switch on/off visuel
 - Label optionnel
 - Callback `onChange` quand l'état change
@@ -91,6 +93,7 @@ interface ToggleProps {
 ### Spécifications
 
 Créer un composant `ContactForm` avec :
+
 - Champs : name, email, message
 - Validation :
   - Name : requis, min 2 caractères
@@ -139,6 +142,7 @@ interface ContactFormProps {
 ### Spécifications
 
 Créer une application TodoList avec :
+
 - Ajout de tâches
 - Toggle completed
 - Suppression de tâches
@@ -180,6 +184,7 @@ src/components/TodoList/
 ### Tests à implémenter
 
 **Tests du reducer** :
+
 1. Ajoute un todo
 2. Toggle un todo
 3. Supprime un todo
@@ -188,6 +193,7 @@ src/components/TodoList/
 6. Ne mute pas l'état
 
 **Tests du composant** :
+
 1. Affiche les todos
 2. Ajoute un todo via le formulaire
 3. Toggle un todo au click
@@ -203,6 +209,7 @@ src/components/TodoList/
 ### Spécifications
 
 Créer un composant `ShoppingCart` avec :
+
 - Liste de produits disponibles
 - Ajout au panier
 - Modification de la quantité (+/-)
@@ -266,12 +273,15 @@ type Action =
 Créer un formulaire d'inscription en 3 étapes :
 
 **Étape 1 : Informations personnelles**
+
 - Prénom, Nom, Date de naissance
 
 **Étape 2 : Coordonnées**
+
 - Email, Téléphone, Adresse
 
 **Étape 3 : Préférences**
+
 - Newsletter (checkbox)
 - Thème (radio : light/dark/system)
 - Notifications (select multiple)

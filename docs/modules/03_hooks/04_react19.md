@@ -29,14 +29,14 @@ async function fetchUser(id: string): Promise<User> {
 }
 
 function UserProfile({ userPromise }: { userPromise: Promise<User> }) {
-  const user = use(userPromise)  // Suspend jusqu'à résolution
+  const user = use(userPromise) // Suspend jusqu'à résolution
 
   return <div>{user.name}</div>
 }
 
 // Usage
 function Page({ userId }: { userId: string }) {
-  const userPromise = fetchUser(userId)  // Créé pendant le render
+  const userPromise = fetchUser(userId) // Créé pendant le render
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -59,7 +59,7 @@ import { use, createContext } from 'react'
 const ThemeContext = createContext<'light' | 'dark'>('light')
 
 function Button() {
-  const theme = use(ThemeContext)  // Équivalent à useContext(ThemeContext)
+  const theme = use(ThemeContext) // Équivalent à useContext(ThemeContext)
 
   return <button className={theme}>Click me</button>
 }
@@ -78,7 +78,7 @@ function Component({ showTheme }: { showTheme: boolean }) {
 
   // ✅ Possible avec use()
   if (showTheme) {
-    const theme = use(ThemeContext)  // OK !
+    const theme = use(ThemeContext) // OK !
     return <div>{theme}</div>
   }
 
@@ -194,14 +194,11 @@ interface Post {
 }
 
 function LikeButton({ post }: { post: Post }) {
-  const [optimisticPost, addOptimistic] = useOptimistic(
-    post,
-    (current, liked: boolean) => ({
-      ...current,
-      likes: current.likes + (liked ? 1 : -1),
-      likedByMe: liked
-    })
-  )
+  const [optimisticPost, addOptimistic] = useOptimistic(post, (current, liked: boolean) => ({
+    ...current,
+    likes: current.likes + (liked ? 1 : -1),
+    likedByMe: liked,
+  }))
 
   const handleLike = async () => {
     const newLiked = !optimisticPost.likedByMe
@@ -227,21 +224,21 @@ function LikeButton({ post }: { post: Post }) {
 
 ```tsx
 function TodoList({ todos, addTodo }: Props) {
-  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
-    todos,
-    (current, newTodo: Todo) => [...current, { ...newTodo, pending: true }]
-  )
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(todos, (current, newTodo: Todo) => [
+    ...current,
+    { ...newTodo, pending: true },
+  ])
 
   const handleAdd = async (text: string) => {
     const newTodo = { id: crypto.randomUUID(), text, completed: false }
 
     addOptimisticTodo(newTodo)
-    await addTodo(newTodo)  // Server action
+    await addTodo(newTodo) // Server action
   }
 
   return (
     <ul>
-      {optimisticTodos.map(todo => (
+      {optimisticTodos.map((todo) => (
         <li key={todo.id} style={{ opacity: todo.pending ? 0.5 : 1 }}>
           {todo.text}
         </li>
@@ -345,7 +342,7 @@ function Form() {
       }
       return { success: true }
     },
-    { error: null, success: false }  // État initial
+    { error: null, success: false } // État initial
   )
 
   return (
@@ -429,7 +426,7 @@ export function CommentForm({ comments }: { comments: Comment[] }) {
       addOptimistic({
         id: crypto.randomUUID(),
         text,
-        createdAt: new Date()
+        createdAt: new Date(),
       })
 
       // Server action
@@ -442,7 +439,7 @@ export function CommentForm({ comments }: { comments: Comment[] }) {
   return (
     <div>
       <ul>
-        {optimisticComments.map(c => (
+        {optimisticComments.map((c) => (
           <li key={c.id} style={{ opacity: c.pending ? 0.5 : 1 }}>
             {c.text}
           </li>
@@ -463,24 +460,24 @@ export function CommentForm({ comments }: { comments: Comment[] }) {
 
 ## Comparaison avec les patterns existants
 
-| Pattern | Avant React 19 | React 19 |
-|---------|---------------|----------|
-| Consommer une Promise | useEffect + useState | `use()` + Suspense |
-| UI pendant fetch | Loading state manuel | `isPending` de useTransition |
-| Optimistic updates | Logique manuelle complexe | `useOptimistic` |
-| Form submission state | useState + isLoading | `useFormStatus` |
-| Form actions | onSubmit + fetch | action prop + useActionState |
+| Pattern               | Avant React 19            | React 19                     |
+| --------------------- | ------------------------- | ---------------------------- |
+| Consommer une Promise | useEffect + useState      | `use()` + Suspense           |
+| UI pendant fetch      | Loading state manuel      | `isPending` de useTransition |
+| Optimistic updates    | Logique manuelle complexe | `useOptimistic`              |
+| Form submission state | useState + isLoading      | `useFormStatus`              |
+| Form actions          | onSubmit + fetch          | action prop + useActionState |
 
 ---
 
 ## Analogies Vue.js
 
-| Concept | Vue.js / Nuxt | React 19 |
-|---------|---------------|----------|
-| Suspense | `<Suspense>` + async setup | `<Suspense>` + `use()` |
-| Optimistic UI | Logique manuelle | `useOptimistic` |
-| Server Actions | Nuxt server routes | Server Actions |
-| Form state | VeeValidate / FormKit | `useFormStatus` |
+| Concept        | Vue.js / Nuxt              | React 19               |
+| -------------- | -------------------------- | ---------------------- |
+| Suspense       | `<Suspense>` + async setup | `<Suspense>` + `use()` |
+| Optimistic UI  | Logique manuelle           | `useOptimistic`        |
+| Server Actions | Nuxt server routes         | Server Actions         |
+| Form state     | VeeValidate / FormKit      | `useFormStatus`        |
 
 ---
 
