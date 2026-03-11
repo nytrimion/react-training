@@ -10,13 +10,13 @@ React utilise un système d'événements synthétiques (`SyntheticEvent`) qui en
 
 ### Convention de nommage
 
-| HTML natif | React |
-|------------|-------|
-| `onclick` | `onClick` |
-| `onchange` | `onChange` |
-| `onsubmit` | `onSubmit` |
+| HTML natif    | React         |
+| ------------- | ------------- |
+| `onclick`     | `onClick`     |
+| `onchange`    | `onChange`    |
+| `onsubmit`    | `onSubmit`    |
 | `onmouseover` | `onMouseOver` |
-| `onfocus` | `onFocus` |
+| `onfocus`     | `onFocus`     |
 
 > **Règle** : camelCase au lieu de lowercase
 
@@ -45,13 +45,13 @@ React encapsule tous les événements dans un `SyntheticEvent` :
 ```tsx
 function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
   // Propriétés communes
-  event.target        // L'élément qui a déclenché l'événement
+  event.target // L'élément qui a déclenché l'événement
   event.currentTarget // L'élément sur lequel le handler est attaché
-  event.type          // 'click', 'change', etc.
+  event.type // 'click', 'change', etc.
 
   // Méthodes
-  event.preventDefault()   // Empêcher le comportement par défaut
-  event.stopPropagation()  // Arrêter la propagation (bubbling)
+  event.preventDefault() // Empêcher le comportement par défaut
+  event.stopPropagation() // Arrêter la propagation (bubbling)
 
   // Accès à l'événement natif (rarement nécessaire)
   event.nativeEvent
@@ -79,7 +79,7 @@ onMouseEnter: React.MouseEvent<HTMLElement>
 // Événements de clavier
 onKeyDown: React.KeyboardEvent<HTMLInputElement>
 onKeyUp: React.KeyboardEvent<HTMLInputElement>
-onKeyPress: React.KeyboardEvent<HTMLInputElement>  // Déprécié
+onKeyPress: React.KeyboardEvent<HTMLInputElement> // Déprécié
 
 // Événements de formulaire
 onChange: React.ChangeEvent<HTMLInputElement>
@@ -113,25 +113,25 @@ React.[Type]Event<HTMLElementType>
 ```tsx
 // Input text
 function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-  const value = e.target.value  // string
+  const value = e.target.value // string
   setName(value)
 }
 
 // Select
 function handleSelect(e: React.ChangeEvent<HTMLSelectElement>) {
-  const value = e.target.value  // string (la valeur de l'option)
+  const value = e.target.value // string (la valeur de l'option)
   setStatus(value)
 }
 
 // Checkbox
 function handleCheck(e: React.ChangeEvent<HTMLInputElement>) {
-  const checked = e.target.checked  // boolean
+  const checked = e.target.checked // boolean
   setAgree(checked)
 }
 
 // Form submit
 function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault()  // Empêcher le rechargement de la page
+  e.preventDefault() // Empêcher le rechargement de la page
   // Traiter le formulaire
 }
 
@@ -198,7 +198,7 @@ Quand tu écris `<button onClick={fn}>`, React n'ajoute pas un listener sur ce b
 function TodoList({ items }: { items: Todo[] }) {
   return (
     <ul>
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.id} onClick={() => toggleTodo(item.id)}>
           {item.text}
         </li>
@@ -225,7 +225,7 @@ function TodoList({ items }: { items: Todo[] }) {
 
   return (
     <ul onClick={handleClick}>
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.id} data-id={item.id}>
           {item.text}
         </li>
@@ -236,6 +236,7 @@ function TodoList({ items }: { items: Todo[] }) {
 ```
 
 **Inconvénients du pattern legacy** :
+
 - Perte de type safety (`dataset.id` est `string | undefined`)
 - Complexité accrue (`closest()`, cast `as HTMLElement`, null checks)
 - Edge cases (clic sur un élément enfant comme une icône)
@@ -247,14 +248,14 @@ function TodoList({ items }: { items: Todo[] }) {
 
 ## Comparaison avec Vue.js
 
-| Vue.js | React | Notes |
-|--------|-------|-------|
-| `@click="handler"` | `onClick={handler}` | |
-| `@click.prevent` | `onClick={e => { e.preventDefault(); handler() }}` | Pas de modifiers |
-| `@click.stop` | `onClick={e => { e.stopPropagation(); handler() }}` | |
-| `@click.once` | Gérer manuellement avec un state | |
-| `@keyup.enter` | `onKeyUp={e => e.key === 'Enter' && handler()}` | |
-| `@input` | `onChange` | `onChange` pour les inputs ! |
+| Vue.js             | React                                               | Notes                        |
+| ------------------ | --------------------------------------------------- | ---------------------------- |
+| `@click="handler"` | `onClick={handler}`                                 |                              |
+| `@click.prevent`   | `onClick={e => { e.preventDefault(); handler() }}`  | Pas de modifiers             |
+| `@click.stop`      | `onClick={e => { e.stopPropagation(); handler() }}` |                              |
+| `@click.once`      | Gérer manuellement avec un state                    |                              |
+| `@keyup.enter`     | `onKeyUp={e => e.key === 'Enter' && handler()}`     |                              |
+| `@input`           | `onChange`                                          | `onChange` pour les inputs ! |
 
 ### Différence importante : onChange
 
@@ -263,7 +264,7 @@ En React, `onChange` se déclenche à **chaque frappe** (comme `input` natif).
 
 ```tsx
 // React onChange = HTML oninput
-<input onChange={e => setValue(e.target.value)} />
+<input onChange={(e) => setValue(e.target.value)} />
 ```
 
 ---
@@ -275,9 +276,9 @@ En React, `onChange` se déclenche à **chaque frappe** (comme `input` natif).
 ```tsx
 // ✅ Recommandé (React 19+ avec Compiler) : inline arrow function
 // Le React Compiler mémoize automatiquement ces fonctions
-{items.map(item => (
-  <button onClick={() => handleDelete(item.id)}>Delete</button>
-))}
+{
+  items.map((item) => <button onClick={() => handleDelete(item.id)}>Delete</button>)
+}
 ```
 
 Pour référence, voici l'ancien pattern avec data attributes (utile pour du code legacy sans React Compiler) :
@@ -289,9 +290,13 @@ function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
   if (id) deleteItem(id)
 }
 
-{items.map(item => (
-  <button data-id={item.id} onClick={handleDelete}>Delete</button>
-))}
+{
+  items.map((item) => (
+    <button data-id={item.id} onClick={handleDelete}>
+      Delete
+    </button>
+  ))
+}
 ```
 
 ### Combinaison de handlers
@@ -316,10 +321,7 @@ function CustomInput({ onChange, ...props }: InputProps) {
 ### Événements conditionnels
 
 ```tsx
-<button
-  onClick={isEnabled ? handleClick : undefined}
-  disabled={!isEnabled}
->
+<button onClick={isEnabled ? handleClick : undefined} disabled={!isEnabled}>
   {isEnabled ? 'Click me' : 'Disabled'}
 </button>
 ```
@@ -361,7 +363,7 @@ function handleSubmit(e: React.FormEvent) {
 const handleClick = () => setCount(count + 1)
 
 // ✅ Toujours fiable
-const handleClick = () => setCount(c => c + 1)
+const handleClick = () => setCount((c) => c + 1)
 ```
 
 ---

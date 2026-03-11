@@ -5,6 +5,7 @@
 Où placer le state ? C'est une question fondamentale en React. Un mauvais placement cause du prop drilling excessif, des re-renders inutiles, ou une logique éparpillée.
 
 Cette section couvre trois concepts clés :
+
 1. **Lifting State Up** : Remonter le state au parent commun
 2. **State Colocation** : Garder le state proche de son usage
 3. **Derived State** : Calculer plutôt que dupliquer
@@ -22,7 +23,7 @@ Quand deux composants ont besoin de partager un état, il faut le "remonter" à 
 function TemperatureConverter() {
   return (
     <div>
-      <CelsiusInput />    {/* State interne */}
+      <CelsiusInput /> {/* State interne */}
       <FahrenheitInput /> {/* State interne */}
     </div>
   )
@@ -38,34 +39,21 @@ function TemperatureConverter() {
 function TemperatureConverter() {
   const [celsius, setCelsius] = useState(0)
 
-  const fahrenheit = (celsius * 9/5) + 32
+  const fahrenheit = (celsius * 9) / 5 + 32
 
   return (
     <div>
-      <CelsiusInput
-        value={celsius}
-        onChange={setCelsius}
-      />
-      <FahrenheitInput
-        value={fahrenheit}
-        onChange={(f) => setCelsius((f - 32) * 5/9)}
-      />
+      <CelsiusInput value={celsius} onChange={setCelsius} />
+      <FahrenheitInput value={fahrenheit} onChange={(f) => setCelsius(((f - 32) * 5) / 9)} />
     </div>
   )
 }
 
-function CelsiusInput({ value, onChange }: {
-  value: number
-  onChange: (value: number) => void
-}) {
+function CelsiusInput({ value, onChange }: { value: number; onChange: (value: number) => void }) {
   return (
     <label>
       Celsius:
-      <input
-        type="number"
-        value={value}
-        onChange={e => onChange(Number(e.target.value))}
-      />
+      <input type="number" value={value} onChange={(e) => onChange(Number(e.target.value))} />
     </label>
   )
 }
@@ -74,6 +62,7 @@ function CelsiusInput({ value, onChange }: {
 ### Quand remonter le state ?
 
 Remonte le state quand :
+
 - Deux composants frères doivent partager des données
 - Un composant parent doit connaître l'état d'un enfant
 - L'état influence le rendu de plusieurs composants
@@ -116,7 +105,7 @@ function App() {
   return (
     <div>
       <Header />
-      <SearchBar />  {/* Gère son propre état */}
+      <SearchBar /> {/* Gère son propre état */}
       <MainContent />
       <Footer />
     </div>
@@ -126,13 +115,7 @@ function App() {
 function SearchBar() {
   const [query, setQuery] = useState('')
 
-  return (
-    <input
-      value={query}
-      onChange={e => setQuery(e.target.value)}
-      placeholder="Search..."
-    />
-  )
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search..." />
 }
 ```
 
@@ -145,11 +128,11 @@ function SearchBar() {
 
 ### Quand colocaliser vs remonter ?
 
-| Situation | Action |
-|-----------|--------|
-| Un seul composant utilise le state | Colocaliser |
+| Situation                                | Action                    |
+| ---------------------------------------- | ------------------------- |
+| Un seul composant utilise le state       | Colocaliser               |
 | Plusieurs composants ont besoin du state | Remonter au parent commun |
-| State utilisé dans tout l'app | Context (Module 4) |
+| State utilisé dans tout l'app            | Context (Module 4)        |
 
 ---
 
@@ -162,7 +145,7 @@ L'état dérivé est une valeur **calculée** à partir d'un autre état. Ne le 
 ```tsx
 function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([])
-  const [completedCount, setCompletedCount] = useState(0)  // ❌ Duplication !
+  const [completedCount, setCompletedCount] = useState(0) // ❌ Duplication !
 
   const addTodo = (todo: Todo) => {
     setTodos([...todos, todo])
@@ -170,9 +153,7 @@ function TodoList() {
   }
 
   const toggleTodo = (id: string) => {
-    setTodos(todos.map(t =>
-      t.id === id ? { ...t, completed: !t.completed } : t
-    ))
+    setTodos(todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)))
     // Il faut aussi recalculer completedCount...
     // Source de bugs !
   }
@@ -186,7 +167,7 @@ function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([])
 
   // Calculé à chaque render - toujours correct
-  const completedCount = todos.filter(t => t.completed).length
+  const completedCount = todos.filter((t) => t.completed).length
   const pendingCount = todos.length - completedCount
 
   // Pas besoin de maintenir la synchronisation !
@@ -199,7 +180,7 @@ Si le calcul est vraiment coûteux, utilise `useMemo` (Module 3) :
 
 ```tsx
 const expensiveValue = useMemo(() => {
-  return todos.filter(t => t.completed).length
+  return todos.filter((t) => t.completed).length
 }, [todos])
 ```
 
@@ -220,7 +201,7 @@ Chaque donnée doit avoir **une seule source de vérité**.
 ```tsx
 // Le nom est stocké dans DEUX endroits
 function UserProfile({ initialName }: { initialName: string }) {
-  const [name, setName] = useState(initialName)  // Copie locale
+  const [name, setName] = useState(initialName) // Copie locale
 
   // Problème : si initialName change, name ne se met pas à jour
 }
@@ -230,7 +211,10 @@ function UserProfile({ initialName }: { initialName: string }) {
 
 ```tsx
 // Option 1 : Le parent est la source de vérité
-function UserProfile({ name, onNameChange }: {
+function UserProfile({
+  name,
+  onNameChange,
+}: {
   name: string
   onNameChange: (name: string) => void
 }) {
@@ -273,21 +257,21 @@ const [data, setData] = useState({
 
 ```tsx
 const [users, setUsers] = useState<Record<string, User>>({
-  '1': { id: '1', name: 'Alice', postIds: ['p1'] }
+  '1': { id: '1', name: 'Alice', postIds: ['p1'] },
 })
 
 const [posts, setPosts] = useState<Record<string, Post>>({
-  'p1': { id: 'p1', title: 'Hello', userId: '1', commentIds: ['c1'] }
+  p1: { id: 'p1', title: 'Hello', userId: '1', commentIds: ['c1'] },
 })
 
 const [comments, setComments] = useState<Record<string, Comment>>({
-  'c1': { id: 'c1', text: 'Great!', postId: 'p1' }
+  c1: { id: 'c1', text: 'Great!', postId: 'p1' },
 })
 
 // Mettre à jour un commentaire = simple
-setComments(prev => ({
+setComments((prev) => ({
   ...prev,
-  'c1': { ...prev['c1'], text: 'Updated!' }
+  c1: { ...prev['c1'], text: 'Updated!' },
 }))
 ```
 
@@ -295,12 +279,12 @@ setComments(prev => ({
 
 ## Analogie avec Vue.js / Pinia
 
-| Concept | Vue/Pinia | React |
-|---------|-----------|-------|
-| State local | `ref()` | `useState()` |
-| State partagé | Pinia store | Lifting + props (ou Context) |
-| Computed | `computed()` | Derived state / `useMemo` |
-| Store global | Pinia | Context API / Zustand (Module 4) |
+| Concept       | Vue/Pinia    | React                            |
+| ------------- | ------------ | -------------------------------- |
+| State local   | `ref()`      | `useState()`                     |
+| State partagé | Pinia store  | Lifting + props (ou Context)     |
+| Computed      | `computed()` | Derived state / `useMemo`        |
+| Store global  | Pinia        | Context API / Zustand (Module 4) |
 
 ### Différence de philosophie
 

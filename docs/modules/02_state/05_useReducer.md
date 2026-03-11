@@ -69,14 +69,14 @@ function reducer(state: State, action: Action): State {
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'ACTION_1':
-      return { ...state, /* modifications */ }
+      return { ...state /* modifications */ }
     case 'ACTION_2':
-      return { ...state, /* modifications */ }
+      return { ...state /* modifications */ }
     default:
       // Option 1 : retourner state inchangé
       return state
-      // Option 2 : throw pour détecter les erreurs (recommandé en TS)
-      // throw new Error(`Unknown action: ${action.type}`)
+    // Option 2 : throw pour détecter les erreurs (recommandé en TS)
+    // throw new Error(`Unknown action: ${action.type}`)
   }
 }
 ```
@@ -95,7 +95,7 @@ type Action =
   | { type: 'ADD_TODO'; payload: { text: string } }
   | { type: 'TOGGLE_TODO'; payload: { id: string } }
   | { type: 'DELETE_TODO'; payload: { id: string } }
-  | { type: 'CLEAR_COMPLETED' }  // Pas de payload
+  | { type: 'CLEAR_COMPLETED' } // Pas de payload
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -103,31 +103,32 @@ function reducer(state: State, action: Action): State {
       // TypeScript sait que action.payload.text existe ici
       return {
         ...state,
-        todos: [...state.todos, { id: crypto.randomUUID(), text: action.payload.text, completed: false }]
+        todos: [
+          ...state.todos,
+          { id: crypto.randomUUID(), text: action.payload.text, completed: false },
+        ],
       }
 
     case 'TOGGLE_TODO':
       // TypeScript sait que action.payload.id existe ici
       return {
         ...state,
-        todos: state.todos.map(todo =>
-          todo.id === action.payload.id
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo
+        ),
       }
 
     case 'DELETE_TODO':
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload.id)
+        todos: state.todos.filter((todo) => todo.id !== action.payload.id),
       }
 
     case 'CLEAR_COMPLETED':
       // TypeScript sait qu'il n'y a pas de payload ici
       return {
         ...state,
-        todos: state.todos.filter(todo => !todo.completed)
+        todos: state.todos.filter((todo) => !todo.completed),
       }
 
     default:
@@ -191,36 +192,34 @@ function todoReducer(state: State, action: Action): State {
         ...state,
         todos: [
           ...state.todos,
-          { id: crypto.randomUUID(), text: action.payload, completed: false }
-        ]
+          { id: crypto.randomUUID(), text: action.payload, completed: false },
+        ],
       }
 
     case 'TOGGLE_TODO':
       return {
         ...state,
-        todos: state.todos.map(todo =>
-          todo.id === action.payload
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+        ),
       }
 
     case 'DELETE_TODO':
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload)
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
       }
 
     case 'SET_FILTER':
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
       }
 
     case 'CLEAR_COMPLETED':
       return {
         ...state,
-        todos: state.todos.filter(todo => !todo.completed)
+        todos: state.todos.filter((todo) => !todo.completed),
       }
 
     default:
@@ -231,7 +230,7 @@ function todoReducer(state: State, action: Action): State {
 // Initial state
 const initialState: State = {
   todos: [],
-  filter: 'all'
+  filter: 'all',
 }
 
 // Component
@@ -239,7 +238,7 @@ function TodoApp() {
   const [state, dispatch] = useReducer(todoReducer, initialState)
 
   // Derived state
-  const filteredTodos = state.todos.filter(todo => {
+  const filteredTodos = state.todos.filter((todo) => {
     if (state.filter === 'active') return !todo.completed
     if (state.filter === 'completed') return todo.completed
     return true
@@ -254,16 +253,14 @@ function TodoApp() {
       <TodoInput onAdd={handleAddTodo} />
       <TodoList
         todos={filteredTodos}
-        onToggle={id => dispatch({ type: 'TOGGLE_TODO', payload: id })}
-        onDelete={id => dispatch({ type: 'DELETE_TODO', payload: id })}
+        onToggle={(id) => dispatch({ type: 'TOGGLE_TODO', payload: id })}
+        onDelete={(id) => dispatch({ type: 'DELETE_TODO', payload: id })}
       />
       <TodoFilters
         current={state.filter}
-        onChange={filter => dispatch({ type: 'SET_FILTER', payload: filter })}
+        onChange={(filter) => dispatch({ type: 'SET_FILTER', payload: filter })}
       />
-      <button onClick={() => dispatch({ type: 'CLEAR_COMPLETED' })}>
-        Clear completed
-      </button>
+      <button onClick={() => dispatch({ type: 'CLEAR_COMPLETED' })}>Clear completed</button>
     </div>
   )
 }
@@ -287,6 +284,7 @@ function Counter({ initialCount }: { initialCount: number }) {
 ```
 
 Utile pour :
+
 - Lecture du localStorage
 - Calculs coûteux
 - Reset de l'état avec la même fonction init
@@ -297,15 +295,15 @@ Utile pour :
 
 ### Quand préférer useReducer ?
 
-| Situation | Recommandation |
-|-----------|----------------|
-| État simple (boolean, number, string) | `useState` |
-| Objet avec 2-3 propriétés indépendantes | `useState` |
-| Objet avec propriétés interdépendantes | `useReducer` |
-| Multiple sous-valeurs qui changent ensemble | `useReducer` |
-| Logique de mise à jour complexe | `useReducer` |
-| Besoin de tester la logique de state | `useReducer` |
-| État avec historique (undo/redo) | `useReducer` |
+| Situation                                   | Recommandation |
+| ------------------------------------------- | -------------- |
+| État simple (boolean, number, string)       | `useState`     |
+| Objet avec 2-3 propriétés indépendantes     | `useState`     |
+| Objet avec propriétés interdépendantes      | `useReducer`   |
+| Multiple sous-valeurs qui changent ensemble | `useReducer`   |
+| Logique de mise à jour complexe             | `useReducer`   |
+| Besoin de tester la logique de state        | `useReducer`   |
+| État avec historique (undo/redo)            | `useReducer`   |
 
 ### Règle pratique
 
@@ -334,11 +332,11 @@ dispatch({ type: 'SUBMIT_SUCCESS', payload: result })
 
 Si tu connais CQRS, voici les parallèles :
 
-| CQRS | useReducer |
-|------|------------|
-| Command | Action |
-| Command Handler | Reducer |
-| Aggregate State | State |
+| CQRS              | useReducer           |
+| ----------------- | -------------------- |
+| Command           | Action               |
+| Command Handler   | Reducer              |
+| Aggregate State   | State                |
 | Events (résultat) | Nouvel état retourné |
 
 ### Pattern Command-like
@@ -346,9 +344,9 @@ Si tu connais CQRS, voici les parallèles :
 ```tsx
 // Les actions sont des "commands" : elles expriment l'intention
 type Action =
-  | { type: 'CreateTodo'; text: string }      // Intention : créer
-  | { type: 'CompleteTodo'; id: string }      // Intention : compléter
-  | { type: 'ArchiveTodo'; id: string }       // Intention : archiver
+  | { type: 'CreateTodo'; text: string } // Intention : créer
+  | { type: 'CompleteTodo'; id: string } // Intention : compléter
+  | { type: 'ArchiveTodo'; id: string } // Intention : archiver
 
 // Le reducer décide comment transformer l'état
 function reducer(state: State, action: Action): State {
@@ -401,7 +399,7 @@ describe('todoReducer', () => {
   it('should toggle a todo', () => {
     const state: State = {
       todos: [{ id: '1', text: 'Test', completed: false }],
-      filter: 'all'
+      filter: 'all',
     }
     const action: Action = { type: 'TOGGLE_TODO', payload: '1' }
 
@@ -423,7 +421,7 @@ describe('todoReducer', () => {
 function reducer(state, action) {
   switch (action.type) {
     case 'SAVE':
-      localStorage.setItem('data', JSON.stringify(state))  // ❌ Effet de bord
+      localStorage.setItem('data', JSON.stringify(state)) // ❌ Effet de bord
       return state
   }
 }
