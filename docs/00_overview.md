@@ -49,13 +49,13 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 
 | Objectif                                                          | Statut |
 | ----------------------------------------------------------------- | ------ |
-| Maîtriser useEffect (cleanup, race conditions, dépendances)       | ⬜     |
-| Utiliser useRef (DOM, valeurs mutables, forwarding refs)          | ⬜     |
-| Appliquer useMemo/useCallback judicieusement                      | ⬜     |
-| Découvrir React 19 : use(), Actions, useTransition, useOptimistic | ⬜     |
-| Implémenter Suspense et Error Boundaries                          | ⬜     |
-| Comprendre le React Compiler et ses optimisations                 | ⬜     |
-| Écrire des tests asynchrones avec mocking                         | ⬜     |
+| Maîtriser useEffect (cleanup, race conditions, dépendances)       | ✅     |
+| Utiliser useRef (DOM, valeurs mutables, forwarding refs)          | ✅     |
+| Appliquer useMemo/useCallback judicieusement                      | ✅     |
+| Découvrir React 19 : use(), Actions, useTransition, useOptimistic | ✅     |
+| Implémenter Suspense et Error Boundaries                          | ✅     |
+| Comprendre le React Compiler et ses optimisations                 | ✅     |
+| Écrire des tests asynchrones avec mocking                         | ✅     |
 
 → [Accéder au module](./modules/03_hooks/README.md)
 
@@ -119,12 +119,12 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 ```
 Module 1 : Fondations      [✅✅✅✅✅] 100%
 Module 2 : State           [✅✅✅✅✅✅] 100%
-Module 3 : Hooks & R19     [⬜⬜⬜⬜⬜⬜⬜] 0%
+Module 3 : Hooks & R19     [✅✅✅✅✅✅✅] 100%
 Module 4 : Patterns        [⬜⬜⬜⬜⬜⬜⬜] 0%
 Module 5 : Forms           [⬜⬜⬜⬜⬜] 0%
 Module 6 : Next.js         [⬜⬜⬜⬜⬜⬜⬜⬜] 0%
 ───────────────────────────────────────────
-Total                      [✅✅⬜⬜⬜⬜] ~29%
+Total                      [✅✅✅⬜⬜⬜] ~48%
 ```
 
 ---
