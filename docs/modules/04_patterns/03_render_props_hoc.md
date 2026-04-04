@@ -47,7 +47,9 @@ function App() {
   return (
     <MouseTracker>
       {({ x, y }) => (
-        <p>Position de la souris : {x}, {y}</p>
+        <p>
+          Position de la souris : {x}, {y}
+        </p>
       )}
     </MouseTracker>
   )
@@ -98,7 +100,7 @@ function Authorize({ permission, fallback, children }: AuthorizeProps) {
 }
 
 // Utilisation
-<Authorize permission="admin" fallback={<p>Accès refusé</p>}>
+;<Authorize permission="admin" fallback={<p>Accès refusé</p>}>
   {(user) => <AdminPanel user={user} />}
 </Authorize>
 ```
@@ -109,9 +111,7 @@ La plupart des Render Props se convertissent en hooks :
 
 ```tsx
 // AVANT : Render Prop
-<MouseTracker>
-  {({ x, y }) => <Cursor x={x} y={y} />}
-</MouseTracker>
+;<MouseTracker>{({ x, y }) => <Cursor x={x} y={y} />}</MouseTracker>
 
 // APRÈS : Hook (plus simple, plus direct)
 function CursorDisplay() {
@@ -177,18 +177,21 @@ const ProtectedDashboard = withAuth(Dashboard)
 Les HOC ont des défauts bien connus qui expliquent pourquoi les hooks les ont remplacés :
 
 **1. Wrapper Hell** — Chaque HOC ajoute un niveau dans l'arbre React :
+
 ```tsx
 // DevTools montre : WithAuth > WithTheme > WithRouter > WithIntl > MonComposant
 const Enhanced = withAuth(withTheme(withRouter(withIntl(MonComposant))))
 ```
 
 **2. Props collision** — Deux HOC peuvent injecter la même prop :
+
 ```tsx
 // withUser injecte { user }, withAdmin injecte aussi { user } → conflit silencieux
 const Enhanced = withUser(withAdmin(MonComposant))
 ```
 
 **3. Typage TypeScript pénible** — Les generics deviennent vite complexes :
+
 ```tsx
 // Qui veut écrire ce type ?
 function withAuth<P extends WithAuthProps>(
@@ -197,6 +200,7 @@ function withAuth<P extends WithAuthProps>(
 ```
 
 **4. Indirection** — Difficile de savoir d'où vient une prop :
+
 ```tsx
 // D'où vient `user` dans ce composant ? Il faut remonter toute la chaîne de HOC
 function Dashboard({ user, theme, locale }: DashboardProps) { ... }
@@ -213,26 +217,26 @@ function Dashboard({ user, theme, locale }: DashboardProps) { ... }
 const MemoizedComponent = React.memo(ExpensiveComponent)
 
 // React.forwardRef aussi
-const InputWithRef = React.forwardRef<HTMLInputElement, InputProps>(
-  (props, ref) => <input ref={ref} {...props} />
-)
+const InputWithRef = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+  <input ref={ref} {...props} />
+))
 ```
 
 ---
 
 ## Comparaison : Hook vs Render Prop vs HOC
 
-| Critère | Hook | Render Prop | HOC |
-|---|---|---|---|
-| Complexité | Simple | Moyenne | Élevée |
-| Typage TS | Facile | Moyen | Difficile |
-| Composabilité | Excellente | Bonne | Faible (wrapper hell) |
-| Debugging | Clair | Correct | Difficile (indirection) |
-| Wrapper supplémentaire | Non | Oui | Oui |
-| Accès au JSX parent | Non | Oui | Oui |
-| Conditionnement du rendu | Non* | Oui | Oui |
+| Critère                  | Hook       | Render Prop | HOC                     |
+| ------------------------ | ---------- | ----------- | ----------------------- |
+| Complexité               | Simple     | Moyenne     | Élevée                  |
+| Typage TS                | Facile     | Moyen       | Difficile               |
+| Composabilité            | Excellente | Bonne       | Faible (wrapper hell)   |
+| Debugging                | Clair      | Correct     | Difficile (indirection) |
+| Wrapper supplémentaire   | Non        | Oui         | Oui                     |
+| Accès au JSX parent      | Non        | Oui         | Oui                     |
+| Conditionnement du rendu | Non\*      | Oui         | Oui                     |
 
-*Un hook ne peut pas conditionner le rendu (early return avant les hooks = violation des règles). Une Render Prop le peut.
+\*Un hook ne peut pas conditionner le rendu (early return avant les hooks = violation des règles). Une Render Prop le peut.
 
 ### Quand utiliser quoi
 
@@ -282,12 +286,12 @@ Des librairies entières sont construites sur ce pattern : **Headless UI**, **Ra
 
 ## Résumé
 
-| Pattern | Quand l'utiliser | Signature |
-|---|---|---|
-| **Hook** | Partage de logique (cas général) | `function useX(): Result` |
-| **Render Prop** | Logique qui contrôle le rendu | `children: (data) => ReactNode` |
-| **HOC** | Enrichir un composant sans le modifier | `withX(Component) → EnhancedComponent` |
-| **Headless** | Logique complète, markup libre | Hook ou composant sans UI |
+| Pattern         | Quand l'utiliser                       | Signature                              |
+| --------------- | -------------------------------------- | -------------------------------------- |
+| **Hook**        | Partage de logique (cas général)       | `function useX(): Result`              |
+| **Render Prop** | Logique qui contrôle le rendu          | `children: (data) => ReactNode`        |
+| **HOC**         | Enrichir un composant sans le modifier | `withX(Component) → EnhancedComponent` |
+| **Headless**    | Logique complète, markup libre         | Hook ou composant sans UI              |
 
 > **À retenir** : dans du code moderne, 90% des cas sont résolus par des hooks. Les Render Props couvrent 9% (cas JSX). Les HOC sont réservés au 1% restant (code legacy, librairies).
 

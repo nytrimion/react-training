@@ -32,7 +32,7 @@ Un composant qui utilise `useTheme()` ne peut pas être rendu seul :
 
 ```tsx
 function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()  // 💥 throw sans Provider !
+  const { theme, toggleTheme } = useTheme() // 💥 throw sans Provider !
   return <button onClick={toggleTheme}>{theme}</button>
 }
 
@@ -50,9 +50,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 function renderWithTheme(ui: React.ReactElement) {
-  return render(
-    <ThemeProvider>{ui}</ThemeProvider>
-  )
+  return render(<ThemeProvider>{ui}</ThemeProvider>)
 }
 
 test('toggle theme changes from light to dark', async () => {
@@ -82,17 +80,12 @@ interface AllProvidersProps {
 function AllProviders({ children }: AllProvidersProps) {
   return (
     <ThemeProvider>
-      <NotificationProvider>
-        {children}
-      </NotificationProvider>
+      <NotificationProvider>{children}</NotificationProvider>
     </ThemeProvider>
   )
 }
 
-function renderWithProviders(
-  ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
-) {
+function renderWithProviders(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
   return render(ui, { wrapper: AllProviders, ...options })
 }
 
@@ -237,17 +230,18 @@ function createMockTodoStore(initialTodos: Todo[] = []) {
   return create<TodoStore>((set) => ({
     todos: initialTodos,
     filter: 'all',
-    addTodo: (text) => set((state) => ({
-      todos: [...state.todos, { id: crypto.randomUUID(), text, completed: false }],
-    })),
-    toggleTodo: (id) => set((state) => ({
-      todos: state.todos.map((t) =>
-        t.id === id ? { ...t, completed: !t.completed } : t
-      ),
-    })),
-    removeTodo: (id) => set((state) => ({
-      todos: state.todos.filter((t) => t.id !== id),
-    })),
+    addTodo: (text) =>
+      set((state) => ({
+        todos: [...state.todos, { id: crypto.randomUUID(), text, completed: false }],
+      })),
+    toggleTodo: (id) =>
+      set((state) => ({
+        todos: state.todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
+      })),
+    removeTodo: (id) =>
+      set((state) => ({
+        todos: state.todos.filter((t) => t.id !== id),
+      })),
     setFilter: (filter) => set({ filter }),
   }))
 }
@@ -291,11 +285,14 @@ import { useContacts } from '@/features/contacts/hooks/useContacts'
 
 // Mock de l'API
 vi.mock('@/features/contacts/api/contactApi', () => ({
-  fetchContacts: vi.fn().mockResolvedValue([
-    { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@test.com' },
-  ]),
+  fetchContacts: vi
+    .fn()
+    .mockResolvedValue([{ id: '1', firstName: 'John', lastName: 'Doe', email: 'john@test.com' }]),
   createContact: vi.fn().mockResolvedValue({
-    id: '2', firstName: 'Jane', lastName: 'Doe', email: 'jane@test.com',
+    id: '2',
+    firstName: 'Jane',
+    lastName: 'Doe',
+    email: 'jane@test.com',
   }),
   deleteContact: vi.fn().mockResolvedValue(undefined),
 }))
@@ -443,29 +440,29 @@ describe('Contact Management Flow', () => {
 
 ## Checklist de testing
 
-| Ce qu'on teste | Comment | Outil |
-|---|---|---|
-| Fonctions pures (types, utils) | Tests unitaires directs | Jest / Vitest |
-| Hooks custom | `renderHook` + `act` | Testing Library |
-| Composants avec Context | `render` avec wrapper Provider | Testing Library |
-| Composants avec Zustand | Reset du store en `beforeEach` | Testing Library |
-| Compound Components | Render complet, tester les interactions | Testing Library |
-| Appels API | Mock vi.fn() ou MSW | Vitest + MSW |
-| Flows utilisateur | Tests d'intégration end-to-end-like | Testing Library |
+| Ce qu'on teste                 | Comment                                 | Outil           |
+| ------------------------------ | --------------------------------------- | --------------- |
+| Fonctions pures (types, utils) | Tests unitaires directs                 | Jest / Vitest   |
+| Hooks custom                   | `renderHook` + `act`                    | Testing Library |
+| Composants avec Context        | `render` avec wrapper Provider          | Testing Library |
+| Composants avec Zustand        | Reset du store en `beforeEach`          | Testing Library |
+| Compound Components            | Render complet, tester les interactions | Testing Library |
+| Appels API                     | Mock vi.fn() ou MSW                     | Vitest + MSW    |
+| Flows utilisateur              | Tests d'intégration end-to-end-like     | Testing Library |
 
 ---
 
 ## Résumé
 
-| Concept | Détail |
-|---|---|
-| **Wrapper de test** | Composant qui fournit les Providers nécessaires |
-| **test-utils.tsx** | Fichier centralisé avec `render` custom |
-| **Reset Zustand** | `store.setState(initialState, true)` en `beforeEach` |
-| **renderHook** | Tester un hook en isolation |
-| **MSW** | Mock réseau pour des tests réalistes |
-| **Flow test** | Tester un scénario utilisateur complet |
-| **Règle d'or** | Tester le comportement utilisateur, pas l'implémentation |
+| Concept             | Détail                                                   |
+| ------------------- | -------------------------------------------------------- |
+| **Wrapper de test** | Composant qui fournit les Providers nécessaires          |
+| **test-utils.tsx**  | Fichier centralisé avec `render` custom                  |
+| **Reset Zustand**   | `store.setState(initialState, true)` en `beforeEach`     |
+| **renderHook**      | Tester un hook en isolation                              |
+| **MSW**             | Mock réseau pour des tests réalistes                     |
+| **Flow test**       | Tester un scénario utilisateur complet                   |
+| **Règle d'or**      | Tester le comportement utilisateur, pas l'implémentation |
 
 ---
 

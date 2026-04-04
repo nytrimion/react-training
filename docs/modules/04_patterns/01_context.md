@@ -31,13 +31,12 @@ function Sidebar({ theme, setTheme }: SidebarProps) {
 
 function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
   // Seul ThemeToggle a besoin de theme
-  return <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-    {theme}
-  </button>
+  return <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>{theme}</button>
 }
 ```
 
 **Problèmes** :
+
 - Composants intermédiaires polués par des props qu'ils n'utilisent pas
 - Maintenance difficile : ajouter/supprimer une prop = modifier toute la chaîne
 - Couplage fort entre composants non liés
@@ -79,11 +78,7 @@ function ThemeProvider({ children }: ThemeProviderProps) {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 ```
 
@@ -102,6 +97,7 @@ function useTheme(): ThemeContextType {
 ```
 
 > **Pattern essentiel** : Toujours encapsuler `useContext` dans un hook custom. Cela permet :
+>
 > - Un message d'erreur clair si le Provider est absent
 > - L'encapsulation du context (les consommateurs n'importent jamais `ThemeContext` directement)
 > - Un point unique de modification si l'implémentation change
@@ -165,11 +161,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 // 4. Hook custom (exporté)
@@ -198,9 +190,7 @@ function AppProvider({ children }: { children: ReactNode }) {
   // PROBLEME : un seul objet contient tout
   // Quand theme change, TOUS les consommateurs de user re-rendent aussi !
   return (
-    <AppContext.Provider value={{ user, setUser, theme, setTheme }}>
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={{ user, setUser, theme, setTheme }}>{children}</AppContext.Provider>
   )
 }
 ```
@@ -221,9 +211,7 @@ const ThemeContext = createContext<ThemeContextType | null>(null)
 function AppProviders({ children }: { children: ReactNode }) {
   return (
     <UserProvider>
-      <ThemeProvider>
-        {children}
-      </ThemeProvider>
+      <ThemeProvider>{children}</ThemeProvider>
     </UserProvider>
   )
 }
@@ -247,9 +235,7 @@ function TodoProvider({ children }: { children: ReactNode }) {
 
   return (
     <TodoStateContext.Provider value={state}>
-      <TodoDispatchContext.Provider value={dispatch}>
-        {children}
-      </TodoDispatchContext.Provider>
+      <TodoDispatchContext.Provider value={dispatch}>{children}</TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   )
 }
@@ -301,18 +287,13 @@ interface ComposeProvidersProps {
 }
 
 function ComposeProviders({ providers, children }: ComposeProvidersProps) {
-  return providers.reduceRight(
-    (acc, Provider) => <Provider>{acc}</Provider>,
-    children
-  )
+  return providers.reduceRight((acc, Provider) => <Provider>{acc}</Provider>, children)
 }
 
 // APRÈS : propre et lisible
 function App() {
   return (
-    <ComposeProviders
-      providers={[ThemeProvider, AuthProvider, NotificationProvider, CartProvider]}
-    >
+    <ComposeProviders providers={[ThemeProvider, AuthProvider, NotificationProvider, CartProvider]}>
       <Layout />
     </ComposeProviders>
   )
@@ -327,22 +308,22 @@ function App() {
 
 ### Bon usage de Context
 
-| Cas d'usage | Exemples |
-|---|---|
-| Thème / design system | `ThemeContext` |
-| Authentification | `AuthContext` (user, login, logout) |
-| Locale / i18n | `LocaleContext` |
-| Feature flags | `FeatureFlagContext` |
-| Configuration | Paramètres qui changent rarement |
+| Cas d'usage           | Exemples                            |
+| --------------------- | ----------------------------------- |
+| Thème / design system | `ThemeContext`                      |
+| Authentification      | `AuthContext` (user, login, logout) |
+| Locale / i18n         | `LocaleContext`                     |
+| Feature flags         | `FeatureFlagContext`                |
+| Configuration         | Paramètres qui changent rarement    |
 
 ### Mauvais usage de Context
 
-| Situation | Alternative |
-|---|---|
+| Situation                                               | Alternative                    |
+| ------------------------------------------------------- | ------------------------------ |
 | State qui change très souvent (position souris, scroll) | Zustand, Jotai, ou state local |
-| State complexe avec beaucoup de logique | Zustand + middleware |
-| State partagé entre routes non liées | State management externe |
-| Prop drilling sur 2 niveaux seulement | Passer les props directement |
+| State complexe avec beaucoup de logique                 | Zustand + middleware           |
+| State partagé entre routes non liées                    | State management externe       |
+| Prop drilling sur 2 niveaux seulement                   | Passer les props directement   |
 
 ### Limites de Context
 
@@ -356,15 +337,15 @@ function App() {
 
 ## Résumé
 
-| Concept | Détail |
-|---|---|
-| `createContext` | Crée un context avec valeur par défaut |
-| `Provider` | Fournit la valeur à l'arbre de composants |
-| `useContext` | Consomme la valeur (toujours dans un hook custom) |
-| Context Splitting | Séparer les contexts pour éviter les re-renders inutiles |
-| State/Dispatch split | Pattern CQRS : séparer lecture et écriture |
-| `null` par défaut | Force la détection d'un Provider manquant |
-| Hook custom | Encapsule le context, message d'erreur explicite |
+| Concept              | Détail                                                   |
+| -------------------- | -------------------------------------------------------- |
+| `createContext`      | Crée un context avec valeur par défaut                   |
+| `Provider`           | Fournit la valeur à l'arbre de composants                |
+| `useContext`         | Consomme la valeur (toujours dans un hook custom)        |
+| Context Splitting    | Séparer les contexts pour éviter les re-renders inutiles |
+| State/Dispatch split | Pattern CQRS : séparer lecture et écriture               |
+| `null` par défaut    | Force la détection d'un Provider manquant                |
+| Hook custom          | Encapsule le context, message d'erreur explicite         |
 
 ---
 

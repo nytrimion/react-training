@@ -73,7 +73,7 @@ interface Notification {
   id: string
   type: NotificationType
   message: string
-  duration?: number  // ms, défaut 5000
+  duration?: number // ms, défaut 5000
 }
 
 interface NotificationState {
@@ -196,7 +196,9 @@ src/app/accordion-demo/
   <Tabs.List>
     <Tabs.Tab value="tab-1">Onglet 1</Tabs.Tab>
     <Tabs.Tab value="tab-2">Onglet 2</Tabs.Tab>
-    <Tabs.Tab value="tab-3" disabled>Onglet 3</Tabs.Tab>
+    <Tabs.Tab value="tab-3" disabled>
+      Onglet 3
+    </Tabs.Tab>
   </Tabs.List>
 
   <Tabs.Panel value="tab-1">Contenu 1</Tabs.Panel>

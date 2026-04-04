@@ -10,13 +10,13 @@ Context API est parfait pour du state qui change rarement (thème, auth, locale)
 
 ## Pourquoi sortir de Context ?
 
-| Limite de Context | Impact |
-|---|---|
-| Pas de sélecteur | Tous les consommateurs re-rendent, même si seule une partie du state change |
-| Pas de middleware | Pas de logging, persistence, ou devtools intégrés |
-| Boilerplate | Context + Provider + hook + types pour chaque contexte |
-| Performance | Le context splitting multiplie les Providers |
-| Pas de state en dehors de React | Impossible d'accéder au state dans un event handler non-React |
+| Limite de Context               | Impact                                                                      |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| Pas de sélecteur                | Tous les consommateurs re-rendent, même si seule une partie du state change |
+| Pas de middleware               | Pas de logging, persistence, ou devtools intégrés                           |
+| Boilerplate                     | Context + Provider + hook + types pour chaque contexte                      |
+| Performance                     | Le context splitting multiplie les Providers                                |
+| Pas de state en dehors de React | Impossible d'accéder au state dans un event handler non-React               |
 
 ---
 
@@ -129,10 +129,7 @@ const useTodoStore = create<TodoStore>((set) => ({
 
   addTodo: (text) =>
     set((state) => ({
-      todos: [
-        ...state.todos,
-        { id: crypto.randomUUID(), text, completed: false },
-      ],
+      todos: [...state.todos, { id: crypto.randomUUID(), text, completed: false }],
     })),
 
   toggleTodo: (id) =>
@@ -219,7 +216,7 @@ const useTodoStore = create<TodoStore>()(
       }),
       { name: 'todo-store' }
     ),
-    { name: 'TodoStore' }  // nom dans Redux DevTools
+    { name: 'TodoStore' } // nom dans Redux DevTools
   )
 )
 ```
@@ -307,14 +304,15 @@ const doubleCountAtom = atom((get) => get(countAtom) * 2)
 
 // Atome en lecture-écriture
 const uppercaseNameAtom = atom(
-  (get) => get(nameAtom).toUpperCase(),          // getter
-  (get, set, newName: string) => {                // setter
+  (get) => get(nameAtom).toUpperCase(), // getter
+  (get, set, newName: string) => {
+    // setter
     set(nameAtom, newName.toLowerCase())
   }
 )
 
 function Display() {
-  const [doubleCount] = useAtom(doubleCountAtom)  // re-rend seulement quand countAtom change
+  const [doubleCount] = useAtom(doubleCountAtom) // re-rend seulement quand countAtom change
   return <p>Double: {doubleCount}</p>
 }
 ```
@@ -362,16 +360,11 @@ const todoStatsAtom = atom((get) => {
 
 // Atomes d'actions (write-only)
 const addTodoAtom = atom(null, (get, set, text: string) => {
-  set(todosAtom, (prev) => [
-    ...prev,
-    { id: crypto.randomUUID(), text, completed: false },
-  ])
+  set(todosAtom, (prev) => [...prev, { id: crypto.randomUUID(), text, completed: false }])
 })
 
 const toggleTodoAtom = atom(null, (get, set, id: string) => {
-  set(todosAtom, (prev) =>
-    prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
-  )
+  set(todosAtom, (prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)))
 })
 ```
 
@@ -379,19 +372,19 @@ const toggleTodoAtom = atom(null, (get, set, id: string) => {
 
 ## Zustand vs Jotai vs Context
 
-| Critère | Context | Zustand | Jotai |
-|---|---|---|---|
-| **Philosophie** | Top-down, DI | Store unique | Atomes composables |
-| **Provider requis** | Oui | Non | Optionnel |
-| **Sélecteurs** | Non | Oui | Natif (atomes) |
-| **Re-renders** | Tous les consommateurs | Sélecteur-based | Atome-based |
-| **Middleware** | Non | persist, devtools, immer | Extensions (atomWithStorage) |
-| **Boilerplate** | Élevé | Faible | Très faible |
-| **Debugging** | React DevTools | Redux DevTools | Jotai DevTools |
-| **Hors React** | Non | Oui | Non |
-| **Courbe d'apprentissage** | Faible | Faible | Moyenne |
-| **Taille bundle** | 0 (natif) | ~1.5 kB | ~2 kB |
-| **Analogie Pinia** | provide/inject | defineStore() | Pas d'équivalent direct |
+| Critère                    | Context                | Zustand                  | Jotai                        |
+| -------------------------- | ---------------------- | ------------------------ | ---------------------------- |
+| **Philosophie**            | Top-down, DI           | Store unique             | Atomes composables           |
+| **Provider requis**        | Oui                    | Non                      | Optionnel                    |
+| **Sélecteurs**             | Non                    | Oui                      | Natif (atomes)               |
+| **Re-renders**             | Tous les consommateurs | Sélecteur-based          | Atome-based                  |
+| **Middleware**             | Non                    | persist, devtools, immer | Extensions (atomWithStorage) |
+| **Boilerplate**            | Élevé                  | Faible                   | Très faible                  |
+| **Debugging**              | React DevTools         | Redux DevTools           | Jotai DevTools               |
+| **Hors React**             | Non                    | Oui                      | Non                          |
+| **Courbe d'apprentissage** | Faible                 | Faible                   | Moyenne                      |
+| **Taille bundle**          | 0 (natif)              | ~1.5 kB                  | ~2 kB                        |
+| **Analogie Pinia**         | provide/inject         | defineStore()            | Pas d'équivalent direct      |
 
 ### Arbre de décision
 
@@ -421,17 +414,17 @@ Quel state management utiliser ?
 ```tsx
 // MAL : tout dans le store global
 const useAppStore = create((set) => ({
-  isModalOpen: false,        // ← state local !
-  searchQuery: '',           // ← state local !
-  selectedUser: null,        // ← peut-être local
-  users: [],                 // ← OK si partagé
-  theme: 'light',            // ← OK, global
+  isModalOpen: false, // ← state local !
+  searchQuery: '', // ← state local !
+  selectedUser: null, // ← peut-être local
+  users: [], // ← OK si partagé
+  theme: 'light', // ← OK, global
 }))
 
 // BIEN : state local quand c'est local
 function UserSearch() {
-  const [query, setQuery] = useState('')         // local
-  const users = useUserStore((s) => s.users)     // global
+  const [query, setQuery] = useState('') // local
+  const users = useUserStore((s) => s.users) // global
   // ...
 }
 ```
@@ -455,7 +448,7 @@ function TodoItem({ id }: { id: string }) {
   const setTodos = useTodoStore((s) => s.setTodos)
 
   const toggle = () => {
-    setTodos(todos.map((t) => t.id === id ? { ...t, done: !t.done } : t))
+    setTodos(todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)))
   }
   // ...
 }
@@ -471,13 +464,13 @@ function TodoItem({ id }: { id: string }) {
 
 ## Résumé
 
-| Concept | Détail |
-|---|---|
-| **Zustand** | Store unique, simple, sélecteurs, middleware, accès hors React |
-| **Jotai** | Atomes composables, bottom-up, très granulaire |
-| **Sélecteurs** | Clé de la performance : ne sélectionner que ce dont on a besoin |
-| **persist** | Middleware Zustand pour localStorage automatique |
-| **devtools** | Compatible Redux DevTools |
+| Concept        | Détail                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| **Zustand**    | Store unique, simple, sélecteurs, middleware, accès hors React                             |
+| **Jotai**      | Atomes composables, bottom-up, très granulaire                                             |
+| **Sélecteurs** | Clé de la performance : ne sélectionner que ce dont on a besoin                            |
+| **persist**    | Middleware Zustand pour localStorage automatique                                           |
+| **devtools**   | Compatible Redux DevTools                                                                  |
 | **Règle d'or** | State local → useState. State global rare → Context. State global fréquent → Zustand/Jotai |
 
 ---

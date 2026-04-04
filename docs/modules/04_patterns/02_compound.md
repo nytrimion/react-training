@@ -23,16 +23,13 @@ Imagine un composant Accordion configurable via props :
   ]}
   defaultOpen={0}
   onToggle={(index) => console.log(index)}
-  renderTitle={(title, isOpen) => (
-    <div className={isOpen ? 'bold' : ''}>{title}</div>
-  )}
-  renderContent={(content) => (
-    <div className="p-4">{content}</div>
-  )}
+  renderTitle={(title, isOpen) => <div className={isOpen ? 'bold' : ''}>{title}</div>}
+  renderContent={(content) => <div className="p-4">{content}</div>}
 />
 ```
 
 **Problèmes** :
+
 - API complexe et rigide
 - Configuration limitée : que faire si on veut un séparateur entre deux items spécifiques ?
 - Composabilité nulle : impossible d'ajouter un comportement custom à un seul item
@@ -51,9 +48,7 @@ Imagine un composant Accordion configurable via props :
       <p>Contenu 1</p>
     </Accordion.Content>
   </Accordion.Item>
-
-  <hr className="my-2" />  {/* Séparateur custom : pas de prop spéciale */}
-
+  <hr className="my-2" /> {/* Séparateur custom : pas de prop spéciale */}
   <Accordion.Item value="section-2">
     <Accordion.Trigger>
       <span className="font-bold">Section 2 (custom)</span>
@@ -66,6 +61,7 @@ Imagine un composant Accordion configurable via props :
 ```
 
 **Avantages** :
+
 - API déclarative et lisible
 - Composabilité totale : chaque enfant peut être customisé indépendamment
 - Flexibilité : insérer du contenu arbitraire entre les items
@@ -150,10 +146,7 @@ function AccordionTrigger({ children }: { children: ReactNode }) {
   const item = useAccordionItemContext()
 
   return (
-    <button
-      onClick={() => accordion.toggle(item.value)}
-      aria-expanded={item.isOpen}
-    >
+    <button onClick={() => accordion.toggle(item.value)} aria-expanded={item.isOpen}>
       {children}
     </button>
   )
@@ -200,9 +193,7 @@ export { Accordion }
 function useAccordionContext(): AccordionContextType {
   const context = useContext(AccordionContext)
   if (!context) {
-    throw new Error(
-      'Accordion compound components must be used within <Accordion>'
-    )
+    throw new Error('Accordion compound components must be used within <Accordion>')
   }
   return context
 }
@@ -210,9 +201,7 @@ function useAccordionContext(): AccordionContextType {
 function useAccordionItemContext(): AccordionItemContextType {
   const context = useContext(AccordionItemContext)
   if (!context) {
-    throw new Error(
-      'Accordion.Trigger/Content must be used within <Accordion.Item>'
-    )
+    throw new Error('Accordion.Trigger/Content must be used within <Accordion.Item>')
   }
   return context
 }
@@ -239,9 +228,7 @@ interface AccordionProps {
 }
 
 function Accordion({ defaultValue, value, onValueChange, children }: AccordionProps) {
-  const [internalValue, setInternalValue] = useState<string | null>(
-    defaultValue ?? null
-  )
+  const [internalValue, setInternalValue] = useState<string | null>(defaultValue ?? null)
 
   // Le mode est déterminé par la présence de la prop `value`
   const isControlled = value !== undefined
@@ -301,11 +288,7 @@ function AccordionContent({ children }: { children: ReactNode }) {
   if (!item.isOpen) return null
 
   return (
-    <div
-      id={contentId}
-      role="region"
-      aria-labelledby={triggerId}
-    >
+    <div id={contentId} role="region" aria-labelledby={triggerId}>
       {children}
     </div>
   )
@@ -316,13 +299,13 @@ function AccordionContent({ children }: { children: ReactNode }) {
 
 ## Exemples courants de Compound Components
 
-| Composant | Sous-composants | Context partagé |
-|---|---|---|
-| `Tabs` | `Tabs.List`, `Tabs.Tab`, `Tabs.Panel` | Onglet actif |
-| `Accordion` | `Accordion.Item`, `Accordion.Trigger`, `Accordion.Content` | Item ouvert |
-| `Select` | `Select.Trigger`, `Select.Options`, `Select.Option` | Option sélectionnée, ouvert/fermé |
-| `Dialog` | `Dialog.Trigger`, `Dialog.Content`, `Dialog.Close` | Ouvert/fermé |
-| `Menu` | `Menu.Button`, `Menu.Items`, `Menu.Item` | Ouvert/fermé, focus |
+| Composant   | Sous-composants                                            | Context partagé                   |
+| ----------- | ---------------------------------------------------------- | --------------------------------- |
+| `Tabs`      | `Tabs.List`, `Tabs.Tab`, `Tabs.Panel`                      | Onglet actif                      |
+| `Accordion` | `Accordion.Item`, `Accordion.Trigger`, `Accordion.Content` | Item ouvert                       |
+| `Select`    | `Select.Trigger`, `Select.Options`, `Select.Option`        | Option sélectionnée, ouvert/fermé |
+| `Dialog`    | `Dialog.Trigger`, `Dialog.Content`, `Dialog.Close`         | Ouvert/fermé                      |
+| `Menu`      | `Menu.Button`, `Menu.Items`, `Menu.Item`                   | Ouvert/fermé, focus               |
 
 Ces patterns se retrouvent dans les librairies populaires : Radix UI, Headless UI, Ark UI.
 
@@ -348,14 +331,14 @@ Ces patterns se retrouvent dans les librairies populaires : Radix UI, Headless U
 
 ## Résumé
 
-| Concept | Détail |
-|---|---|
-| Compound Components | Composants qui partagent un état implicite via Context |
-| Dot notation | `Parent.Child` pour communiquer la relation |
-| Deux niveaux de Context | Global (parent) + Local (item) |
-| `Object.assign` | Assembler le composant avec ses sous-composants |
-| Contrôlé / non contrôlé | Supporter les deux modes comme les inputs natifs |
-| Context interne | Jamais exporté, encapsulé dans des hooks privés |
+| Concept                 | Détail                                                 |
+| ----------------------- | ------------------------------------------------------ |
+| Compound Components     | Composants qui partagent un état implicite via Context |
+| Dot notation            | `Parent.Child` pour communiquer la relation            |
+| Deux niveaux de Context | Global (parent) + Local (item)                         |
+| `Object.assign`         | Assembler le composant avec ses sous-composants        |
+| Contrôlé / non contrôlé | Supporter les deux modes comme les inputs natifs       |
+| Context interne         | Jamais exporté, encapsulé dans des hooks privés        |
 
 ---
 

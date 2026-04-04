@@ -31,7 +31,7 @@ Un composant `Card` a besoin de zones personnalisables : header, body, footer.
 ```tsx
 interface CardProps {
   header: ReactNode
-  children: ReactNode    // body = children (slot par défaut)
+  children: ReactNode // body = children (slot par défaut)
   footer?: ReactNode
 }
 
@@ -46,7 +46,7 @@ function Card({ header, children, footer }: CardProps) {
 }
 
 // Utilisation : chaque "slot" est indépendant
-<Card
+;<Card
   header={
     <div className="flex justify-between">
       <h2>Titre</h2>
@@ -63,12 +63,12 @@ function Card({ header, children, footer }: CardProps) {
 
 ### Slots vs Compound Components
 
-| Critère | Slots (props ReactNode) | Compound Components |
-|---|---|---|
-| Complexité | Faible | Moyenne |
-| État partagé | Non | Oui (via Context) |
-| Cas d'usage | Layout, zones statiques | Composants interactifs |
-| Exemple | Card, Page, Modal | Tabs, Accordion, Select |
+| Critère      | Slots (props ReactNode) | Compound Components     |
+| ------------ | ----------------------- | ----------------------- |
+| Complexité   | Faible                  | Moyenne                 |
+| État partagé | Non                     | Oui (via Context)       |
+| Cas d'usage  | Layout, zones statiques | Composants interactifs  |
+| Exemple      | Card, Page, Modal       | Tabs, Accordion, Select |
 
 > **Règle** : utilise les Slots quand les zones sont indépendantes (pas d'état partagé). Utilise les Compound Components quand les sous-parties interagissent.
 
@@ -110,16 +110,18 @@ function SortableList({ items }: { items: string[] }) {
   const handleSort = () => {
     const newDirection = direction === 'asc' ? 'desc' : 'asc'
     setDirection(newDirection)
-    setSorted([...items].sort((a, b) =>
-      newDirection === 'asc' ? a.localeCompare(b) : b.localeCompare(a)
-    ))
+    setSorted(
+      [...items].sort((a, b) => (newDirection === 'asc' ? a.localeCompare(b) : b.localeCompare(a)))
+    )
   }
 
   return (
     <div>
       <button onClick={handleSort}>Trier {direction}</button>
       <ul>
-        {sorted.map((item) => <li key={item}>{item}</li>)}
+        {sorted.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
       </ul>
     </div>
   )
@@ -147,16 +149,13 @@ function useSortable<T>(items: T[], compareFn: (a: T, b: T) => number) {
 
 // Utilisation : contrôle total du rendu
 function UserList({ users }: { users: User[] }) {
-  const { sorted, direction, toggleDirection } = useSortable(
-    users,
-    (a, b) => a.name.localeCompare(b.name)
+  const { sorted, direction, toggleDirection } = useSortable(users, (a, b) =>
+    a.name.localeCompare(b.name)
   )
 
   return (
     <div>
-      <button onClick={toggleDirection}>
-        Nom {direction === 'asc' ? '↑' : '↓'}
-      </button>
+      <button onClick={toggleDirection}>Nom {direction === 'asc' ? '↑' : '↓'}</button>
       <div className="grid grid-cols-3">
         {sorted.map((user) => (
           <UserCard key={user.id} user={user} />
@@ -225,7 +224,7 @@ function Toolbar({ children }: { children: ReactNode }) {
 
         // Injecter une prop à chaque enfant
         return cloneElement(child, {
-          size: 'sm',  // Force la taille pour tous les boutons
+          size: 'sm', // Force la taille pour tous les boutons
         })
       })}
     </div>
@@ -235,12 +234,12 @@ function Toolbar({ children }: { children: ReactNode }) {
 
 ### Quand utiliser `Children` / `cloneElement`
 
-| Situation | Recommandation |
-|---|---|
-| Injecter des props aux enfants | Préférer Context ou Compound Components |
-| Compter les enfants | `Children.count(children)` est OK |
-| Filtrer les enfants par type | Fragile, préférer la composition |
-| Ajouter du wrapping | OK pour des cas simples (espacement, dividers) |
+| Situation                      | Recommandation                                 |
+| ------------------------------ | ---------------------------------------------- |
+| Injecter des props aux enfants | Préférer Context ou Compound Components        |
+| Compter les enfants            | `Children.count(children)` est OK              |
+| Filtrer les enfants par type   | Fragile, préférer la composition               |
+| Ajouter du wrapping            | OK pour des cas simples (espacement, dividers) |
 
 > **Attention** : `cloneElement` est considéré comme un **anti-pattern** dans la plupart des cas. Le Context est presque toujours une meilleure solution. React le mentionne comme "uncommon" dans sa documentation.
 
@@ -301,14 +300,14 @@ Librairie publique → Composition (avec des presets de configuration)
 
 ## Résumé
 
-| Pattern | Quand | Exemple |
-|---|---|---|
-| **Slots** | Zones personnalisables sans état partagé | Card, Layout, Modal |
-| **IoC / Headless** | Le consommateur contrôle le rendu | useSortable, useCombobox |
-| **`as` prop** | Changer l'élément racine | Button as Link |
-| **Children manipulation** | Injection de props aux enfants | Rare, préférer Context |
-| **Configuration** | API simple, cas standards | DataTable avec colonnes en props |
-| **Composition** | API flexible, cas variés | DataTable avec sous-composants |
+| Pattern                   | Quand                                    | Exemple                          |
+| ------------------------- | ---------------------------------------- | -------------------------------- |
+| **Slots**                 | Zones personnalisables sans état partagé | Card, Layout, Modal              |
+| **IoC / Headless**        | Le consommateur contrôle le rendu        | useSortable, useCombobox         |
+| **`as` prop**             | Changer l'élément racine                 | Button as Link                   |
+| **Children manipulation** | Injection de props aux enfants           | Rare, préférer Context           |
+| **Configuration**         | API simple, cas standards                | DataTable avec colonnes en props |
+| **Composition**           | API flexible, cas variés                 | DataTable avec sous-composants   |
 
 ---
 

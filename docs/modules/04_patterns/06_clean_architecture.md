@@ -38,12 +38,12 @@ Tu connais la Clean Architecture de Robert C. Martin côté backend. Ce cours mo
 └──────────────────────────┘
 ```
 
-| Couche backend | Couche React | Rôle |
-|---|---|---|
-| Presentation | Components | Affichage pur, pas de logique métier |
-| Application | Hooks | Orchestration, logique de flux |
-| Domain | Types | Modèle de données, règles métier pures |
-| Infrastructure | API / Services | Communication avec l'extérieur |
+| Couche backend | Couche React   | Rôle                                   |
+| -------------- | -------------- | -------------------------------------- |
+| Presentation   | Components     | Affichage pur, pas de logique métier   |
+| Application    | Hooks          | Orchestration, logique de flux         |
+| Domain         | Types          | Modèle de données, règles métier pures |
+| Infrastructure | API / Services | Communication avec l'extérieur         |
 
 ---
 
@@ -248,7 +248,9 @@ export function useContacts(): UseContactsResult {
         }
       })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const addContact = async (input: CreateContactInput) => {
@@ -262,9 +264,7 @@ export function useContacts(): UseContactsResult {
   }
 
   const filteredContacts = contacts.filter((c) =>
-    `${c.firstName} ${c.lastName} ${c.email}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
+    `${c.firstName} ${c.lastName} ${c.email}`.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return {
@@ -322,18 +322,10 @@ export function ContactList() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Rechercher..."
-        onChange={(e) => search(e.target.value)}
-      />
+      <input type="text" placeholder="Rechercher..." onChange={(e) => search(e.target.value)} />
       <div className="grid gap-4">
         {filteredContacts.map((contact) => (
-          <ContactCard
-            key={contact.id}
-            contact={contact}
-            onDelete={removeContact}
-          />
+          <ContactCard key={contact.id} contact={contact} onDelete={removeContact} />
         ))}
       </div>
     </div>
@@ -476,14 +468,12 @@ Components → Hooks → Types ← API
 function ContactList() {
   const contacts = useContacts()
   // Logique métier dans le composant !
-  const vipContacts = contacts.filter((c) =>
-    c.orders > 100 && c.totalSpent > 10000
-  )
+  const vipContacts = contacts.filter((c) => c.orders > 100 && c.totalSpent > 10000)
 }
 
 // BIEN
 function ContactList() {
-  const { vipContacts } = useContacts()  // Le hook expose les données prêtes
+  const { vipContacts } = useContacts() // Le hook expose les données prêtes
 }
 ```
 
@@ -498,19 +488,19 @@ render(<ContactCard contact={mockContact} onDelete={vi.fn()} />)
 
 ## Résumé
 
-| Couche | Contenu | Dépendances | Testable sans |
-|---|---|---|---|
-| **Types** | Interfaces, validation, fonctions pures | Aucune | Tout (fonctions pures) |
-| **API** | Fetch, clients HTTP | Types | React, DOM |
-| **Hooks** | Orchestration, state, effects | API, Types | DOM (via testing library) |
-| **Components** | JSX, styles, événements | Hooks, Types | API (via props/mocks) |
+| Couche         | Contenu                                 | Dépendances  | Testable sans             |
+| -------------- | --------------------------------------- | ------------ | ------------------------- |
+| **Types**      | Interfaces, validation, fonctions pures | Aucune       | Tout (fonctions pures)    |
+| **API**        | Fetch, clients HTTP                     | Types        | React, DOM                |
+| **Hooks**      | Orchestration, state, effects           | API, Types   | DOM (via testing library) |
+| **Components** | JSX, styles, événements                 | Hooks, Types | API (via props/mocks)     |
 
-| Principe | Application React |
-|---|---|
-| Single Responsibility | Un hook = un use case, un composant = un affichage |
-| Open/Closed | Composants extensibles via props/composition |
-| Dependency Inversion | Context = DI Container, dépendre des interfaces |
-| Feature-based structure | Bounded Contexts = dossiers features |
+| Principe                | Application React                                  |
+| ----------------------- | -------------------------------------------------- |
+| Single Responsibility   | Un hook = un use case, un composant = un affichage |
+| Open/Closed             | Composants extensibles via props/composition       |
+| Dependency Inversion    | Context = DI Container, dépendre des interfaces    |
+| Feature-based structure | Bounded Contexts = dossiers features               |
 
 ---
 
