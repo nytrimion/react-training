@@ -1,6 +1,6 @@
+import { act } from 'react'
 import { renderHook } from '@testing-library/react'
 import { ThemeProvider, useTheme } from './ThemeContext'
-import { act } from 'react'
 
 describe('ThemeContext', () => {
   const systemMediaQuery = '(prefers-color-scheme: dark)'
