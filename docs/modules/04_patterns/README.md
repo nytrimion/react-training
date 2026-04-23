@@ -91,11 +91,25 @@
 
 Avant de passer au module suivant :
 
-- [ ] Créer un Context avec Provider et hook custom
-- [ ] Implémenter un Compound Component (ex: Accordion)
+- [x] Créer un Context avec Provider et hook custom
+- [x] Implémenter un Compound Component (ex: Accordion)
 - [ ] Utiliser Zustand pour un state global
 - [ ] Structurer un feature avec Clean Architecture
 - [ ] Écrire des tests d'intégration avec Context mocké
+
+---
+
+## État des exercices
+
+| Exercice                               | Statut |
+| -------------------------------------- | ------ |
+| 1. ThemeContext                        | ✅     |
+| 2. NotificationContext (splitting)     | ✅     |
+| 3. Accordion (compound components)     | ✅     |
+| 4. Tabs (compound components + a11y)   | ✅     |
+| 5. State Management avec Zustand       | ⬜     |
+| 6. Feature complète Clean Architecture | ⬜     |
+| Challenge : Dashboard multi-contextes  | ⬜     |
 
 ---
 

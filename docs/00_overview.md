@@ -67,13 +67,13 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 
 | Objectif                                                       | Statut |
 | -------------------------------------------------------------- | ------ |
-| Implémenter Context API (création, optimisation, limites)      | ⬜     |
-| Maîtriser le pattern Compound Components                       | ⬜     |
+| Implémenter Context API (création, optimisation, limites)      | ✅     |
+| Maîtriser le pattern Compound Components                       | ✅     |
 | Comprendre Render Props et HOC (legacy mais utiles)            | ⬜     |
 | Appliquer la composition avancée (slots, inversion of control) | ⬜     |
 | Découvrir Zustand et Jotai (alternatives à Context)            | ⬜     |
 | Structurer une app React avec Clean Architecture               | ⬜     |
-| Écrire des tests d'intégration                                 | ⬜     |
+| Écrire des tests d'intégration                                 | ✅     |
 
 → [Accéder au module](./modules/04_patterns/README.md)
 
@@ -120,11 +120,11 @@ Maîtrise approfondie de React et Next.js, en capitalisant sur l'expertise exist
 Module 1 : Fondations      [✅✅✅✅✅] 100%
 Module 2 : State           [✅✅✅✅✅✅] 100%
 Module 3 : Hooks & R19     [✅✅✅✅✅✅✅] 100%
-Module 4 : Patterns        [⬜⬜⬜⬜⬜⬜⬜] 0%
+Module 4 : Patterns        [✅✅⬜⬜⬜⬜✅] 43%
 Module 5 : Forms           [⬜⬜⬜⬜⬜] 0%
 Module 6 : Next.js         [⬜⬜⬜⬜⬜⬜⬜⬜] 0%
 ───────────────────────────────────────────
-Total                      [✅✅✅⬜⬜⬜] ~48%
+Total                      [✅✅✅⬜⬜⬜] ~55%
 ```
 
 ---
