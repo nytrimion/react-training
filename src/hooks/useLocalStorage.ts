@@ -5,12 +5,14 @@ export function useLocalStorage<T>(
   initialValue: T | (() => T)
 ): [T, (value: T | ((prev: T) => T)) => void] {
   const [value, setValue] = useState<T>((): T => {
-    try {
-      const saved = localStorage?.getItem(key)
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(key)
 
-      if (saved) return JSON.parse(saved)
-    } catch (e) {
-      console.error('Failed to read from local storage', e)
+        if (saved) return JSON.parse(saved)
+      } catch (e) {
+        console.error('Failed to read from local storage', e)
+      }
     }
 
     return typeof initialValue === 'function' ? (initialValue as () => T)() : initialValue
